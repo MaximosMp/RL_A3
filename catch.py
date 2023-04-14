@@ -131,8 +131,8 @@ class Catch():
         elif self.terminal:
             ValueError("Environment has terminated, you need to call reset() first")
 
-        # Move the paddle based on the chosen action
-        self.paddle_xy[0] = np.clip(self.paddle_xy[0] + ACTION_EFFECTS[a],0,self.columns -1)  # clips _values_ inside array
+        # Move the paddle based on the chosen action 
+        self.paddle_xy[0] = np.clip(self.paddle_xy[0] + ACTION_EFFECTS[a] ,0,self.columns -1)  # clips _values_ inside array
 
         # Drop all balls one step down
         for ball in self.balls_xy:
