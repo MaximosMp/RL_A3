@@ -82,10 +82,6 @@ class Actor():
         return gain
 
     def update_actor(self, state, action, Q):
-        ''' so far I think the update needs to happen completely different than I did it here:
-            - somehow we need to find gradient of log(pi(a,s))
-            - we need to multiply this gradient by Q-value and (negative) learning rate (ascent, not descent)
-        '''
         action_n = np.where(ACTION_EFFECTS==action)[0][0]
         with tf.GradientTape() as tape:
 
@@ -137,7 +133,7 @@ def reinforce():
     learning_rate = 0.001
     boot = "MC"
 
-    n_episodes = 20
+    n_episodes = 100
     if boot == "MC":
         n_step = max_steps
     elif boot == "n_step":
@@ -155,8 +151,10 @@ def reinforce():
             '''
             PROBLEM: For some reason after some episodes the output of the network
             is "nan" (the probabilities are non existent). Next step: figure this out
+            my suspect: when ball drops in X=0,1,6 we have a problem
             '''
             state = actor.reshape_state(env.reset())
+            print(f"{ep} starting", state)
             # generate full trace
             for T in range(max_steps):
                 if actor.boot == "MC":
@@ -169,9 +167,9 @@ def reinforce():
                     # print(f"good state: {state}")
                     # print(f"good probabilities:",action_p)
                 except:
-                    print(f"faulty state: {state}")
+                    print(f"step {T}, faulty state: {state}")
                     print(f"faulty probabilities:",action_p)
-                    break
+                    action = rng.choice(ACTION_EFFECTS, p=[0.33,0.33,0.34])
 
                 next_state, r, done = env.step(action)
                 next_state = actor.reshape_state(next_state)
