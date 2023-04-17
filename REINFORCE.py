@@ -22,7 +22,7 @@ class Actor():
     # @time_it
     def __init__(self, learning_rate: float = 0.0001, arch: int = 1, observation_type: str = "pixel", 
                  rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
-                 seed=None):
+                 seed=None, critic:bool=True):
         self.seed = seed
         self.rows = rows
         self.columns = columns
@@ -31,7 +31,7 @@ class Actor():
         self.observation_type = observation_type
         self.boot = boot
         self.n_step = n_step
-
+        self.critic = critic
         self.gamma = 0.99
     
         # network parameters
@@ -56,16 +56,14 @@ class Actor():
                 64, activation=activ_func, kernel_initializer=init)(dense)
             dense = tf.keras.layers.Flatten()(dense)
 
-            output_actions = tf.keras.layers.Dense(3, activation='softmax')(dense)
 
-        if boot == "MC":
-            self.model = tf.keras.models.Model(inputs=input, outputs=[
-            output_actions])
-
-        elif boot == "n_step":
+        if critic:
             output_value = tf.keras.layers.Dense(1, activation='linear')(dense)
-            self.model = tf.keras.models.Model(inputs=input, outputs=[
-                output_actions, output_value])
+            self.model = tf.keras.models.Model(inputs=input, outputs=[output_value])
+        else:
+            output_actions = tf.keras.layers.Dense(3, activation='softmax')(dense)
+            self.model = tf.keras.models.Model(inputs=input, outputs=[output_actions])
+
 
         if saved_weights:
             print('## Working with pre-trained weights ##')
@@ -76,12 +74,17 @@ class Actor():
         if self.boot == "MC":
             rewards = rewards[t:]
             return self.gamma**np.arange(0, len(rewards)) @ rewards
+
         elif self.boot == "n_step":
             rewards = rewards[t:t+self.n_step]
             return self.gamma**np.arange(0, self.n_step) @ rewards + self.gamma**self.n_step * values[t+self.n_step]
 
-    def gain_fn(self, prob_out, Q):
-        gain =  -Q * tf.math.log(prob_out)  # * -1 due to maximising instead of minimizing?
+    def gain_fn(self, prob_out, Q, states, actions):
+        if self.boot == 'MC':
+            gain =  -Q * tf.math.log(prob_out)  # * -1 due to maximising instead of minimizing?
+        elif self.boot == 'n_step':
+            gain = - Q @ tf.math.log(prob_out)
+        
         return gain
 
     def update_actor(self, state, action, Q):
@@ -101,7 +104,7 @@ class Actor():
                 probs_out = self.model(state, training=True)
                 value_out = None
             elif self.boot == "n_step":
-                probs_out, value_out = self.model(state, training=True)
+                probs_out = self.model(state, training=True)
             # Compute the loss value for this minibatch.
             gain_value = self.gain_fn(tf.reshape(probs_out, [3])[action_n], Q)
 
@@ -114,6 +117,7 @@ class Actor():
         
         return grads
         # self.optimizer.minimize(zgain_value, self.model.trainable_weights, tape=tape)
+
 
     def update_critic(self):
         pass
@@ -140,6 +144,8 @@ def reinforce(n_episodes:int=50, learning_rate:float=0.001, rows:int=7, columns:
 
     all_rewards = []
     actor = Actor(learning_rate, boot=boot, n_step=n_step, observation_type=obs_type, saved_weights=weights, seed=seed)
+    if boot == 'n_step':
+        critic = Actor(learning_rate, boot=boot, n_step=n_step, observation_type=obs_type, saved_weights=weights, seed=seed, critic=True)
     memory = deque(maxlen=max_steps)
 
     for ep in range(n_episodes):
@@ -159,7 +165,7 @@ def reinforce(n_episodes:int=50, learning_rate:float=0.001, rows:int=7, columns:
                     action_p= actor.model.predict(state, verbose=0)
                     value = None
                 elif actor.boot == "n_step":
-                    action_p, value = actor.model.predict(state, verbose=0)
+                    action_p = actor.model.predict(state, verbose=0)
                 try:
                     action = rng.choice(ACTION_EFFECTS, p=action_p.reshape(3,))
                     # print(f"good state: {state}")
@@ -187,17 +193,15 @@ def reinforce(n_episodes:int=50, learning_rate:float=0.001, rows:int=7, columns:
         states, actions, rewards, next_states, dones, values = [np.array([experience[field_index] 
                                                                     for experience in memory]) 
                                                                     for field_index in range(6)]
+        
+        Q_values = []
         # update loop
         for t in range(T):
-            Q = actor.bootstrap(t,rewards, values)
+            Q_values.append(actor.bootstrap(t,rewards, values))
             if actor.boot == 'MC':
-                actor.update_actor(states[t], actions[t],Q)
-                
-                
-                
+                actor.update_actor(states[t], actions[t],Q_values[-1])
             elif actor.boot == 'n_step':
-                print('insert actor critic bootstrap (and later baseline subtr.)')
-                break
+                actor.update_actor(states[t], actions[t],Q_values)  # in case V network is not updated separately!
 
         if ep % 10 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
