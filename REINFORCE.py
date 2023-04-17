@@ -20,7 +20,7 @@ def make_tensor(state, list: bool = False):
 class Actor():
     @time_it
     def __init__(self, learning_rate: float = 0.0001, arch: int = 1, observation_type: str = "pixel", 
-                 rows=7, columns=7, boot: str = "MC", n_step: int = 1,
+                 rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
                  seed=None):
         self.seed = seed
         self.rows = rows
@@ -66,6 +66,9 @@ class Actor():
             self.model = tf.keras.models.Model(inputs=input, outputs=[
                 output_actions, output_value])
 
+        if saved_weights:
+            print('## Working with pre-trained weights ##')
+            self.model.load_weights(saved_weights)
         self.model.summary()
 
     # @print_it
@@ -125,34 +128,34 @@ def reinforce():
     obs_type = "vector"  # "vector"
     max_misses = 10
     max_steps = 250
-    seed = None
+    seed = 42
     speed = 1.0
 
-    env = Catch(rows=rows, columns=columns, speed=speed, max_steps=max_steps, max_misses=max_misses, observation_type=obs_type)
+    env = Catch(rows=rows, columns=columns, speed=speed, max_steps=max_steps, max_misses=max_misses, observation_type=obs_type, seed=seed)
 
-    learning_rate = 0.001
+    learning_rate = 0.01
     boot = "MC"
 
-    n_episodes = 100
+    n_episodes = 20
     if boot == "MC":
         n_step = max_steps
     elif boot == "n_step":
         n_step = 1  # or larger
-
+    weights = None
+    # weights = 'data/last_weights.h5'
     minibatch = 1
     all_rewards = []
-    actor = Actor(learning_rate, boot=boot, n_step=n_step, observation_type=obs_type)
+    actor = Actor(learning_rate, boot=boot, n_step=n_step, observation_type=obs_type, saved_weights=weights, seed=seed)
     memory = deque(maxlen=max_steps)
 
     for ep in range(n_episodes):
-        ep_reward = 0
-        memory.clear()
         for m in range(minibatch):
             '''
             PROBLEM: For some reason after some episodes the output of the network
             is "nan" (the probabilities are non existent). Next step: figure this out
-            my suspect: when ball drops in X=0,1,6 we have a problem
             '''
+            ep_reward = 0
+            memory.clear()
             state = actor.reshape_state(env.reset())
             print(f"{ep} starting", state)
             # generate full trace
@@ -169,7 +172,7 @@ def reinforce():
                 except:
                     print(f"step {T}, faulty state: {state}")
                     print(f"faulty probabilities:",action_p)
-                    action = rng.choice(ACTION_EFFECTS, p=[0.33,0.33,0.34])
+                    break
 
                 next_state, r, done = env.step(action)
                 next_state = actor.reshape_state(next_state)
@@ -178,7 +181,7 @@ def reinforce():
                 # each sarsa combination is in one row -> too many entries. fix so that each part gets returned separately
 
                 if done:
-                    print(f'Terminated after {T} steps (ep: {ep})')
+                    print(f'Terminated after {T} steps')
                     break
                 state = next_state
 
@@ -199,8 +202,9 @@ def reinforce():
                 elif actor.boot == 'n_step':
                     print('insert actor critic bootstrap (and later baseline subtr.)')
                     break
-
+    actor.model.save_weights('data/last_weights.h5')
+    np.save(f'data/last_rewards', all_rewards)
     return all_rewards
 
 if __name__ == '__main__':
-    print(reinforce())
+    reinforce()
