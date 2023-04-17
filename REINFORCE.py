@@ -2,13 +2,14 @@ import numpy as np
 from catch import Catch
 import tensorflow as tf
 from collections import deque
-from Helper import *
+from Helper import time_it, print_it
+import time
 
 
 ACTION_EFFECTS = (-1, 0, 1)  # left, idle right.
 OBSERVATION_TYPES = ['pixel', 'vector']
-
-rng = np.random.default_rng(seed=None)
+seed = 42
+rng = np.random.default_rng(seed=seed)
 
 def make_tensor(state, list: bool = False):
     '''in order to be used in model.predict() method'''
@@ -18,7 +19,7 @@ def make_tensor(state, list: bool = False):
     return tf.expand_dims(s_tensor, 0)
 
 class Actor():
-    @time_it
+    # @time_it
     def __init__(self, learning_rate: float = 0.0001, arch: int = 1, observation_type: str = "pixel", 
                  rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
                  seed=None):
@@ -39,7 +40,7 @@ class Actor():
         # IMPLEMENT ENTROPY REGULARIZATION
 
         # gradient preparation
-        self.loss_fn = tf.keras.losses.mean_squared_error
+        # self.loss_fn = tf.keras.losses.mean_squared_error
         self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
         
 
@@ -71,7 +72,6 @@ class Actor():
             self.model.load_weights(saved_weights)
         self.model.summary()
 
-    # @print_it
     def bootstrap(self, t, rewards, values = None):
         if self.boot == "MC":
             rewards = rewards[t:]
@@ -81,10 +81,11 @@ class Actor():
             return self.gamma**np.arange(0, self.n_step) @ rewards + self.gamma**self.n_step * values[t+self.n_step]
 
     def gain_fn(self, prob_out, Q):
-        gain = -Q * tf.math.log(prob_out)  # * -1 due to maximising instead of minimizing?
+        gain =  -Q * tf.math.log(prob_out)  # * -1 due to maximising instead of minimizing?
         return gain
 
     def update_actor(self, state, action, Q):
+        '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
         action_n = np.where(ACTION_EFFECTS==action)[0][0]
         with tf.GradientTape() as tape:
 
@@ -110,6 +111,9 @@ class Actor():
         # Run one step of gradient descent by updating
         # the value of the variables to minimize the loss.
         self.optimizer.apply_gradients(zip(grads, self.model.trainable_weights))
+        
+        return grads
+        # self.optimizer.minimize(zgain_value, self.model.trainable_weights, tape=tape)
 
     def update_critic(self):
         pass
@@ -121,43 +125,34 @@ class Actor():
             return state.reshape(1,3)
 
 @time_it
-def reinforce():
-    # game settings
-    rows = 7
-    columns = 7
-    obs_type = "vector"  # "vector"
-    max_misses = 10
-    max_steps = 250
-    seed = 42
-    speed = 1.0
+def reinforce(n_episodes:int=50, learning_rate:float=0.001, rows:int=7, columns:int=7, obs_type:str="pixel", max_misses:int=10, 
+              max_steps:int=250, seed:int=None, speed:float=1.0, boot:str="MC", weights:str=None, minibatch:int=1, stamp:str=None):
+
+    # IMPLEMENT (TENSORBOARD) CALLBACKS FOR ANALYZATION, long book 315
 
     env = Catch(rows=rows, columns=columns, speed=speed, max_steps=max_steps, max_misses=max_misses, observation_type=obs_type, seed=seed)
 
-    learning_rate = 0.01
-    boot = "MC"
-
-    n_episodes = 20
     if boot == "MC":
         n_step = max_steps
     elif boot == "n_step":
         n_step = 1  # or larger
-    weights = None
-    # weights = 'data/last_weights.h5'
-    minibatch = 1
+
+
     all_rewards = []
     actor = Actor(learning_rate, boot=boot, n_step=n_step, observation_type=obs_type, saved_weights=weights, seed=seed)
     memory = deque(maxlen=max_steps)
 
     for ep in range(n_episodes):
+        print()
         for m in range(minibatch):
             '''
             PROBLEM: For some reason after some episodes the output of the network
             is "nan" (the probabilities are non existent). Next step: figure this out
+            suspect: learning rate highly important. error for lr >= 0.005
             '''
             ep_reward = 0
             memory.clear()
             state = actor.reshape_state(env.reset())
-            print(f"{ep} starting", state)
             # generate full trace
             for T in range(max_steps):
                 if actor.boot == "MC":
@@ -168,9 +163,9 @@ def reinforce():
                 try:
                     action = rng.choice(ACTION_EFFECTS, p=action_p.reshape(3,))
                     # print(f"good state: {state}")
-                    # print(f"good probabilities:",action_p)
+                    # if T == 0:
+                    #     print(f"good probabilities:",action_p)
                 except:
-                    print(f"step {T}, faulty state: {state}")
                     print(f"faulty probabilities:",action_p)
                     break
 
@@ -178,10 +173,8 @@ def reinforce():
                 next_state = actor.reshape_state(next_state)
                 ep_reward += r
                 memory.append((state,action,r,next_state,done,value))
-                # each sarsa combination is in one row -> too many entries. fix so that each part gets returned separately
 
                 if done:
-                    print(f'Terminated after {T} steps')
                     break
                 state = next_state
 
@@ -189,22 +182,57 @@ def reinforce():
             print(f'{ep}, reward: {ep_reward}')
             all_rewards.append(ep_reward)
 
-            # extract data from memory (to do: delete unused variables)
-            memory = [memory[index] for index in range(len(memory))]
-            states, actions, rewards, next_states, dones, values = [np.array([experience[field_index] 
-                                                                      for experience in memory]) 
-                                                                      for field_index in range(6)]
-            # update loop
-            for t in range(T):
-                Q = actor.bootstrap(t,rewards, values)
-                if actor.boot == 'MC':
-                    actor.update_actor(states[t], actions[t],Q)
-                elif actor.boot == 'n_step':
-                    print('insert actor critic bootstrap (and later baseline subtr.)')
-                    break
-    actor.model.save_weights('data/last_weights.h5')
-    np.save(f'data/last_rewards', all_rewards)
+        # extract data from memory (to do: delete unused variables)
+        memory = [memory[index] for index in range(len(memory))]
+        states, actions, rewards, next_states, dones, values = [np.array([experience[field_index] 
+                                                                    for experience in memory]) 
+                                                                    for field_index in range(6)]
+        # update loop
+        for t in range(T):
+            Q = actor.bootstrap(t,rewards, values)
+            if actor.boot == 'MC':
+                actor.update_actor(states[t], actions[t],Q)
+                
+                
+                
+            elif actor.boot == 'n_step':
+                print('insert actor critic bootstrap (and later baseline subtr.)')
+                break
+
+        if ep % 10 == 0 and ep > 0:
+            np.save(f'data/rewards/tmp_reward', all_rewards)
+            
+    actor.model.save_weights(f'data/weights/w_{stamp}.h5')
+    np.save(f'data/rewards/r_{stamp}', all_rewards)
+    if seed:
+        print(f'ran with seed {seed}!')
+    if weights:
+        print(f'ran on pre-trained weights')
     return all_rewards
 
 if __name__ == '__main__':
-    reinforce()
+    # game settings
+    n_episodes = 100
+    learning_rate = 0.001
+    rows = 7
+    columns = 7
+    obs_type = "pixel"  # "vector"
+    max_misses = 10
+    max_steps = 250
+    seed = 42  # if you change this, change also above! (at very beginning)
+    speed = 1.0
+    boot = "MC"
+    minibatch = 1
+    weights = None
+    # weights = 'data/weights/last_weights.h5'
+
+    start = time.time()
+    stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
+
+    learning_rates = [0.005,0.001,0.0001,0.00005]
+    for learning_rate in learning_rates:
+        rewards = reinforce(n_episodes,learning_rate,rows,columns,obs_type,
+                  max_misses,max_steps,seed,speed,boot,weights,minibatch,stamp)
+        with open("data/documentation.txt", 'a') as f:
+        # export comand line output for later investigation
+            f.write(f'\n\nStamp: {stamp} ... Episodes: {n_episodes}, Learning: {learning_rate}, Avg reward: {np.mean(rewards)}\n')
