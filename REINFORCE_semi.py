@@ -86,6 +86,11 @@ class Actor():
             return self.gamma**np.arange(0, self.n_step) @ rewards + self.gamma**self.n_step * values[t+self.n_step]
 
     def gain_fn(self, prob_out=None, Q=None, V=None, states=None, actions=None, critic=None):
+        dic = {-1: 0, 0: 1, 1: 2}
+        actions = [dic[action] for action in actions]
+        mask = tf.one_hot(actions, 3)
+        prob_out = tf.reduce_max(mask * prob_out, axis=1)
+
         if self.boot == 'MC':
             gain = tf.constant(-1 * np.ones(len(Q)) * Q,
                                dtype=tf.float32) * tf.math.log(prob_out)
@@ -95,15 +100,11 @@ class Actor():
                 pass
             gain = - Q @ tf.math.log(prob_out)
 
-        return gain
+        return tf.reduce_sum(gain)
 
     def update_actor(self, states, actions, Q):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
-        dic = {-1: 0, 0: 1, 1: 2}
-        actions = [dic[action] for action in actions]
-        print("ACTIONS:", actions)
-        mask = tf.one_hot(actions, 3)
-        print("ELON MASK:", mask)
+        states = tf.convert_to_tensor(states)
 
         with tf.GradientTape() as tape:
 
@@ -114,22 +115,19 @@ class Actor():
             #     state = make_tensor(state.reshape(3,))
 
             if self.boot == "MC":
-                probs_out = self.model(states, training=True)
+                probs_out = self.model(states)
             elif self.boot == "n_step":
-                probs_out = self.model(states, training=True)
-            # Compute the loss value for this minibatch.
-            
-            print("ARE THEYY 0?", probs_out)
-            gain_value = self.gain_fn(
-                prob_out=tf.reduce_max(probs_out*mask, axis=1), Q=Q)
+                probs_out = self.model(states)
 
-            print('GAIN VALUE', gain_value)
+            gain_value = self.gain_fn(
+                prob_out=probs_out, Q=Q, actions=actions)
+
             # Use the gradient tape to automatically retrieve
             # the gradients of the trainable variables with respect to the loss.
 
             # SHOULD WE PUT THE GRADS IN OR OUT OF THE TAPE????
 
-        grads = tape.gradient(tf.reduce_sum(gain_value),
+        grads = tape.gradient(gain_value,
                               self.model.trainable_weights)
         # grads = [(tf.clip_by_norm(grad, clip_norm=2.0)) for grad in grads]
 
@@ -261,19 +259,18 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         states, actions, rewards, next_states, dones, values = [np.array([experience[field_index]
                                                                           for experience in memory])
                                                                 for field_index in range(6)]
-        Q_values = []
-        # update loop
-        for t in range(T + 1):
-            Q_values.append(actor.bootstrap(t, rewards, values))
+
+        Q_values = [actor.bootstrap(t,rewards,values) for t in range(T+1)]
 
         if actor.boot == 'MC':
             grads = actor.update_actor(states, actions, Q_values)
-
+            """           
             is_threshold = [tf.norm(grad) < 0.0000001 for grad in grads]
 
             if (True in is_threshold):
+                print("BREAK!")
                 break
-
+            """
         elif actor.boot == 'n_step':
             # in case V network is not updated separately!
             actor.update_actor(states, actions, Q_values, values)
@@ -310,7 +307,7 @@ if __name__ == '__main__':
     start = time.time()
     stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
 
-    learning_rates = [0.005, 0.001, 0.0001, 0.00005]
+    learning_rates = [0.01]
     for learning_rate in learning_rates:
         rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                             max_misses, max_steps, seed, speed, boot, weights, minibatch, stamp)
