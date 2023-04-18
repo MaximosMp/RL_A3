@@ -24,7 +24,7 @@ class Actor():
     # @time_it
     def __init__(self, learning_rate: float = 0.0001, arch: int = 1, observation_type: str = "pixel",
                  rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
-                 seed=None, critic: bool = True):
+                 seed=None, critic: bool = False):
         self.seed = seed
         self.rows = rows
         self.columns = columns
@@ -52,10 +52,12 @@ class Actor():
         if arch == 1:
             input = tf.keras.layers.Input(shape=input_shape)
             dense = tf.keras.layers.Dense(
-                64, activation=activ_func, kernel_initializer=init)(input)
+                32, activation=activ_func, kernel_initializer=init)(input)
+            batchNorm = tf.keras.layers.BatchNormalization()(dense)
             dense = tf.keras.layers.Dense(
-                64, activation=activ_func, kernel_initializer=init)(dense)
-            dense = tf.keras.layers.Flatten()(dense)
+                32, activation=activ_func, kernel_initializer=init)(batchNorm)
+            dropout = tf.keras.layers.Dropout(0.2)(dense)
+            dense = tf.keras.layers.Flatten()(dropout)
 
         if critic:
             output_value = tf.keras.layers.Dense(1, activation='linear')(dense)
@@ -84,10 +86,10 @@ class Actor():
     def gain_fn(self, prob_out=None, Q=None, V=None, states=None, actions=None, critic=None):
         if self.boot == 'MC':
             # * -1 due to maximising instead of minimizing?
-            gain = -Q * tf.math.log(prob_out)
+            gain = Q * tf.math.log(prob_out)
         elif self.boot == 'n_step':
             if (critic):
-                #TODO
+                # TODO
                 pass
             gain = - Q @ tf.math.log(prob_out)
 
@@ -97,7 +99,9 @@ class Actor():
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
         state = states
         action = actions
+
         action_n = np.where(ACTION_EFFECTS == action)[0][0]
+
         with tf.GradientTape() as tape:
 
             # Run the forward pass of the layer.
@@ -108,8 +112,10 @@ class Actor():
                 state = make_tensor(state.reshape(self.columns, self.rows, 2))
             elif self.observation_type == "vector":
                 state = make_tensor(state.reshape(3,))
+
             if self.boot == "MC":
                 probs_out = self.model(state, training=True)
+                # print('probabilities', probs_out)
                 value_out = None
             elif self.boot == "n_step":
                 probs_out = self.model(state, training=True)
@@ -117,9 +123,13 @@ class Actor():
             gain_value = self.gain_fn(
                 prob_out=tf.reshape(probs_out, [3])[action_n], Q=Q)
 
-        # Use the gradient tape to automatically retrieve
-        # the gradients of the trainable variables with respect to the loss.
+            # Use the gradient tape to automatically retrieve
+            # the gradients of the trainable variables with respect to the loss.
+            
+            
+            # SHOULD WE PUT THE GRADS IN OR OUT OF THE TAPE????
         grads = tape.gradient(gain_value, self.model.trainable_weights)
+       
         # Run one step of gradient descent by updating
         # the value of the variables to minimize the loss.
         self.optimizer.apply_gradients(
@@ -141,14 +151,15 @@ class Actor():
                 state = make_tensor(states.reshape(
                     len(states), self.columns, self.rows, 2))
             elif self.observation_type == "vector":
-                state = make_tensor(states.reshape(len(states),3,))
+                state = make_tensor(states.reshape(len(states), 3,))
 
             V = []
             for state in states:
                 V.append(self.model(state, training=True))
             # Compute the loss value for this minibatch.
-            
-            gain_value = self.gain_fn(V=V, Q=Q, states=states, actions=actions, critic=True)
+
+            gain_value = self.gain_fn(
+                V=V, Q=Q, states=states, actions=actions, critic=True)
 
         # Use the gradient tape to automatically retrieve
         # the gradients of the trainable variables with respect to the loss.
@@ -204,11 +215,15 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             for T in range(max_steps):
                 if actor.boot == "MC":
                     action_p = actor.model.predict(state, verbose=0)
+                    # print('actions', action_p)
                     value = None
                 elif actor.boot == "n_step":
                     action_p = actor.model.predict(state, verbose=0)
                 try:
-                    action = rng.choice(ACTION_EFFECTS, p=action_p.reshape(3,))
+                    # action = rng.choice(ACTION_EFFECTS, p=action_p.reshape(3,))
+                    # print('actions', action_p)
+                    action = np.random.choice(
+                        ACTION_EFFECTS, p=action_p.reshape(3,))
                     # print(f"good state: {state}")
                     # if T == 0:
                     #     print(f"good probabilities:",action_p)
@@ -261,7 +276,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 if __name__ == '__main__':
     # game settings
     n_episodes = 100
-    learning_rate = 0.001
+    learning_rate = 0.0001
     rows = 7
     columns = 7
     obs_type = "pixel"  # "vector"
