@@ -4,6 +4,7 @@ import tensorflow as tf
 from collections import deque
 from Helper import time_it, print_it
 import time
+import math
 
 
 ACTION_EFFECTS = (-1, 0, 1)  # left, idle right.
@@ -43,7 +44,8 @@ class Actor():
 
         # gradient preparation
         # self.loss_fn = tf.keras.losses.mean_squared_error
-        self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+        self.optimizer = tf.keras.optimizers.Adam(
+            learning_rate=learning_rate, )
 
         if (observation_type == 'pixel'):
             input_shape = (rows, columns, 2)
@@ -85,8 +87,8 @@ class Actor():
 
     def gain_fn(self, prob_out=None, Q=None, V=None, states=None, actions=None, critic=None):
         if self.boot == 'MC':
-            # * -1 due to maximising instead of minimizing?
-            gain = Q * tf.math.log(prob_out)
+            gain = tf.constant(-1 * np.ones(len(Q)) * Q,
+                               dtype=tf.float32) * tf.math.log(prob_out)
         elif self.boot == 'n_step':
             if (critic):
                 # TODO
@@ -97,41 +99,43 @@ class Actor():
 
     def update_actor(self, states, actions, Q):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
-        state = states
-        action = actions
-
-        action_n = np.where(ACTION_EFFECTS == action)[0][0]
+        dic = {-1: 0, 0: 1, 1: 2}
+        actions = [dic[action] for action in actions]
+        print("ACTIONS:", actions)
+        mask = tf.one_hot(actions, 3)
+        print("ELON MASK:", mask)
 
         with tf.GradientTape() as tape:
 
-            # Run the forward pass of the layer.
-            # The operations that the layer applies
-            # to its inputs are going to be recorded
-            # on the GradientTape.
-            if self.observation_type == "pixel":
-                state = make_tensor(state.reshape(self.columns, self.rows, 2))
-            elif self.observation_type == "vector":
-                state = make_tensor(state.reshape(3,))
+            # if self.observation_type == "pixel":
+            #     state = make_tensor(state.reshape(
+            #         self.columns, self.rows, 2))
+            # elif self.observation_type == "vector":
+            #     state = make_tensor(state.reshape(3,))
 
             if self.boot == "MC":
-                probs_out = self.model(state, training=True)
-                # print('probabilities', probs_out)
-                value_out = None
+                probs_out = self.model(states, training=True)
             elif self.boot == "n_step":
-                probs_out = self.model(state, training=True)
+                probs_out = self.model(states, training=True)
             # Compute the loss value for this minibatch.
+            
+            print("ARE THEYY 0?", probs_out)
             gain_value = self.gain_fn(
-                prob_out=tf.reshape(probs_out, [3])[action_n], Q=Q)
+                prob_out=tf.reduce_max(probs_out*mask, axis=1), Q=Q)
 
+            print('GAIN VALUE', gain_value)
             # Use the gradient tape to automatically retrieve
             # the gradients of the trainable variables with respect to the loss.
-            
-            
+
             # SHOULD WE PUT THE GRADS IN OR OUT OF THE TAPE????
-        grads = tape.gradient(gain_value, self.model.trainable_weights)
-       
+
+        grads = tape.gradient(tf.reduce_sum(gain_value),
+                              self.model.trainable_weights)
+        # grads = [(tf.clip_by_norm(grad, clip_norm=2.0)) for grad in grads]
+
         # Run one step of gradient descent by updating
         # the value of the variables to minimize the loss.
+
         self.optimizer.apply_gradients(
             zip(grads, self.model.trainable_weights))
 
@@ -176,6 +180,13 @@ class Actor():
             return state.reshape(1, self.columns, self.rows, 2)
         elif self.observation_type == "vector":
             return state.reshape(1, 3)
+
+    def unshape_state(self, state):
+        '''same is done by squeeze'''
+        if self.observation_type == "pixel":
+            return state.reshape(self.columns, self.rows, 2)
+        elif self.observation_type == "vector":
+            return state.reshape(3)
 
 
 @time_it
@@ -234,7 +245,8 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                 next_state, r, done = env.step(action)
                 next_state = actor.reshape_state(next_state)
                 ep_reward += r
-                memory.append((state, action, r, next_state, done, value))
+                memory.append((tf.squeeze(state),
+                              action, r, next_state, done, value))
 
                 if done:
                     break
@@ -249,17 +261,23 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         states, actions, rewards, next_states, dones, values = [np.array([experience[field_index]
                                                                           for experience in memory])
                                                                 for field_index in range(6)]
-
         Q_values = []
         # update loop
-        for t in range(T):
+        for t in range(T + 1):
             Q_values.append(actor.bootstrap(t, rewards, values))
-            if actor.boot == 'MC':
-                actor.update_actor(states[t], actions[t], Q_values[-1])
-            elif actor.boot == 'n_step':
-                # in case V network is not updated separately!
-                actor.update_actor(states, actions, Q_values, values)
-                critic.update_critic(states, actions, rewards, Q_values)
+
+        if actor.boot == 'MC':
+            grads = actor.update_actor(states, actions, Q_values)
+
+            is_threshold = [tf.norm(grad) < 0.0000001 for grad in grads]
+
+            if (True in is_threshold):
+                break
+
+        elif actor.boot == 'n_step':
+            # in case V network is not updated separately!
+            actor.update_actor(states, actions, Q_values, values)
+            critic.update_critic(states, actions, rewards, Q_values)
 
         if ep % 10 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
