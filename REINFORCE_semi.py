@@ -264,13 +264,14 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
         if actor.boot == 'MC':
             grads = actor.update_actor(states, actions, Q_values)
-            """           
-            is_threshold = [tf.norm(grad) < 0.0000001 for grad in grads]
+            
+            # manual grad clipping
+            # is_threshold = [tf.norm(grad) < 0.0000001 for grad in grads]
 
-            if (True in is_threshold):
-                print("BREAK!")
-                break
-            """
+            # if (True in is_threshold):
+            #     print("BREAK!")
+            #     break
+            
         elif actor.boot == 'n_step':
             # in case V network is not updated separately!
             actor.update_actor(states, actions, Q_values, values)
@@ -302,12 +303,14 @@ if __name__ == '__main__':
     boot = "MC"
     minibatch = 1
     weights = None
-    # weights = 'data/weights/last_weights.h5'
-
+    # weights = 'data/weights/w_18_184522.h5'
+    '''
+    TO DO: why is it not learning. test different learning rates. ask, whether gain_funct is ok.
+    '''
     start = time.time()
     stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
 
-    learning_rates = [0.01]
+    learning_rates = [0.0001]
     for learning_rate in learning_rates:
         rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                             max_misses, max_steps, seed, speed, boot, weights, minibatch, stamp)
