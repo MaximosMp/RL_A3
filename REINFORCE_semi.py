@@ -6,6 +6,18 @@ from Helper import time_it, print_it
 import time
 import math
 
+'''
+    TO DO: 
+        ask: 
+            - whether gain_funct is ok (differentiability etc)
+            - do we need -1 * Q in loss function?
+            - REINFORCE is really online (inside t-loop)?
+
+        implement:
+            - implement REINFORCE (online update) see comment in gain_fn
+            - checkpoints (tensorboard)
+    '''
+
 
 ACTION_EFFECTS = (-1, 0, 1)  # left, idle right.
 OBSERVATION_TYPES = ['pixel', 'vector']
@@ -20,12 +32,17 @@ def make_tensor(state, list: bool = False):
         return s_tensor
     return tf.expand_dims(s_tensor, 0)
 
+def max_min_print(tensor_list: list[tf.Tensor], shout:str="HEY"):
+    print(f"{shout} max", tf.reduce_max(tensor_list).numpy())
+    print(f"{shout} min", tf.reduce_min(tensor_list).numpy())
+    return
+
 
 class Actor():
     # @time_it
     def __init__(self, learning_rate: float = 0.0001, arch: int = 1, observation_type: str = "pixel",
                  rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
-                 seed=None, critic: bool = False):
+                 seed=None, critic: bool = False, eta: float = 0.01, baseline: bool = False):
         self.seed = seed
         self.rows = rows
         self.columns = columns
@@ -35,6 +52,8 @@ class Actor():
         self.boot = boot
         self.n_step = n_step
         self.critic = critic
+        self.baseline = baseline
+        self.eta = eta
         self.gamma = 0.99
 
         # network parameters
@@ -79,64 +98,59 @@ class Actor():
     def bootstrap(self, t, rewards, values=None):
         if self.boot == "MC":
             rewards = rewards[t:]
-            return self.gamma**np.arange(0, len(rewards)) @ rewards
+            return np.dot(self.gamma**np.arange(0, len(rewards)), rewards)
 
         elif self.boot == "n_step":
-            rewards = rewards[t:t+self.n_step]
-            return self.gamma**np.arange(0, self.n_step) @ rewards + self.gamma**self.n_step * values[t+self.n_step]
+            lim = min(t+self.n_step,len(rewards))
+            rewards = rewards[t:lim]
+            return np.dot(self.gamma**np.arange(0, len(rewards)), rewards) + self.gamma**self.n_step * values[lim-1]
 
-    def gain_fn(self, prob_out=None, Q=None, V=None, states=None, actions=None, critic=None):
-        dic = {-1: 0, 0: 1, 1: 2}
-        actions = [dic[action] for action in actions]
+    def gain_fn(self, prob_out=None, Q=None, actions=None):
+        # if self.boot == 'MC':
+        #     return -Q * tf.math.log(prob_out)
+        actions = np.where(actions==-1,0, np.where(actions==0,1,2))  # rewrites [-1,0,1] into [0,1,2]
         mask = tf.one_hot(actions, 3)
         prob_out = tf.reduce_max(mask * prob_out, axis=1)
 
-        if self.boot == 'MC':
-            gain = tf.constant(-1 * np.ones(len(Q)) * Q,
-                               dtype=tf.float32) * tf.math.log(prob_out)
-        elif self.boot == 'n_step':
-            if (critic):
-                # TODO
-                pass
-            gain = - Q @ tf.math.log(prob_out)
+        gain = tf.tensordot(tf.constant(-1 * np.ones(len(Q)) * Q,dtype=tf.float32),
+                            tf.math.log(prob_out), 1)
+        return gain
 
-        return tf.reduce_sum(gain)
+    def gain_fn_entropy(self,prob_out=None, Q=None, actions=None):
+        actions = np.where(actions==-1,0, np.where(actions==0,1,2))  # rewrites [-1,0,1] into [0,1,2]
+        mask = tf.one_hot(actions, 3)
+        prob_out = tf.reduce_max(mask * prob_out, axis=1)
 
-    def update_actor(self, states, actions, Q):
+        gain = tf.tensordot(tf.constant(-1 * np.ones(len(Q)) * Q,dtype=tf.float32),
+                            tf.math.log(prob_out), 1)
+        gain -= self.eta* tf.tensordot(prob_out, tf.math.log(prob_out),1) # -sum_i ( pi * log(pi) )
+        return gain
+
+    def update_weights(self, states, actions, Q_values, values=None):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
         states = tf.convert_to_tensor(states)
 
         with tf.GradientTape() as tape:
-
-            # if self.observation_type == "pixel":
-            #     state = make_tensor(state.reshape(
-            #         self.columns, self.rows, 2))
-            # elif self.observation_type == "vector":
-            #     state = make_tensor(state.reshape(3,))
-
-            if self.boot == "MC":
+            if self.critic:
+                values = self.model(states)
+                gain_value = tf.losses.mean_squared_error(Q_values,values)
+            else:
                 probs_out = self.model(states)
-            elif self.boot == "n_step":
-                probs_out = self.model(states)
-
-            gain_value = self.gain_fn(
-                prob_out=probs_out, Q=Q, actions=actions)
-
+                gain_value = self.gain_fn(prob_out=probs_out, Q=Q_values, actions=actions)
+                max_min_print(probs_out, "probs")
             # Use the gradient tape to automatically retrieve
             # the gradients of the trainable variables with respect to the loss.
 
             # SHOULD WE PUT THE GRADS IN OR OUT OF THE TAPE????
-
         grads = tape.gradient(gain_value,
                               self.model.trainable_weights)
-        # grads = [(tf.clip_by_norm(grad, clip_norm=2.0)) for grad in grads]
-
         # Run one step of gradient descent by updating
         # the value of the variables to minimize the loss.
 
         self.optimizer.apply_gradients(
             zip(grads, self.model.trainable_weights))
-
+        norm_grads = [tf.norm(grad) for grad in grads]
+        max_min_print(norm_grads,"norm grads")
         return grads
         # self.optimizer.minimize(zgain_value, self.model.trainable_weights, tape=tape)
 
@@ -188,63 +202,59 @@ class Actor():
 
 
 @time_it
-def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7, columns: int = 7, obs_type: str = "pixel", max_misses: int = 10,
-              max_steps: int = 250, seed: int = None, speed: float = 1.0, boot: str = "MC", weights: str = None, minibatch: int = 1, stamp: str = None):
+def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7, columns: int = 7, 
+              obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None, 
+              n_step: int = 5, speed: float = 1.0, boot: str = "MC", weights: str = None, 
+              minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False):
 
     # IMPLEMENT (TENSORBOARD) CALLBACKS FOR ANALYZATION, long book 315
 
     env = Catch(rows=rows, columns=columns, speed=speed, max_steps=max_steps,
                 max_misses=max_misses, observation_type=obs_type, seed=seed)
 
+    # NON-training average is around -8.4. So we are only learning when we're significantly higher (let's say < -7.0)
+    Training = True
+
     if boot == "MC":
         n_step = max_steps
-    elif boot == "n_step":
-        n_step = 1  # or larger
 
     all_rewards = []
     actor = Actor(learning_rate, boot=boot, n_step=n_step,
-                  observation_type=obs_type, saved_weights=weights, seed=seed)
+                  observation_type=obs_type, saved_weights=weights, 
+                  seed=seed, eta=eta, baseline=baseline)
+
     if boot == 'n_step':
         critic = Actor(learning_rate, boot=boot, n_step=n_step,
-                       observation_type=obs_type, saved_weights=weights, seed=seed, critic=True)
+                       observation_type=obs_type, saved_weights=weights, seed=seed, 
+                       critic=True, eta=eta)
     memory = deque(maxlen=max_steps)
 
     for ep in range(n_episodes):
         print()
         for m in range(minibatch):
-            '''
-            PROBLEM: For some reason after some episodes the output of the network
-            is "nan" (the probabilities are non existent). Next step: figure this out
-            suspect: learning rate highly important. error for lr >= 0.005
-            '''
             ep_reward = 0
             memory.clear()
             state = actor.reshape_state(env.reset())
             # generate full trace
             for T in range(max_steps):
-                if actor.boot == "MC":
-                    action_p = actor.model.predict(state, verbose=0)
-                    # print('actions', action_p)
+                action_p = actor.model.predict(state, verbose=0)
+
+                if actor.boot == "n_step":
+                    value = critic.model.predict(state, verbose=0)
+                    # value = tf.squeeze(value)
+                elif actor.boot == "MC":
                     value = None
-                elif actor.boot == "n_step":
-                    action_p = actor.model.predict(state, verbose=0)
-                try:
-                    # action = rng.choice(ACTION_EFFECTS, p=action_p.reshape(3,))
-                    # print('actions', action_p)
-                    action = np.random.choice(
-                        ACTION_EFFECTS, p=action_p.reshape(3,))
-                    # print(f"good state: {state}")
-                    # if T == 0:
-                    #     print(f"good probabilities:",action_p)
-                except:
-                    print(f"faulty probabilities:", action_p)
-                    break
+
+                action = np.random.choice(
+                    ACTION_EFFECTS, p=action_p.reshape(3,))
 
                 next_state, r, done = env.step(action)
                 next_state = actor.reshape_state(next_state)
                 ep_reward += r
+
+                # take out the extra "1" dimensions
                 memory.append((tf.squeeze(state),
-                              action, r, next_state, done, value))
+                              action, r, next_state, done, tf.squeeze(value).numpy()))
 
                 if done:
                     break
@@ -260,22 +270,26 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                                                                           for experience in memory])
                                                                 for field_index in range(6)]
 
+
         Q_values = [actor.bootstrap(t,rewards,values) for t in range(T+1)]
+        A_values = [Q_values[i]-values[i] for i in range(T+1)]
 
-        if actor.boot == 'MC':
-            grads = actor.update_actor(states, actions, Q_values)
-            
-            # manual grad clipping
-            # is_threshold = [tf.norm(grad) < 0.0000001 for grad in grads]
+        if Training:
+            if actor.baseline:
+                actor.update_weights(states, actions, A_values)
+            else:
+                actor.update_weights(states, actions, Q_values)
 
-            # if (True in is_threshold):
-            #     print("BREAK!")
-            #     break
-            
-        elif actor.boot == 'n_step':
-            # in case V network is not updated separately!
-            actor.update_actor(states, actions, Q_values, values)
-            critic.update_critic(states, actions, rewards, Q_values)
+        # manual grad clipping
+        # is_threshold = [tf.norm(grad) < 0.0000001 for grad in grads]
+
+        # if (True in is_threshold):
+        #     print("BREAK!")
+        #     break
+
+        if actor.boot == 'n_step' and Training:
+            # in case V network is updated separately!
+            critic.update_weights(states, actions, rewards, Q_values)
 
         if ep % 10 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
@@ -291,30 +305,35 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 100
-    learning_rate = 0.0001
+    n_episodes = 500
+    learning_rate = 0.001
     rows = 7
     columns = 7
-    obs_type = "pixel"  # "vector"
+    obs_type = "pixel"  # "vector" or "pixel"
     max_misses = 10
     max_steps = 250
-    seed = 42  # if you change this, change also above! (at very beginning)
+    seed = None  # if you change this, change also above! (at very beginning)
+    n_step = 10
     speed = 1.0
-    boot = "MC"
+    boot = "n_step"  # "n_step" or "MC"
     minibatch = 1
     weights = None
+    baseline = True
     # weights = 'data/weights/w_18_184522.h5'
-    '''
-    TO DO: why is it not learning. test different learning rates. ask, whether gain_funct is ok.
-    '''
-    start = time.time()
-    stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
 
-    learning_rates = [0.0001]
+    ### hyperparameters to tune
+    etas = [0.0001, 0.001, 0.01, 0.1]
+    
+    learning_rates = [0.001]
     for learning_rate in learning_rates:
-        rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
-                            max_misses, max_steps, seed, speed, boot, weights, minibatch, stamp)
-        with open("data/documentation.txt", 'a') as f:
-            # export comand line output for later investigation
-            f.write(
-                f'\n\nStamp: {stamp} ... Episodes: {n_episodes}, Learning: {learning_rate}, Avg reward: {np.mean(rewards)}\n')
+        for eta in etas:
+            start = time.time()
+            stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
+            rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
+                                max_misses, max_steps, seed, n_step, speed, boot, 
+                                weights, minibatch, eta, stamp, baseline)
+            with open("data/documentation.txt", 'a') as f:
+                # export comand line output for later investigation
+                f.write(
+                    f'\n\nStamp: {stamp} ... Episodes: {n_episodes}, Learning: {learning_rate}, Seed: {seed}, '
+                    + f'Eta: {eta}, Avg reward: {np.mean(rewards)}\n')

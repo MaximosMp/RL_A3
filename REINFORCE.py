@@ -84,7 +84,6 @@ class Actor():
             gain =  -Q * tf.math.log(prob_out)  # * -1 due to maximising instead of minimizing?
         elif self.boot == 'n_step':
             gain = - Q @ tf.math.log(prob_out)
-        
         return gain
 
     def update_actor(self, state, action, Q):

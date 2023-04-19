@@ -22,3 +22,30 @@ Stamp: 18_185052 ... Episodes: 100, Learning: 0.01, Avg reward: -8.25
 
 
 Stamp: 18_190210 ... Episodes: 100, Learning: 0.0001, Avg reward: -8.41
+
+
+Stamp: 19_105958 ... Episodes: 50, Learning: 0.1, Avg reward: -8.36
+
+
+Stamp: 19_105958 ... Episodes: 50, Learning: 0.01, Avg reward: -8.14
+
+
+Stamp: 19_105958 ... Episodes: 50, Learning: 0.001, Avg reward: -8.5
+
+
+Stamp: 19_105958 ... Episodes: 50, Learning: 0.0001, Avg reward: -8.12
+
+
+Stamp: 19_114344 ... Episodes: 150, Learning: 0.001, Avg reward: -8.366666666666667
+
+
+Stamp: 19_140108 ... Episodes: 50, Learning: 0.001, Seed: None, Avg reward: {np.mean(rewards)}
+
+
+Stamp: 19_140759 ... Episodes: 50, Learning: 0.001, Seed: None, Avg reward: {np.mean(rewards)}
+
+
+Stamp: 19_144821 ... Episodes: 150, Learning: 0.001, Seed: None, Avg reward: {np.mean(rewards)}
+
+
+Stamp: 19_155040 ... Episodes: 150, Learning: 0.001, Seed: None, Avg reward: {np.mean(rewards)}
