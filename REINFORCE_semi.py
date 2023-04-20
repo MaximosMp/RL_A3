@@ -21,7 +21,7 @@ import math
 
 ACTION_EFFECTS = (-1, 0, 1)  # left, idle right.
 OBSERVATION_TYPES = ['pixel', 'vector']
-seed = 42
+seed = None
 rng = np.random.default_rng(seed=seed)
 
 
@@ -98,12 +98,12 @@ class Actor():
     def bootstrap(self, t, rewards, values=None):
         if self.boot == "MC":
             rewards = rewards[t:]
-            return np.dot(self.gamma**np.arange(0, len(rewards)), rewards)
+            return self.gamma**np.arange(0, len(rewards)) @ rewards
 
         elif self.boot == "n_step":
             lim = min(t+self.n_step,len(rewards))
             rewards = rewards[t:lim]
-            return np.dot(self.gamma**np.arange(0, len(rewards)), rewards) + self.gamma**self.n_step * values[lim-1]
+            return self.gamma**np.arange(0, len(rewards)) @ rewards + self.gamma**self.n_step * values[lim-1]
 
     def gain_fn(self, prob_out=None, Q=None, actions=None):
         # if self.boot == 'MC':
@@ -112,7 +112,7 @@ class Actor():
         mask = tf.one_hot(actions, 3)
         prob_out = tf.reduce_max(mask * prob_out, axis=1)
 
-        gain = tf.tensordot(tf.constant(-1 * np.ones(len(Q)) * Q,dtype=tf.float32),
+        gain = tf.tensordot(tf.constant(np.ones(len(Q)) * Q,dtype=tf.float32),
                             tf.math.log(prob_out), 1)
         return gain
 
@@ -138,6 +138,7 @@ class Actor():
                 probs_out = self.model(states)
                 gain_value = self.gain_fn(prob_out=probs_out, Q=Q_values, actions=actions)
                 max_min_print(probs_out, "probs")
+                print("PROBS", probs_out)
             # Use the gradient tape to automatically retrieve
             # the gradients of the trainable variables with respect to the loss.
 
@@ -206,11 +207,13 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
               obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None, 
               n_step: int = 5, speed: float = 1.0, boot: str = "MC", weights: str = None, 
               minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False):
+    if boot == "MC":
+        baseline = False
 
     # IMPLEMENT (TENSORBOARD) CALLBACKS FOR ANALYZATION, long book 315
 
     env = Catch(rows=rows, columns=columns, speed=speed, max_steps=max_steps,
-                max_misses=max_misses, observation_type=obs_type, seed=seed)
+                max_misses=max_misses, observation_type=obs_type, seed=None)
 
     # NON-training average is around -8.4. So we are only learning when we're significantly higher (let's say < -7.0)
     Training = True
@@ -241,7 +244,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
                 if actor.boot == "n_step":
                     value = critic.model.predict(state, verbose=0)
-                    # value = tf.squeeze(value)
+                    value = tf.squeeze(value)
                 elif actor.boot == "MC":
                     value = None
 
@@ -254,7 +257,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
                 # take out the extra "1" dimensions
                 memory.append((tf.squeeze(state),
-                              action, r, next_state, done, tf.squeeze(value).numpy()))
+                              action, r, next_state, done, value))
 
                 if done:
                     break
@@ -272,10 +275,10 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 
         Q_values = [actor.bootstrap(t,rewards,values) for t in range(T+1)]
-        A_values = [Q_values[i]-values[i] for i in range(T+1)]
 
         if Training:
             if actor.baseline:
+                A_values = [Q_values[i]-values[i] for i in range(T+1)]
                 actor.update_weights(states, actions, A_values)
             else:
                 actor.update_weights(states, actions, Q_values)
@@ -304,8 +307,9 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 
 if __name__ == '__main__':
+
     # game settings
-    n_episodes = 500
+    n_episodes = 200
     learning_rate = 0.001
     rows = 7
     columns = 7
@@ -315,16 +319,17 @@ if __name__ == '__main__':
     seed = None  # if you change this, change also above! (at very beginning)
     n_step = 10
     speed = 1.0
-    boot = "n_step"  # "n_step" or "MC"
+    boot = "MC"  # "n_step" or "MC"
     minibatch = 1
     weights = None
-    baseline = True
+    baseline = False
     # weights = 'data/weights/w_18_184522.h5'
 
     ### hyperparameters to tune
-    etas = [0.0001, 0.001, 0.01, 0.1]
-    
-    learning_rates = [0.001]
+    # etas = [0.0001, 0.001, 0.01, 0.1]
+    etas = [0.1]
+    # learning_rates = [0.1, 0.01, 0.001, 0.0001]
+    learning_rates = [0.01]
     for learning_rate in learning_rates:
         for eta in etas:
             start = time.time()

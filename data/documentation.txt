@@ -49,3 +49,6 @@ Stamp: 19_144821 ... Episodes: 150, Learning: 0.001, Seed: None, Avg reward: {np
 
 
 Stamp: 19_155040 ... Episodes: 150, Learning: 0.001, Seed: None, Avg reward: {np.mean(rewards)}
+
+
+Stamp: 19_171005 ... Episodes: 200, Learning: 0.001, Seed: 42, Eta: 0.0001, Avg reward: -8.28
