@@ -16,6 +16,11 @@ import math
         implement:
             - implement REINFORCE (online update) see comment in gain_fn
             - checkpoints (tensorboard)
+
+        possible issues:
+            1: check the gradients (are they correct?)
+            2: check the states of the environment and if are fed correctly to the model
+            3: based on different states you should have different probabilities that favour different actions
     '''
 
 
@@ -32,10 +37,10 @@ def make_tensor(state, list: bool = False):
         return s_tensor
     return tf.expand_dims(s_tensor, 0)
 
-def max_min_print(tensor_list: list[tf.Tensor], shout:str="HEY"):
-    print(f"{shout} max", tf.reduce_max(tensor_list).numpy())
-    print(f"{shout} min", tf.reduce_min(tensor_list).numpy())
-    return
+#def max_min_print(tensor_list: list[tf.Tensor], shout:str="HEY"):
+#    print(f"{shout} max", tf.reduce_max(tensor_list).numpy())
+#    print(f"{shout} min", tf.reduce_min(tensor_list).numpy())
+ #   return
 
 
 class Actor():
@@ -108,12 +113,12 @@ class Actor():
     def gain_fn(self, prob_out=None, Q=None, actions=None):
         # if self.boot == 'MC':
         #     return -Q * tf.math.log(prob_out)
-        actions = np.where(actions==-1,0, np.where(actions==0,1,2))  # rewrites [-1,0,1] into [0,1,2]
-        mask = tf.one_hot(actions, 3)
-        prob_out = tf.reduce_max(mask * prob_out, axis=1)
-
-        gain = tf.tensordot(tf.constant(np.ones(len(Q)) * Q,dtype=tf.float32),
-                            tf.math.log(prob_out), 1)
+        actions = np.where(actions==-1,0, np.where(actions==0,1,2))  # rewrites [-1,0,1,-1,1,0,1] into [0,1,2,0,2,1,2]
+        mask = tf.one_hot(actions, 3)  # mask = [[0,1,0],[0,0,1],[1,0,0],[0,1,0],[1,0,0],[0,0,1],[0,0,1]]
+        prob_out = tf.reduce_max(mask * prob_out, axis=1) # prob_out = [0.2,0.3,0.5,0.2,0.5,0.3,0.3]
+        Q_tensor = tf.constant(-1* np.ones(len(Q)) * Q,dtype=tf.float32) # Q_tensor = [-1,-1,-1,-1,-1,-1,-1]
+        gain = Q_tensor * tf.math.log(prob_out) # shoud this be dot product?
+        gain = tf.reduce_mean(gain)
         return gain
 
     def gain_fn_entropy(self,prob_out=None, Q=None, actions=None):
@@ -137,23 +142,15 @@ class Actor():
             else:
                 probs_out = self.model(states)
                 gain_value = self.gain_fn(prob_out=probs_out, Q=Q_values, actions=actions)
-                max_min_print(probs_out, "probs")
                 print("PROBS", probs_out)
-            # Use the gradient tape to automatically retrieve
-            # the gradients of the trainable variables with respect to the loss.
-
-            # SHOULD WE PUT THE GRADS IN OR OUT OF THE TAPE????
+            
         grads = tape.gradient(gain_value,
                               self.model.trainable_weights)
-        # Run one step of gradient descent by updating
-        # the value of the variables to minimize the loss.
 
         self.optimizer.apply_gradients(
             zip(grads, self.model.trainable_weights))
-        norm_grads = [tf.norm(grad) for grad in grads]
-        max_min_print(norm_grads,"norm grads")
+        # norm_grads = [tf.norm(grad) for grad in grads]
         return grads
-        # self.optimizer.minimize(zgain_value, self.model.trainable_weights, tape=tape)
 
     def update_critic(self, states, actions, Q, values):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
@@ -310,7 +307,7 @@ if __name__ == '__main__':
 
     # game settings
     n_episodes = 200
-    learning_rate = 0.001
+    learning_rate = 0.0001
     rows = 7
     columns = 7
     obs_type = "pixel"  # "vector" or "pixel"
@@ -329,7 +326,7 @@ if __name__ == '__main__':
     # etas = [0.0001, 0.001, 0.01, 0.1]
     etas = [0.1]
     # learning_rates = [0.1, 0.01, 0.001, 0.0001]
-    learning_rates = [0.01]
+    learning_rates = [0.001]
     for learning_rate in learning_rates:
         for eta in etas:
             start = time.time()
