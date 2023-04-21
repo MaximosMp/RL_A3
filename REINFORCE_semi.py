@@ -56,7 +56,7 @@ class Actor():
         self.observation_type = observation_type
         self.boot = boot
         self.n_step = n_step
-        self.critic = critic
+        self.critic = critic # if true, it is a critic network
         self.baseline = baseline
         self.eta = eta
         self.gamma = 0.99
@@ -129,6 +129,7 @@ class Actor():
         gain = tf.tensordot(tf.constant(-1 * np.ones(len(Q)) * Q,dtype=tf.float32),
                             tf.math.log(prob_out), 1)
         gain -= self.eta* tf.tensordot(prob_out, tf.math.log(prob_out),1) # -sum_i ( pi * log(pi) )
+
         return gain
 
     def update_weights(self, states, actions, Q_values, values=None):
@@ -289,7 +290,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
         if actor.boot == 'n_step' and Training:
             # in case V network is updated separately!
-            critic.update_weights(states, actions, rewards, Q_values)
+            critic.update_weights(states, actions, Q_values)
 
         if ep % 10 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
@@ -307,7 +308,7 @@ if __name__ == '__main__':
 
     # game settings
     n_episodes = 200
-    learning_rate = 0.0001
+    learning_rate = 0.001
     rows = 7
     columns = 7
     obs_type = "pixel"  # "vector" or "pixel"
@@ -316,7 +317,7 @@ if __name__ == '__main__':
     seed = None  # if you change this, change also above! (at very beginning)
     n_step = 10
     speed = 1.0
-    boot = "MC"  # "n_step" or "MC"
+    boot = "n_step"  # "n_step" or "MC"
     minibatch = 1
     weights = None
     baseline = False
