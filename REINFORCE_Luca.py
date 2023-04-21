@@ -4,6 +4,7 @@ import tensorflow as tf
 from collections import deque
 from Helper import time_it, print_it
 import time
+import math
 
 '''
     TO DO: 
@@ -17,14 +18,16 @@ import time
             - checkpoints (tensorboard)
 
         possible issues:
-            0: step by step (everything) go through code to see if it does what we want 
             1: check the gradients (are they correct?)
             2: check the states of the environment and if are fed correctly to the model
             3: based on different states you should have different probabilities that favour different actions
     '''
 
+
 ACTION_EFFECTS = (-1, 0, 1)  # left, idle right.
 OBSERVATION_TYPES = ['pixel', 'vector']
+seed = None
+rng = np.random.default_rng(seed=seed)
 
 
 def make_tensor(state, list: bool = False):
@@ -39,21 +42,6 @@ def make_tensor(state, list: bool = False):
 #    print(f"{shout} min", tf.reduce_min(tensor_list).numpy())
  #   return
 
-def show_max_index(tensor: tf.Tensor):
-    array = tensor.numpy()
-    max_index = np.argmax(array, axis=1)
-
-    # Use array indexing to extract the max value and its index along axis=1
-    max_values = array[np.arange(array.shape[0]), max_index]
-
-    # Print the max value and its index for each row
-    prnt = ""
-    for i in range(array.shape[0]):
-        prnt += f"max: {max_values[i]:.3f}, {max_index[i]}, "
-        if i % 9 == 0 and i > 0:
-            prnt += "\n"
-    print(prnt)
-    return
 
 class Actor():
     # @time_it
@@ -81,7 +69,7 @@ class Actor():
         # gradient preparation
         # self.loss_fn = tf.keras.losses.mean_squared_error
         self.optimizer = tf.keras.optimizers.Adam(
-            learning_rate=learning_rate)
+            learning_rate=learning_rate, )
 
         if (observation_type == 'pixel'):
             input_shape = (rows, columns, 2)
@@ -107,10 +95,10 @@ class Actor():
             self.model = tf.keras.models.Model(
                 inputs=input, outputs=[output_actions])
 
-        self.model.summary()
-        if saved_weights and not critic:
+        if saved_weights:
             print('## Working with pre-trained weights ##')
             self.model.load_weights(saved_weights)
+        self.model.summary()
 
     def bootstrap(self, t, rewards, values=None):
         if self.boot == "MC":
@@ -122,18 +110,18 @@ class Actor():
             rewards = rewards[t:lim]
             return self.gamma**np.arange(0, len(rewards)) @ rewards + self.gamma**self.n_step * values[lim-1]
 
-    def gain_fn(self, prob_out, Q, actions):
+    def gain_fn(self, prob_out=None, Q=None, actions=None):
         # if self.boot == 'MC':
         #     return -Q * tf.math.log(prob_out)
         actions = np.where(actions==-1,0, np.where(actions==0,1,2))  # rewrites [-1,0,1,-1,1,0,1] into [0,1,2,0,2,1,2]
         mask = tf.one_hot(actions, 3)  # mask = [[0,1,0],[0,0,1],[1,0,0],[0,1,0],[1,0,0],[0,0,1],[0,0,1]]
         prob_out = tf.reduce_max(mask * prob_out, axis=1) # prob_out = [0.2,0.3,0.5,0.2,0.5,0.3,0.3]
-        Q_tensor = tf.constant(-1 * np.ones(len(Q)) * Q,dtype=tf.float32) # do we need -1? Q values are already mostly negative
+        Q_tensor = tf.constant(-1* np.ones(len(Q)) * Q,dtype=tf.float32) # Q_tensor = [-1,-1,-1,-1,-1,-1,-1]
         gain = Q_tensor * tf.math.log(prob_out) # shoud this be dot product?
         gain = tf.reduce_mean(gain)
         return gain
 
-    def gain_fn_entropy(self,prob_out=None, Q=None, actions=None):  # not yet used
+    def gain_fn_entropy(self,prob_out=None, Q=None, actions=None):
         actions = np.where(actions==-1,0, np.where(actions==0,1,2))  # rewrites [-1,0,1] into [0,1,2]
         mask = tf.one_hot(actions, 3)
         prob_out = tf.reduce_max(mask * prob_out, axis=1)
@@ -153,11 +141,11 @@ class Actor():
                 gain_value = tf.losses.mean_squared_error(Q_values,values)
             else:
                 probs_out = self.model(states)
-                print("MAX PROBS")
-                show_max_index(probs_out)
                 gain_value = self.gain_fn(prob_out=probs_out, Q=Q_values, actions=actions)
-
-        grads = tape.gradient(gain_value, self.model.trainable_weights)
+                print("PROBS", probs_out)
+            
+        grads = tape.gradient(gain_value,
+                              self.model.trainable_weights)
 
         self.optimizer.apply_gradients(
             zip(grads, self.model.trainable_weights))
@@ -219,8 +207,6 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     if boot == "MC":
         baseline = False
 
-    rng = np.random.default_rng(seed=seed)
-
     # IMPLEMENT (TENSORBOARD) CALLBACKS FOR ANALYZATION, long book 315
 
     env = Catch(rows=rows, columns=columns, speed=speed, max_steps=max_steps,
@@ -249,7 +235,6 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             ep_reward = 0
             memory.clear()
             state = actor.reshape_state(env.reset())
-
             # generate full trace
             for T in range(max_steps):
                 action_p = actor.model.predict(state, verbose=0)
@@ -260,7 +245,8 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                 elif actor.boot == "MC":
                     value = None
 
-                action = rng.choice(ACTION_EFFECTS, p=action_p.reshape(3,))
+                action = np.random.choice(
+                    ACTION_EFFECTS, p=action_p.reshape(3,))
 
                 next_state, r, done = env.step(action)
                 next_state = actor.reshape_state(next_state)
@@ -275,6 +261,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                 state = next_state
 
             # trace is finished
+            print(f'{ep}, reward: {ep_reward}')
             all_rewards.append(ep_reward)
 
         # extract data from memory (to do: delete unused variables)
@@ -283,24 +270,16 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                                                                           for experience in memory])
                                                                 for field_index in range(6)]
 
-        Q_values = [actor.bootstrap(t,rewards,values) for t in range(T+1)]
-        print(f"Q_vals: {np.round(Q_values,3)}")
 
-        if Training and ep_reward > -8.:
+        Q_values = [actor.bootstrap(t,rewards,values) for t in range(T+1)]
+
+        if Training:
             if actor.baseline:
                 A_values = [Q_values[i]-values[i] for i in range(T+1)]
                 actor.update_weights(states, actions, A_values)
             else:
                 actor.update_weights(states, actions, Q_values)
 
-            if actor.boot == 'n_step':
-                # in case V network is updated separately!
-                critic.update_weights(states, actions, Q_values)
-        left = np.sum(np.where(actions == -1, 1, 0))
-        idle = np.sum(np.where(actions == 0, 1, 0))
-        right = np.sum(np.where(actions == 1, 1, 0))
-        print(f'actions taken: {left, idle, right}')
-        print(f'{ep}, reward: {ep_reward}')
         # manual grad clipping
         # is_threshold = [tf.norm(grad) < 0.0000001 for grad in grads]
 
@@ -308,25 +287,21 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         #     print("BREAK!")
         #     break
 
+        if actor.boot == 'n_step' and Training:
+            # in case V network is updated separately!
+            critic.update_weights(states, actions, rewards, Q_values)
+
         if ep % 10 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
 
     actor.model.save_weights(f'data/weights/w_{stamp}.h5')
-    actor.model.save_weights(f'data/weights/latest_weights.h5')
     np.save(f'data/rewards/r_{stamp}', all_rewards)
     if seed:
         print(f'ran with seed {seed}!')
     if weights:
         print(f'ran on pre-trained weights')
     return all_rewards
-'''
-interesting sight:
-when training, the probabilities first converge (70% after 200eps) on one action (right), then another 200 eps later on
-left ~60% and then on idle ~80%.  Each of those times the converged action is dominant and all steps taken for a trace are
-exactly in that direction. Usually after that, convergence decreases and the actions during a single traced become mixed.
-This should result in actual learning. -> NO. Finally it converged on 99.9% on action right. 
-Problem: high probability contributes to high gain (even though we use log?)
-'''
+
 
 if __name__ == '__main__':
 
@@ -339,19 +314,19 @@ if __name__ == '__main__':
     max_misses = 10
     max_steps = 250
     seed = None  # if you change this, change also above! (at very beginning)
-    n_step = 3
+    n_step = 10
     speed = 1.0
-    boot = "n_step"  # "n_step" or "MC"
+    boot = "MC"  # "n_step" or "MC"
     minibatch = 1
     weights = None
-    baseline = True
-    # weights = 'data/weights/latest_weights.h5'
+    baseline = False
+    # weights = 'data/weights/w_18_184522.h5'
 
     ### hyperparameters to tune
     # etas = [0.0001, 0.001, 0.01, 0.1]
     etas = [0.1]
     # learning_rates = [0.1, 0.01, 0.001, 0.0001]
-    learning_rates = [0.005]
+    learning_rates = [0.001]
     for learning_rate in learning_rates:
         for eta in etas:
             start = time.time()
