@@ -288,19 +288,19 @@ if __name__ == '__main__':
     max_misses = 10
     max_steps = 250
     seed = None  # if you change this, change also above! (at very beginning)
-    n_step = 8
+    n_step = 5
     speed = 1.0
     boot = "n_step"  # "n_step" or "MC"
     minibatch = 1
     weights = None
-    baseline = False
+    baseline = True
     # weights = 'data/weights/w_18_184522.h5'
 
     ### hyperparameters to tune
     # etas = [0.0001, 0.001, 0.01, 0.1]
     etas = [0.1]
     # learning_rates = [0.1, 0.01, 0.001, 0.0001]
-    learning_rates = [0.001]
+    learning_rates = [0.01]
     for learning_rate in learning_rates:
         for eta in etas:
             start = time.time()
