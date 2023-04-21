@@ -55,3 +55,6 @@ Stamp: 19_171005 ... Episodes: 200, Learning: 0.001, Seed: 42, Eta: 0.0001, Avg 
 
 
 Stamp: 20_120005 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.345
+
+
+Stamp: 21_095821 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -6.695
