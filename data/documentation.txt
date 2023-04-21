@@ -54,7 +54,28 @@ Stamp: 19_155040 ... Episodes: 150, Learning: 0.001, Seed: None, Avg reward: {np
 Stamp: 19_171005 ... Episodes: 200, Learning: 0.001, Seed: 42, Eta: 0.0001, Avg reward: -8.28
 
 
+<<<<<<< HEAD
 Stamp: 20_120005 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.345
 
 
 Stamp: 21_095821 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -6.695
+=======
+Stamp: 20_114804 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.385
+
+
+Stamp: 20_120711 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.3
+
+
+Stamp: 20_122516 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.125
+
+
+Stamp: 20_124745 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.34
+
+
+Stamp: 20_130559 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.235
+
+
+Stamp: 20_132550 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.22
+### converged on 99.9%
+
+>>>>>>> c61122fa2a441424dda05d6ec91860da7e9d3148
