@@ -31,8 +31,6 @@ import time
 
 ACTION_EFFECTS = (-1, 0, 1)  # left, idle right.
 OBSERVATION_TYPES = ['pixel', 'vector']
-seed = None
-rng = np.random.default_rng(seed=seed)
 
 
 def make_tensor(state, list: bool = False):
@@ -143,7 +141,6 @@ class Actor():
             else:
                 probs_out = self.model(states)
                 gain_value = self.gain_fn(prob_out=probs_out, Q=Q_values, actions=actions)
-                print("PROBS", probs_out[-10:])
             
         grads = tape.gradient(gain_value,
                               self.model.trainable_weights)
@@ -172,8 +169,11 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
               obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None, 
               n_step: int = 5, speed: float = 1.0, boot: str = "MC", weights: str = None, 
               minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False):
+
     if boot == "MC":
         baseline = False
+
+    rng = np.random.default_rng(seed=seed)
 
     # IMPLEMENT (TENSORBOARD) CALLBACKS FOR ANALYZATION, long book 315
 
@@ -213,7 +213,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                 elif actor.boot == "MC":
                     value = None
 
-                action = np.random.choice(
+                action = rng.choice(
                     ACTION_EFFECTS, p=action_p.reshape(3,))
 
                 next_state, r, done = env.step(action)
@@ -245,7 +245,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         left = np.sum(np.where(actions==-1,1,0))
         idle = np.sum(np.where(actions==0,1,0))
         right = np.sum(np.where(actions==1,1,0))
-        # print(f"left {left}, idle {idle}, right {right}")
+        print(f"left {left}, idle {idle}, right {right}")
         if actor.boot == 'n_step':
             # in case V network is updated separately!
             critic.update_weights(states, actions, Q_values)
@@ -270,40 +270,31 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 if __name__ == '__main__':
 
     # game settings
-    n_episodes = 500
+    n_episodes = 350
     learning_rate = 0.01
     rows = 7
     columns = 7
-    obs_type = "vector"  # "vector" or "pixel"
+    obs_type = "pixel"  # "vector" or "pixel"
     max_misses = 10
     max_steps = 250
-    seed = None  # if you change this, change also above! (at very beginning)
+    seed = 26  # if you change this, change also above! (at very beginning)
     n_step = 5
     speed = 1.0
     boot = "n_step"  # "n_step" or "MC"
     minibatch = 1
     weights = None
     baseline = True
-    eta = 0.01
+    eta = 0.
     # weights = 'data/weights/w_18_184522.h5'
 
-    ### hyperparameters to tune
-    #etas = [0.01]
-    #learning_rates = [0.01]
-
-
-    for i in range(5):
-            
-            start = time.time()
-            stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
-            
-            rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
-                                max_misses, max_steps, seed, n_step, speed, boot, 
-                                weights, minibatch, eta, stamp, baseline)
-            
-            with open("data/documentation.txt", 'a') as f:
-                # export comand line output for later investigation
-                f.write(
-                    f'\n\nStamp: {stamp} ... Episodes: {n_episodes}, Learning: {learning_rate}, Seed: {seed}, '
-                    + f'Eta: {eta}, Avg reward: {np.mean(rewards)} \n')
-                
+    start = time.time()
+    stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
+    
+    rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
+                        max_misses, max_steps, seed, n_step, speed, boot, 
+                        weights, minibatch, eta, stamp, baseline)
+    
+    with open("data/documentation.txt", 'a') as f:
+        # export comand line output for later investigation
+        f.write(
+            f'\n\nStamp: {stamp} ... Episodes: {n_episodes}, obs: {obs_type}, Avg reward: {np.mean(rewards)} \n')
