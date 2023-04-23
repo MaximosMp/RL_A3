@@ -256,32 +256,22 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             actor.update_weights(states, actions, Q_values)
 
 
-        # manual grad clipping
-        # is_threshold = [tf.norm(grad) < 0.0000001 for grad in grads]
-
-        # if (True in is_threshold):
-        #     print("BREAK!")
-        #     break
-
-
-        if ep % 10 == 0 and ep > 0:
+        if ep % 20 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
 
-    actor.model.save_weights(f'data/weights/w_{stamp}.h5')
-    actor.model.save_weights(f'data/weights/latest_weights.h5')
+    actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
+    critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
+    # actor.model.save_weights(f'data/weights/latest_weights.h5')
     np.save(f'data/rewards/r_{stamp}', all_rewards)
-    if seed:
-        print(f'ran with seed {seed}!')
-    if weights:
-        print(f'ran on pre-trained weights')
+
     return all_rewards
 
 
 if __name__ == '__main__':
 
     # game settings
-    n_episodes = 700
-    #learning_rate = 0.001
+    n_episodes = 500
+    learning_rate = 0.01
     rows = 7
     columns = 7
     obs_type = "vector"  # "vector" or "pixel"
@@ -294,32 +284,26 @@ if __name__ == '__main__':
     minibatch = 1
     weights = None
     baseline = True
+    eta = 0.01
     # weights = 'data/weights/w_18_184522.h5'
 
     ### hyperparameters to tune
-    etas = [0.1, 0.01, 0.001]
-    learning_rates = [0.01, 0.001, 0.0001]
+    #etas = [0.01]
+    #learning_rates = [0.01]
 
 
-    best_reward = -1000
-    for learning_rate in learning_rates:
-        for eta in etas:
+    for i in range(5):
+            
             start = time.time()
             stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
+            
             rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                 max_misses, max_steps, seed, n_step, speed, boot, 
                                 weights, minibatch, eta, stamp, baseline)
             
-            if np.mean(rewards) > best_reward:
-                best_reward = np.mean(rewards)
-                best_learning_rate = learning_rate
-                best_eta = eta
-
-
             with open("data/documentation.txt", 'a') as f:
                 # export comand line output for later investigation
                 f.write(
                     f'\n\nStamp: {stamp} ... Episodes: {n_episodes}, Learning: {learning_rate}, Seed: {seed}, '
                     + f'Eta: {eta}, Avg reward: {np.mean(rewards)} \n')
                 
-    print(f'Best reward: {best_reward}, best learning rate: {best_learning_rate}, best eta: {best_eta}')
