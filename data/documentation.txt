@@ -79,3 +79,128 @@ Stamp: 20_132550 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg r
 ### converged on 99.9%
 
 >>>>>>> c61122fa2a441424dda05d6ec91860da7e9d3148
+
+Stamp: 21_175739 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -1.2525 
+learned to only go left or idle!
+
+Stamp: 21_193611 ... Episodes: 600, Learning: 0.01, Seed: 28, Eta: 0.01, Avg reward: -8.381666666666666, obs: pixel
+
+
+Stamp: 22_033816 ... Episodes: 500, Learning: 0.05, Seed: 31, Eta: 0.01, Avg reward: -8.234, obs: vector
+
+stamp: 22_120000 ... Episodes: 500 crashed after 450, super high performance, learning after 50eps but seed unknown (vector)
+
+
+
+Stamp: 22_154425 ... Episodes: 200, Learning: 0.01, Seed: 41, Eta: 0.01, Avg reward: -8.335, obs: vector
+
+
+Stamp: 22_161336 ... Episodes: 200, Learning: 0.01, Seed: 1, Eta: 0.01, Avg reward: -8.09, obs: vector
+
+
+Stamp: 22_164720 ... Episodes: 100, Learning: 0.01, Seed: 39, Eta: 0.01, Avg reward: -8.02, obs: vector
+
+
+Stamp: 22_170221 ... Episodes: 100, Learning: 0.01, Seed: 4, Eta: 0.01, Avg reward: -8.19, obs: vector
+
+
+Stamp: 22_171720 ... Episodes: 100, Learning: 0.01, Seed: 40, Eta: 0.01, Avg reward: -8.46, obs: vector
+
+
+Stamp: 22_173204 ... Episodes: 100, Learning: 0.01, Seed: 19, Eta: 0.01, Avg reward: -8.14, obs: vector
+
+
+Stamp: 22_174729 ... Episodes: 100, Learning: 0.01, Seed: 10, Eta: 0.01, Avg reward: -8.33, obs: vector
+
+
+Stamp: 22_184752 ... Episodes: 200, Learning: 0.01, Seed: 11, Eta: 0.1, Avg reward: -8.355, obs: vector
+
+
+Stamp: 22_191655 ... Episodes: 200, Learning: 0.01, Seed: 12, Eta: 0.1, Avg reward: -8.33, obs: vector
+
+
+Stamp: 22_194625 ... Episodes: 200, Learning: 0.01, Seed: 13, Eta: 0.1, Avg reward: -4.05, obs: vector
+
+
+Stamp: 22_202833 ... Episodes: 200, Learning: 0.01, Seed: 14, Eta: 0.1, Avg reward: -8.32, obs: vector
+
+
+Stamp: 22_212347 ... Episodes: 200, Learning: 0.01, Seed: 15, Eta: 0.1, Avg reward: -0.915, obs: vector
+
+
+Stamp: 23_074327 ... Episodes: 200, Learning: 0.01, Seed: 16, Eta: 0.1, Avg reward: -8.44, obs: vector
+
+
+Stamp: 23_081206 ... Episodes: 200, Learning: 0.01, Seed: 18, Eta: 0.1, Avg reward: -6.205, obs: vector
+
+
+Stamp: 23_085005 ... Episodes: 200, Learning: 0.01, Seed: 20, Eta: 0.1, Avg reward: -8.205, obs: vector
+
+
+Stamp: 23_092140 ... Episodes: 200, Learning: 0.01, Seed: 22, Eta: 0.1, Avg reward: -8.25, obs: vector
+
+
+Stamp: 23_121036 ... Episodes: 200, Learning: 0.01, Seed: 26, Eta: 0.1, Avg reward: -0.26, obs: vector
+
+## maximos hyperopt
+
+
+
+Stamp: 21_205207 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.234285714285715 
+
+
+Stamp: 21_224331 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.345714285714285 
+
+
+Stamp: 21_205312 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: 7.757142857142857 
+
+
+Stamp: 22_002411 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.371428571428572 
+
+
+Stamp: 22_015841 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.417142857142856 
+
+
+Stamp: 22_021350 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: 4.671428571428572 
+
+
+Stamp: 22_042033 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.271428571428572 
+
+
+Stamp: 22_054051 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -8.368571428571428 
+
+
+Stamp: 22_063949 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -8.354285714285714 
+
+
+Stamp: 22_072616 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -5.034285714285715 
+
+
+Stamp: 22_083833 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -8.34 
+
+
+Stamp: 22_101711 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -6.637142857142857 
+
+
+Stamp: 22_094037 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.001, Avg reward: 19.957142857142856 
+
+
+Stamp: 22_140345 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.001, Avg reward: 0.4857142857142857 
+
+
+Stamp: 22_163358 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.001, Avg reward: -8.297142857142857 
+
+
+Stamp: 22_180822 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.254285714285714 
+
+
+Stamp: 22_194411 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.22 
+
+
+Stamp: 22_211909 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -6.042857142857143 
+
+
+Stamp: 22_231129 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.01, Avg reward: -8.445714285714285 
+
+
+Stamp: 23_004433 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.01, Avg reward: -2.802857142857143 

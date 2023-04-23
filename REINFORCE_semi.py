@@ -261,7 +261,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
     actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
     critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
-    # actor.model.save_weights(f'data/weights/latest_weights.h5')
+    actor.model.save_weights(f'data/weights/latest_weights.h5')
     np.save(f'data/rewards/r_{stamp}', all_rewards)
 
     return all_rewards
