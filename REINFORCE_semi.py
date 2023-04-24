@@ -175,7 +175,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
               obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None, 
               n_step: int = 5, speed: float = 1.0, boot: str = "MC", P_weights: str = None, V_weights: str = None,
               minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False):
-
+    reinforce.info = "Auskunft"
     if boot == "MC":
         baseline = False
 
@@ -267,8 +267,8 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             np.save(f'data/rewards/tmp_reward', all_rewards)
 
     actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
-    critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
-    actor.model.save_weights(f'data/weights/latest_weights.h5')
+    if boot == "n_step":
+        critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
     np.save(f'data/rewards/r_{stamp}', all_rewards)
 
     return all_rewards
@@ -276,7 +276,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 200
+    n_episodes = 1
     learning_rate = 0.01
     rows = 7
     columns = 7
@@ -286,7 +286,7 @@ if __name__ == '__main__':
     seed = 13  # 13, 18 also good
     n_step = 5
     speed = 1.0
-    boot = "MC"  # "n_step" or "MC"
+    boot = "n_step"  # "n_step" or "MC"
     minibatch = 1
     P_weights = None
     V_weights = None
