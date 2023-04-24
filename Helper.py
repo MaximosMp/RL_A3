@@ -3,6 +3,10 @@ import time
 import matplotlib.pyplot as plt
 from scipy.signal import savgol_filter
 
+class Bandit():
+    def __init__(self):
+        self.string = ""
+
 def time_it(func):
         """
         Decorator function to time the runtime of other functions
@@ -35,6 +39,22 @@ def print_it(func):
             print(f"{func.__name__} returns", result)
             return result
         return wrapper
+
+def save_params(func):
+    """
+    Decorator function to save the parameters of other functions
+    
+    Parameters:
+        func (function): The function to decorate
+    """
+    def wrapper(*args, **kwargs):
+        params_str = "Parameters: "
+        params_str += ", ".join([str(arg) for arg in args])
+        params_str += ", ".join([f"{key}={value}" for key, value in kwargs.items()])
+        wrapper.params = params_str
+        return func(*args, **kwargs)
+    wrapper.params = ""
+    return wrapper
 
 def smooth(y, window, poly=1):
     '''

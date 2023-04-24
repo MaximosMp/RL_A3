@@ -54,12 +54,6 @@ Stamp: 19_155040 ... Episodes: 150, Learning: 0.001, Seed: None, Avg reward: {np
 Stamp: 19_171005 ... Episodes: 200, Learning: 0.001, Seed: 42, Eta: 0.0001, Avg reward: -8.28
 
 
-<<<<<<< HEAD
-Stamp: 20_120005 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.345
-
-
-Stamp: 21_095821 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -6.695
-=======
 Stamp: 20_114804 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.385
 
 
@@ -78,7 +72,6 @@ Stamp: 20_130559 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg r
 Stamp: 20_132550 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.22
 ### converged on 99.9%
 
->>>>>>> c61122fa2a441424dda05d6ec91860da7e9d3148
 
 Stamp: 21_175739 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -1.2525 
 learned to only go left or idle!
@@ -214,8 +207,6 @@ Stamp: 24_090946 ... Episodes: 350, obs: vector, Avg reward: -3.23, seed 13, goi
 Stamp: 24_113647 ... Episodes: 350, obs: vector, Avg reward: -8.37
 64 x 64 network
 
-next is 64x32 network
-
 
 Stamp: 24_123250 ... Episodes: 350, obs: vector, Avg reward: -1.1171428571428572 
 
@@ -282,6 +273,8 @@ Stamp: 22_231129 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.01, Avg 
 
 Stamp: 23_004433 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.01, Avg reward: -2.802857142857143 
 
+## end learning rate opt
+
 
 Stamp: 23_131422 ... Episodes: 400, Learning: 0.1, Seed: None, Eta: 0.01, Avg reward: -8.125 
 
@@ -294,3 +287,23 @@ Stamp: 23_203642 ... Episodes: 400, Learning: 0.001, Seed: None, Eta: 0.01, Avg 
 
 Stamp: 23_225132 ... Episodes: 400, Learning: 0.0001, Seed: None, Eta: 0.01, Avg reward: -8.235 
 
+
+
+Stamp: 24_152111 ... Episodes: 100, obs: vector, Avg reward: -8.15 
+
+
+
+Stamp: 24_162848 ... Episodes: 400, obs: pixel, Avg reward: 15.695 
+64x32 pixel
+
+
+
+
+
+Stamp: 24_200502 ... Episodes: 1, obs: pixel, Avg reward: -7.0 
+
+
+ 13 ... params: Parameters: 1, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0, 24_202208, True, Avg reward: -7.0 
+
+
+ 24_203021 ... params: Parameters: 1, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0, 24_203021, True, Avg reward: -10.0

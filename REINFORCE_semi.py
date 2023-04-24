@@ -2,8 +2,10 @@ import numpy as np
 from catch import Catch
 import tensorflow as tf
 from collections import deque
-from Helper import time_it, print_it
+from Helper import time_it, print_it, save_params
 import time
+from keras.utils.vis_utils import plot_model
+
 
 '''
     TO DO: 
@@ -41,9 +43,10 @@ def make_tensor(state, list: bool = False):
     return tf.expand_dims(s_tensor, 0)
 
 
+
 class Actor():
     # @time_it
-    def __init__(self, learning_rate: float = 0.0001, arch: int = 1, observation_type: str = "pixel",
+    def __init__(self, learning_rate: float = 0.01, arch: int = 1, observation_type: str = "pixel",
                  rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
                  seed=None, critic: bool = False, eta: float = 0.01, baseline: bool = False):
         self.seed = seed
@@ -75,8 +78,9 @@ class Actor():
             input_shape = (3,)
         if arch == 1:
             input = tf.keras.layers.Input(shape=input_shape)
+            flatten = tf.keras.layers.Flatten()(input)
             dense = tf.keras.layers.Dense(
-                64, activation=activ_func, kernel_initializer=init)(input)
+                64, activation=activ_func, kernel_initializer=init)(flatten)
             batchNorm = tf.keras.layers.BatchNormalization()(dense)
             dense = tf.keras.layers.Dense(
                 32, activation=activ_func, kernel_initializer=init)(batchNorm)
@@ -97,6 +101,7 @@ class Actor():
             print('## Working with pre-trained weights ##')
             self.model.load_weights(saved_weights)
         self.model.summary()
+        # plot_model(self.model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
 
     def bootstrap(self, t, rewards, values=None):
         if self.boot == "MC":
@@ -140,7 +145,7 @@ class Actor():
                 gain_value = tf.losses.mean_squared_error(Q_values,values)
             else:
                 probs_out = self.model(states)
-                gain_value = self.gain_fn(prob_out=probs_out, Q=Q_values, actions=actions)
+                gain_value = self.gain_fn_entropy(prob_out=probs_out, Q=Q_values, actions=actions)
             
         grads = tape.gradient(gain_value,
                               self.model.trainable_weights)
@@ -164,6 +169,7 @@ class Actor():
             return state.reshape(3)
 
 
+@save_params
 @time_it
 def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7, columns: int = 7, 
               obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None, 
@@ -220,6 +226,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                 count += 1
                 next_state = actor.reshape_state(next_state)
                 ep_reward += r
+                # env.render(0.2)
 
                 # take out the extra "1" dimensions
                 memory.append((tf.squeeze(state),
@@ -269,24 +276,24 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 100
+    n_episodes = 200
     learning_rate = 0.01
     rows = 7
     columns = 7
-    obs_type = "vector"  # "vector" or "pixel" --> maybe pixel needs deeper net?
+    obs_type = "pixel"  # "vector" or "pixel" --> maybe pixel needs deeper net?
     max_misses = 10
     max_steps = 250
     seed = 13  # 13, 18 also good
     n_step = 5
     speed = 1.0
-    boot = "n_step"  # "n_step" or "MC"
+    boot = "MC"  # "n_step" or "MC"
     minibatch = 1
     P_weights = None
     V_weights = None
-    baseline = True
+    baseline = False
     eta = 0.
-    P_weights = 'data/weights/w_P_24_123250.h5'
-    V_weights = 'data/weights/w_V_24_123250.h5'
+    # P_weights = 'data/weights/w_P_24_162848.h5'
+    # V_weights = 'data/weights/w_V_24_162848.h5'
 
     start = time.time()
     stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
@@ -296,6 +303,4 @@ if __name__ == '__main__':
                         P_weights, V_weights, minibatch, eta, stamp, baseline)
 
     with open("data/documentation.txt", 'a') as f:
-        # export comand line output for later investigation
-        f.write(
-            f'\n\nStamp: {stamp} ... Episodes: {n_episodes}, obs: {obs_type}, Avg reward: {np.mean(rewards)} \n')
+        f.write(f'\n\n {stamp} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')

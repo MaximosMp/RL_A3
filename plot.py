@@ -32,9 +32,9 @@ if __name__ == "__main__":
         print(f"Average performance {args[j]}: {avg}")
         # if "mean" in args:
         #     reward = np.mean(reward,axis=0)
-        # plt.title(titles[j])
-        # plt.plot(reward,alpha=0.2,color=colors[j],label=f"Raw data {j}")
-        plt.plot(savgol_filter(reward,30,polyorder=1),color=colors[j],label=f"Convolution {j}")  # end always goes down due to conv
+        plt.title(titles[j])
+        plt.plot(reward,alpha=0.2,color=colors[j],label=f"Raw data {j}")
+        plt.plot(savgol_filter(reward,10,polyorder=1),color=colors[j],label=f"Convolution {j}")  # end always goes down due to conv
         plt.axhline(avg, color=colors[j],linewidth=1,label= "Average", linestyle="--")
 
     plt.xlabel("Episodes")
