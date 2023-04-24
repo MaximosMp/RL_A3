@@ -76,12 +76,12 @@ class Actor():
         if arch == 1:
             input = tf.keras.layers.Input(shape=input_shape)
             dense = tf.keras.layers.Dense(
-                32, activation=activ_func, kernel_initializer=init)(input)
+                64, activation=activ_func, kernel_initializer=init)(input)
             batchNorm = tf.keras.layers.BatchNormalization()(dense)
             dense = tf.keras.layers.Dense(
                 32, activation=activ_func, kernel_initializer=init)(batchNorm)
             dropout = tf.keras.layers.Dropout(0.2)(dense)
-            dense = tf.keras.layers.Flatten()(dropout)
+            dense = tf.keras.layers.Flatten()(dropout)  # why do we need to flatten?
 
         if critic:
             output_value = tf.keras.layers.Dense(1, activation='linear')(dense)
@@ -167,7 +167,7 @@ class Actor():
 @time_it
 def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7, columns: int = 7, 
               obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None, 
-              n_step: int = 5, speed: float = 1.0, boot: str = "MC", weights: str = None, 
+              n_step: int = 5, speed: float = 1.0, boot: str = "MC", P_weights: str = None, V_weights: str = None,
               minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False):
 
     if boot == "MC":
@@ -187,12 +187,12 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
     all_rewards = []
     actor = Actor(learning_rate, boot=boot, n_step=n_step,
-                  observation_type=obs_type, saved_weights=weights, 
+                  observation_type=obs_type, saved_weights=P_weights, 
                   seed=seed, eta=eta, baseline=baseline)
 
     if boot == 'n_step':
         critic = Actor(learning_rate, boot=boot, n_step=n_step,
-                       observation_type=obs_type, saved_weights=weights, seed=seed, 
+                       observation_type=obs_type, saved_weights=V_weights, seed=seed, 
                        critic=True, eta=eta)
     memory = deque(maxlen=max_steps)
     count = 0
@@ -268,32 +268,33 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 
 if __name__ == '__main__':
-
     # game settings
-    n_episodes = 350
+    n_episodes = 100
     learning_rate = 0.01
     rows = 7
     columns = 7
-    obs_type = "pixel"  # "vector" or "pixel"
+    obs_type = "vector"  # "vector" or "pixel" --> maybe pixel needs deeper net?
     max_misses = 10
     max_steps = 250
-    seed = 26  # if you change this, change also above! (at very beginning)
+    seed = 13  # 13, 18 also good
     n_step = 5
     speed = 1.0
     boot = "n_step"  # "n_step" or "MC"
     minibatch = 1
-    weights = None
+    P_weights = None
+    V_weights = None
     baseline = True
     eta = 0.
-    # weights = 'data/weights/w_18_184522.h5'
+    P_weights = 'data/weights/w_P_24_123250.h5'
+    V_weights = 'data/weights/w_V_24_123250.h5'
 
     start = time.time()
     stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
-    
+
     rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                         max_misses, max_steps, seed, n_step, speed, boot, 
-                        weights, minibatch, eta, stamp, baseline)
-    
+                        P_weights, V_weights, minibatch, eta, stamp, baseline)
+
     with open("data/documentation.txt", 'a') as f:
         # export comand line output for later investigation
         f.write(
