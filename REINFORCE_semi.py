@@ -132,7 +132,6 @@ class Actor():
         gain = tf.tensordot(tf.constant(-1 * np.ones(len(Q)) * Q,dtype=tf.float32),
                             tf.math.log(prob_out), 1)
         gain -= self.eta* tf.tensordot(prob_out, tf.math.log(prob_out),1) # -sum_i ( pi * log(pi) )
-
         return gain
 
     def update_weights(self, states, actions, Q_values, values=None):
@@ -175,9 +174,9 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
               obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None, 
               n_step: int = 5, speed: float = 1.0, boot: str = "MC", P_weights: str = None, V_weights: str = None,
               minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False):
-    reinforce.info = "Auskunft"
     if boot == "MC":
         baseline = False
+        n_step = max_steps
 
     rng = np.random.default_rng(seed=seed)
 
@@ -186,10 +185,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     env = Catch(rows=rows, columns=columns, speed=speed, max_steps=max_steps,
                 max_misses=max_misses, observation_type=obs_type, seed=None)
 
-    # NON-training average is around -8.4. So we are only learning when we're significantly higher (let's say < -7.0)
-
-    if boot == "MC":
-        n_step = max_steps
+    # NON-training average is around -8.4. So we are only learning when we're significantly higher (let's say < -7.0)        
 
     all_rewards = []
     actor = Actor(learning_rate, boot=boot, n_step=n_step,
@@ -276,11 +272,11 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 1
+    n_episodes = 400
     learning_rate = 0.01
     rows = 7
     columns = 7
-    obs_type = "pixel"  # "vector" or "pixel" --> maybe pixel needs deeper net?
+    obs_type = "vector"  # "vector" or "pixel" --> maybe pixel needs deeper net?
     max_misses = 10
     max_steps = 250
     seed = 13  # 13, 18 also good
@@ -290,8 +286,8 @@ if __name__ == '__main__':
     minibatch = 1
     P_weights = None
     V_weights = None
-    baseline = False
-    eta = 0.
+    baseline = True
+    eta = 0.01
     # P_weights = 'data/weights/w_P_24_162848.h5'
     # V_weights = 'data/weights/w_V_24_162848.h5'
 

@@ -307,3 +307,6 @@ Stamp: 24_200502 ... Episodes: 1, obs: pixel, Avg reward: -7.0
 
 
  24_203021 ... params: Parameters: 1, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0, 24_203021, True, Avg reward: -10.0
+
+
+ 25_075235 ... params: Parameters: 400, 0.01, 7, 7, vector, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.01, 25_075235, True, Avg reward: -7.25 
