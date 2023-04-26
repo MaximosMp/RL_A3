@@ -262,21 +262,23 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         if ep % 20 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
 
+        if ep > 50 and np.mean(all_rewards[-30:]) > 15.:
+            break
+
     actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
     if boot == "n_step":
         critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
     np.save(f'data/rewards/r_{stamp}', all_rewards)
-
     return all_rewards
 
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 400
+    n_episodes = 300
     learning_rate = 0.01
     rows = 7
     columns = 7
-    obs_type = "vector"  # "vector" or "pixel" --> maybe pixel needs deeper net?
+    obs_type = "pixel"  # "vector" or "pixel" --> maybe pixel needs deeper net?
     max_misses = 10
     max_steps = 250
     seed = 13  # 13, 18 also good
