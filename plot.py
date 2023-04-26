@@ -26,10 +26,10 @@ if __name__ == "__main__":
     
     colors = ['tab:blue','tab:orange','tab:green','tab:red','k','magenta','cyan']
     for j, reward in enumerate(rewards):
-        avg = round(np.mean(reward),3)
+        avg = np.mean(reward)
         median = np.median(reward)
     
-        print(f"Average performance {args[j]}: {avg}")
+        print(f"Average performance {args[j]}: {avg:.3f} after {len(reward)} episodes. Avg last 50: {np.mean(reward[-50:]):.3f}\n")
         # if "mean" in args:
         #     reward = np.mean(reward,axis=0)
         plt.title(titles[j])

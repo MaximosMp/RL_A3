@@ -132,6 +132,8 @@ class Actor():
         gain = tf.tensordot(tf.constant(-1 * np.ones(len(Q)) * Q,dtype=tf.float32),
                             tf.math.log(prob_out), 1)
         gain -= self.eta* tf.tensordot(prob_out, tf.math.log(prob_out),1) # -sum_i ( pi * log(pi) )
+        """why doesnt anything change when self.eta is a list???"""
+
         return gain
 
     def update_weights(self, states, actions, Q_values, values=None):
@@ -289,16 +291,16 @@ if __name__ == '__main__':
     P_weights = None
     V_weights = None
     baseline = True
-    eta = 0.01
-    # P_weights = 'data/weights/w_P_24_162848.h5'
-    # V_weights = 'data/weights/w_V_24_162848.h5'
+    eta = [0.1,0.01,0.001,0.0005,0.0001]
+    # P_weights = 'data/weights/w_P_26_140900.h5'
+    # V_weights = 'data/weights/w_V_26_140900.h5'
 
     start = time.time()
     stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
 
     rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                         max_misses, max_steps, seed, n_step, speed, boot, 
-                        P_weights, V_weights, minibatch, eta, stamp, baseline)
+                        P_weights, V_weights, minibatch, eta[1], stamp, baseline)
 
     with open("data/documentation.txt", 'a') as f:
         f.write(f'\n\n {stamp} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')

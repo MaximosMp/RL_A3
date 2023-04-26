@@ -310,3 +310,20 @@ Stamp: 24_200502 ... Episodes: 1, obs: pixel, Avg reward: -7.0
 
 
  25_075235 ... params: Parameters: 400, 0.01, 7, 7, vector, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.01, 25_075235, True, Avg reward: -7.25 
+
+
+ 26_140900 ... params: Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, [0.1, 0.01, 0.001], 26_140900, True, Avg reward: -8.145714285714286 
+--> we could continue learning here and it would improve (see end of plot). why can we give eta as a list???
+
+
+
+
+ 26_151751 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.001, 26_151751, True, Avg reward: -2.25 
+
+eta 0.01 war shit, nur nach links
+
+
+ 26_171012 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 26_171012, True, Avg reward: -1.9921875 
+
+
+ 26_175224 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0001, 26_175224, True, Avg reward: -0.6606060606060606 
