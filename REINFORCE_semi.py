@@ -82,18 +82,18 @@ class Actor():
             dense = tf.keras.layers.Dense(
                 64, activation=activ_func, kernel_initializer=init)(flatten)
             batchNorm = tf.keras.layers.BatchNormalization()(dense)
-            dense = tf.keras.layers.Dense(
+            dense2 = tf.keras.layers.Dense(
                 32, activation=activ_func, kernel_initializer=init)(batchNorm)
-            dropout = tf.keras.layers.Dropout(0.2)(dense)
-            dense = tf.keras.layers.Flatten()(dropout)  # why do we need to flatten?
+            dense3 = tf.keras.layers.Dropout(0.2)(dense2)
+            # dense3 = tf.keras.layers.Flatten()(dropout)
 
         if critic:
-            output_value = tf.keras.layers.Dense(1, activation='linear')(dense)
+            output_value = tf.keras.layers.Dense(1, activation='linear')(dense3)
             self.model = tf.keras.models.Model(
                 inputs=input, outputs=[output_value])
         else:
             output_actions = tf.keras.layers.Dense(
-                3, activation='softmax')(dense)
+                3, activation='softmax')(dense3)
             self.model = tf.keras.models.Model(
                 inputs=input, outputs=[output_actions])
 
@@ -264,9 +264,6 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         if ep % 20 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
 
-        if ep > 50 and np.mean(all_rewards[-30:]) > 15.:
-            break
-
     actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
     if boot == "n_step":
         critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
@@ -291,7 +288,7 @@ if __name__ == '__main__':
     P_weights = None
     V_weights = None
     baseline = True
-    eta = [0.1,0.01,0.001,0.0005,0.0001]
+    eta = 0.0005
     # P_weights = 'data/weights/w_P_26_140900.h5'
     # V_weights = 'data/weights/w_V_26_140900.h5'
 
@@ -300,7 +297,7 @@ if __name__ == '__main__':
 
     rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                         max_misses, max_steps, seed, n_step, speed, boot, 
-                        P_weights, V_weights, minibatch, eta[1], stamp, baseline)
+                        P_weights, V_weights, minibatch, eta, stamp, baseline)
 
     with open("data/documentation.txt", 'a') as f:
         f.write(f'\n\n {stamp} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')

@@ -327,3 +327,42 @@ eta 0.01 war shit, nur nach links
 
 
  26_175224 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0001, 26_175224, True, Avg reward: -0.6606060606060606 
+
+
+ 27_182504, Exp0,0 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 27_182504, False, Avg reward: -8.263333333333334 
+
+
+ 27_184923, Exp0,1 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 27_184923, False, Avg reward: -8.336666666666666 
+
+
+ 27_191045, Exp0,2 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 27_191045, False, Avg reward: -8.476666666666667 
+
+
+ 27_193144, Exp0,3 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 27_193144, False, Avg reward: -8.216666666666667 
+
+
+ 27_195244, Exp0,4 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 27_195244, False, Avg reward: -8.22 
+
+
+ 27_201503, Exp1,0 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 27_201503, False, Avg reward: -8.186666666666667 
+
+
+ 27_205749, Exp1,1 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 27_205749, False, Avg reward: -8.333333333333334 
+
+
+ 27_220351, Exp2,0 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 27_220351, True, Avg reward: -1.0933333333333333 
+
+
+ 27_230853, Exp2,1 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 27_230853, True, Avg reward: 0.0033333333333333335 
+
+
+ 28_002357, Exp2,2 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_002357, True, Avg reward: -2.73 
+
+
+ 28_013246, Exp2,3 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_013246, True, Avg reward: -2.7466666666666666 
+
+
+ 28_065433, Exp2,4 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_065433, True, Avg reward: -3.683333333333333 
+
+
+ 28_075635, Exp1,2 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_075635, False, Avg reward: -8.323333333333334 

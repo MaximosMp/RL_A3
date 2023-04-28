@@ -17,7 +17,7 @@ speed = 1.0
 minibatch = 1
 P_weights = None
 V_weights = None
-eta = 0.01
+eta = 0.0005
 seed = 13
 obs_type = 'pixel'
 
@@ -31,7 +31,9 @@ i = int(args[0])  # we could also write a very short shell file that only takes 
 
 # or just change it back to the way it was
 # for i in [0,1,2]:
-for j in range(1):
+for j in range(5):
+    if i != 1 or j < 3:
+          continue
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
     print(f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
 
@@ -41,4 +43,4 @@ for j in range(1):
 
     with open("data/documentation.txt", 'a') as f:
             f.write(
-                f'\n\n {stamp} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
+                f'\n\n {stamp}, Exp{i},{j} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
