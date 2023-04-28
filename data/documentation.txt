@@ -366,3 +366,6 @@ eta 0.01 war shit, nur nach links
 
 
  28_075635, Exp1,2 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_075635, False, Avg reward: -8.323333333333334 
+
+
+ 28_102557 ... params: Parameters: 200, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_102557, True, Avg reward: -8.05 

@@ -133,13 +133,12 @@ class Actor():
                             tf.math.log(prob_out), 1)
         gain -= self.eta* tf.tensordot(prob_out, tf.math.log(prob_out),1) # -sum_i ( pi * log(pi) )
         """why doesnt anything change when self.eta is a list???"""
-
         return gain
 
     def update_weights(self, states, actions, Q_values, values=None):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
         states = tf.convert_to_tensor(states)
-        
+
         with tf.GradientTape() as tape:
             if self.critic:
                 values = self.model(states)
@@ -147,7 +146,7 @@ class Actor():
             else:
                 probs_out = self.model(states)
                 gain_value = self.gain_fn_entropy(prob_out=probs_out, Q=Q_values, actions=actions)
-            
+
         grads = tape.gradient(gain_value,
                               self.model.trainable_weights)
 
@@ -194,7 +193,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                   observation_type=obs_type, saved_weights=P_weights, 
                   seed=seed, eta=eta, baseline=baseline)
 
-    if boot == 'n_step':
+    if boot == 'n_step' or baseline:
         critic = Actor(learning_rate, boot=boot, n_step=n_step,
                        observation_type=obs_type, saved_weights=V_weights, seed=seed, 
                        critic=True, eta=eta)
@@ -211,7 +210,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             for T in range(max_steps):
                 action_p = actor.model.predict(state, verbose=0)
 
-                if actor.boot == "n_step":
+                if actor.boot == "n_step" or baseline:
                     value = critic.model.predict(state, verbose=0)
                     value = tf.squeeze(value)
                 elif actor.boot == "MC":
@@ -251,10 +250,11 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         idle = np.sum(np.where(actions==0,1,0))
         right = np.sum(np.where(actions==1,1,0))
         print(f"left {left}, idle {idle}, right {right}")
-        if actor.boot == 'n_step':
+        if actor.boot == 'n_step' or baseline:
             # in case V network is updated separately!
             critic.update_weights(states, actions, Q_values)
-        if actor.baseline:
+
+        if actor.baseline:  # now MC can also have baseline
             A_values = [Q_values[i]-values[i] for i in range(T+1)]
             actor.update_weights(states, actions, A_values)
         else:
@@ -265,7 +265,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             np.save(f'data/rewards/tmp_reward', all_rewards)
 
     actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
-    if boot == "n_step":
+    if boot == "n_step" or baseline:
         critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
     np.save(f'data/rewards/r_{stamp}', all_rewards)
     return all_rewards
@@ -273,14 +273,14 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 300
+    n_episodes = 200
     learning_rate = 0.01
     rows = 7
     columns = 7
     obs_type = "pixel"  # "vector" or "pixel" --> maybe pixel needs deeper net?
     max_misses = 10
     max_steps = 250
-    seed = 13  # 13, 18 also good
+    seed = None  # 13, 18 also good
     n_step = 5
     speed = 1.0
     boot = "n_step"  # "n_step" or "MC"
