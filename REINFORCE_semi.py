@@ -170,7 +170,6 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
               n_step: int = 5, speed: float = 1.0, boot: str = "MC", P_weights: str = None, V_weights: str = None,
               minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False):
     if boot == "MC":
-        baseline = False
         n_step = max_steps
 
     rng = np.random.default_rng(seed=seed)
@@ -267,11 +266,11 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 200
+    n_episodes = 300
     learning_rate = 0.01
     rows = 7
     columns = 7
-    obs_type = "pixel"  # "vector" or "pixel" --> maybe pixel needs deeper net?
+    obs_type = "pixel"  # "vector" or "pixel"
     max_misses = 10
     max_steps = 250
     seed = None  # 13, 18 also good
@@ -281,10 +280,10 @@ if __name__ == '__main__':
     minibatch = 1
     P_weights = None
     V_weights = None
-    baseline = True
+    baseline = False
     eta = 0.0005
-    P_weights = 'data/weights/w_P_26_171012.h5'
-    V_weights = 'data/weights/w_V_26_171012.h5'
+    P_weights = 'data/weights/w_P_27_201503.h5'
+    V_weights = 'data/weights/w_V_27_201503.h5'
 
     start = time.time()
     stamp = time.strftime("%d_%H%M%S", time.gmtime(start))

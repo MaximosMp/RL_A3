@@ -24,9 +24,7 @@ for plot in part1_full:
     rewards.append(np.load(f'data/rewards/r_{plot}.npy'))
 rewards = np.mean(rewards,axis=0)
 plt.title('full experiment')
-plt.plot(savgol_filter(rewards, 10,1))
-plt.grid()
-plt.show()
+plt.plot(savgol_filter(rewards, 10,1), label = 'full')
 
 rewards = []
 
@@ -34,18 +32,19 @@ for plot in part1_reinforce:
     rewards.append(np.load(f'data/rewards/r_{plot}.npy'))
 rewards = np.mean(rewards,axis=0)
 plt.title('reinforce experiment')
-plt.plot(savgol_filter(rewards, 10,1))
-plt.grid()
-plt.show()
+plt.plot(savgol_filter(rewards, 10,1), label='REINFORCE')
+
 
 rewards = []
 
-for plot in part1_reinforce:
+for plot in part1_bootstrap:
     rewards.append(np.load(f'data/rewards/r_{plot}.npy'))
 rewards = np.mean(rewards,axis=0)
-plt.title('bootstrap (no baseline) experiment')
-plt.plot(savgol_filter(rewards, 10,1))
+plt.title('Part 1 Experiments')
+plt.plot(savgol_filter(rewards, 10,1), label='bootstrap')
+
 plt.grid()
+plt.legend()
 plt.show()
 
 for j, plots in enumerate(plot_this):
@@ -58,5 +57,7 @@ for j, plots in enumerate(plot_this):
     plt.plot(reward, label=labl, linestyle=linestyle)
 plt.title('Eta hyperopt')
 plt.grid()
+plt.xlabel('Episode')
+plt.ylabel('Reward')
 plt.legend(fontsize='8')
 plt.show()

@@ -6,7 +6,7 @@ import sys
 args = sys.argv[1:]
 
 # game settings
-n_episodes = 300
+n_episodes = 500
 learning_rate = 0.01
 rows = 7
 columns = 7
@@ -32,7 +32,7 @@ i = int(args[0])  # we could also write a very short shell file that only takes 
 # or just change it back to the way it was
 # for i in [0,1,2,3]:
 
-for j in range(5):
+for j in range(2):
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
     print(f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
 
@@ -43,6 +43,10 @@ for j in range(5):
     with open("data/documentation.txt", 'a') as f:
             f.write(
                 f'\n\n {stamp}, Exp{i},{j} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
+            
+### here PART 1 finishes
+
+### PART 2 begins
 
 boot = "n_step"
 baseline = True
