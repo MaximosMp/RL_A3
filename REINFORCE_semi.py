@@ -10,23 +10,17 @@ from keras.utils.vis_utils import plot_model
 '''
     TO DO: 
         ask: 
-            - whether gain_funct is ok (differentiability etc)
-            - do we need -1 * Q in loss function?
-            - REINFORCE is really online (inside t-loop)?
             - how many epochs/steps should we aim for? -> 200k-500k steps
 
         implement:
-            - implement REINFORCE (online update) see comment in gain_fn
             - checkpoints (tensorboard)
 
         issue:
-            - pixel state issue (vector is working)
 
         Experiments:
         1) REINFORCE, actor critic bootstrap, ac baseline, ac baseline + bootstrap (aren't the last two the same?)
             put them all in one plot, average over 5 runs, 1000 episodes
         2) vary size (5x5 converges faster): compare 5x5 vs 7x7, averaged over 5 runs and 1000-2000 traces
-        3) Hyperparameter tuning (eta, learning rate)
         4) Other environment variations.
     '''
 
@@ -289,8 +283,8 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.0005
-    # P_weights = 'data/weights/w_P_26_140900.h5'
-    # V_weights = 'data/weights/w_V_26_140900.h5'
+    P_weights = 'data/weights/w_P_26_171012.h5'
+    V_weights = 'data/weights/w_V_26_171012.h5'
 
     start = time.time()
     stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
