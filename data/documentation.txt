@@ -399,3 +399,4 @@ Stamp: 24_211301 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg re
 
 
  28_171126 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.1, 28_171126, False, Avg reward: -8.355 
+ 28_153349, Exp1,0 ... params: Parameters: 500, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 28_153349, True, Avg reward: -8.32 
