@@ -280,10 +280,10 @@ if __name__ == '__main__':
     minibatch = 1
     P_weights = None
     V_weights = None
-    baseline = False
-    eta = 0.0005
-    P_weights = 'data/weights/w_P_27_201503.h5'
-    V_weights = 'data/weights/w_V_27_201503.h5'
+    baseline = True
+    eta = 0.001
+    # P_weights = 'data/weights/w_P_27_201503.h5'
+    # V_weights = 'data/weights/w_V_27_201503.h5'
 
     start = time.time()
     stamp = time.strftime("%d_%H%M%S", time.gmtime(start))

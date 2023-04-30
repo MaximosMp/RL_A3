@@ -387,3 +387,15 @@ Stamp: 24_174851 ... Episodes: 400, Learning: 0.01, Seed: 13, Eta: 0.1, Avg rewa
 
 Stamp: 24_211301 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg reward: -8.3425 
  28_102557 ... params: Parameters: 200, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_102557, True, Avg reward: -8.05 
+
+
+ 28_125902 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, data/weights/w_P_27_201503.h5, data/weights/w_V_27_201503.h5, 1, 0.0005, 28_125902, False, Avg reward: -8.35 
+
+
+ 28_135203 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.001, 28_135203, False, Avg reward: -8.4275 
+
+
+ 28_160336 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.01, 28_160336, False, Avg reward: -8.22 
+
+
+ 28_171126 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.1, 28_171126, False, Avg reward: -8.355 
