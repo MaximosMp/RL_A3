@@ -273,7 +273,7 @@ if __name__ == '__main__':
     obs_type = "pixel"  # "vector" or "pixel"
     max_misses = 10
     max_steps = 250
-    seed = None  # 13, 18 also good
+    seed = 13  # 13, 18 also good
     n_step = 5
     speed = 1.0
     boot = "n_step"  # "n_step" or "MC"
@@ -281,7 +281,7 @@ if __name__ == '__main__':
     P_weights = None
     V_weights = None
     baseline = True
-    eta = 0.001
+    eta = 0.0005
     # P_weights = 'data/weights/w_P_27_201503.h5'
     # V_weights = 'data/weights/w_V_27_201503.h5'
 
