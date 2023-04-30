@@ -403,3 +403,4 @@ Stamp: 24_211301 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg re
 
 
  30_103227 ... params: Parameters: 100, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_103227, True, Avg reward: 33.86 
+ 30_090513 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 30_090513, True, Avg reward: -8.266666666666667 
