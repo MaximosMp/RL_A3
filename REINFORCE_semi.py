@@ -282,11 +282,10 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.0005
-    # P_weights = 'data/weights/w_P_27_201503.h5'
-    # V_weights = 'data/weights/w_V_27_201503.h5'
+    P_weights = 'data/weights/w_P_26_171012.h5'
+    V_weights = 'data/weights/w_V_26_171012.h5'
 
-    start = time.time()
-    stamp = time.strftime("%d_%H%M%S", time.gmtime(start))
+    stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
 
     rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                         max_misses, max_steps, seed, n_step, speed, boot, 
