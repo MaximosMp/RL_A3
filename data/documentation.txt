@@ -402,6 +402,49 @@ Stamp: 24_211301 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg re
  28_153349, Exp1,0 ... params: Parameters: 500, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 28_153349, True, Avg reward: -8.32 
 
 
+ 30_113517, Exp1,0,0.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_113517, True, False, Avg reward: 17.680 
+
+
+ 30_115449, Exp1,1,0.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_115449, True, False, Avg reward: 17.640 
+
+
+ 30_121431, Exp1,2,0.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_121431, True, False, Avg reward: 17.680 
+
+
+ 30_123431, Exp1,3,0.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_123431, True, False, Avg reward: 17.560 
+
+
+ 30_140008, Exp1,4,0.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_140008, True, False, Avg reward: 17.520 
+
+
+ 30_142345, Exp1,4,1.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_142345, True, False, Avg reward: 2.880 
+
+
+ 30_143104, Exp1,4,2.0 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 2.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_143104, True, False, Avg reward: -3.140 
+
+
+ 30_151006, Exp1,0,1.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_151006, True, False, Avg reward: 1.980 
+
+
+ 30_151743, Exp1,1,1.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_151743, True, False, Avg reward: 3.120 
+
+
+ 30_152617, Exp1,2,1.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_152617, True, False, Avg reward: 1.780 
+
+
+ 30_153421, Exp1,3,1.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_153421, True, False, Avg reward: 3.460 
+
+
+ 30_154243, Exp1,0,2.0 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 2.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_154243, True, False, Avg reward: -3.640 
+
+
+ 30_154719, Exp1,1,2.0 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 2.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_154719, True, False, Avg reward: -3.880 
+
+
+ 30_155202, Exp1,2,2.0 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 2.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_155202, True, False, Avg reward: -2.580 
+
+
+ 30_155709, Exp1,3,2.0 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 2.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_155709, True, False, Avg reward: -3.560 
  30_103227 ... params: Parameters: 100, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_103227, True, Avg reward: 33.86 
  30_090513 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 30_090513, True, Avg reward: -8.266666666666667 
 

@@ -39,10 +39,9 @@ def make_tensor(state, list: bool = False):
 
 
 class Actor():
-    # @time_it
     def __init__(self, learning_rate: float = 0.01, arch: int = 1, observation_type: str = "pixel",
                  rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
-                 seed=None, critic: bool = False, eta: float = 0.01, baseline: bool = False, training: bool = True):
+                 seed=None, critic: bool = False, eta: float = 0.01, baseline: bool = False,training: bool = True):
         self.seed = seed
         self.rows = rows
         self.columns = columns
@@ -56,6 +55,7 @@ class Actor():
         self.eta = eta
         self.training = training
         self.gamma = 0.99
+        self.training = training
 
         # network parameters
         activ_func = "relu"
@@ -92,10 +92,12 @@ class Actor():
             self.model = tf.keras.models.Model(
                 inputs=input, outputs=[output_actions])
 
+        self.model.summary()
         if saved_weights:
             print('## Working with pre-trained weights ##')
             self.model.load_weights(saved_weights)
-        self.model.summary()
+        if not training:
+            print('## Not training ##')
         # plot_model(self.model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
 
     def bootstrap(self, t, rewards, values=None):
@@ -132,8 +134,6 @@ class Actor():
 
     def update_weights(self, states, actions, Q_values, values=None):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
-        if not self.training:
-            return 
         states = tf.convert_to_tensor(states)
 
         with tf.GradientTape() as tape:
@@ -185,19 +185,18 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     # NON-training average is around -8.4. So we are only learning when we're significantly higher (let's say < -7.0)        
 
     all_rewards = []
-    actor = Actor(learning_rate, boot=boot, n_step=n_step,
+    actor = Actor(learning_rate, boot=boot, n_step=n_step, rows=rows, columns=columns,
                   observation_type=obs_type, saved_weights=P_weights, 
-                  seed=seed, eta=eta, baseline=baseline,training=training)
+                  seed=seed, eta=eta, baseline=baseline)
 
     if boot == 'n_step' or baseline:
-        critic = Actor(learning_rate, boot=boot, n_step=n_step,
+        critic = Actor(learning_rate, boot=boot, n_step=n_step, rows=rows, columns=columns,
                        observation_type=obs_type, saved_weights=V_weights, seed=seed, 
                        critic=True, eta=eta, training=training)
     memory = deque(maxlen=max_steps)
     count = 0
 
     for ep in range(n_episodes):
-        print()
         for m in range(minibatch):
             ep_reward = 0
             memory.clear()
