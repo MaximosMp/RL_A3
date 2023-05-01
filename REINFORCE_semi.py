@@ -42,7 +42,7 @@ class Actor():
     # @time_it
     def __init__(self, learning_rate: float = 0.01, arch: int = 1, observation_type: str = "pixel",
                  rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
-                 seed=None, critic: bool = False, eta: float = 0.01, baseline: bool = False):
+                 seed=None, critic: bool = False, eta: float = 0.01, baseline: bool = False, training: bool = True):
         self.seed = seed
         self.rows = rows
         self.columns = columns
@@ -54,6 +54,7 @@ class Actor():
         self.critic = critic # if true, it is a critic network
         self.baseline = baseline
         self.eta = eta
+        self.training = training
         self.gamma = 0.99
 
         # network parameters
@@ -131,6 +132,8 @@ class Actor():
 
     def update_weights(self, states, actions, Q_values, values=None):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
+        if not self.training:
+            return 
         states = tf.convert_to_tensor(states)
 
         with tf.GradientTape() as tape:
@@ -168,7 +171,7 @@ class Actor():
 def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7, columns: int = 7, 
               obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None, 
               n_step: int = 5, speed: float = 1.0, boot: str = "MC", P_weights: str = None, V_weights: str = None,
-              minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False):
+              minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False, training: bool = True):
     if boot == "MC":
         n_step = max_steps
 
@@ -184,12 +187,12 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     all_rewards = []
     actor = Actor(learning_rate, boot=boot, n_step=n_step,
                   observation_type=obs_type, saved_weights=P_weights, 
-                  seed=seed, eta=eta, baseline=baseline)
+                  seed=seed, eta=eta, baseline=baseline,training=training)
 
     if boot == 'n_step' or baseline:
         critic = Actor(learning_rate, boot=boot, n_step=n_step,
                        observation_type=obs_type, saved_weights=V_weights, seed=seed, 
-                       critic=True, eta=eta)
+                       critic=True, eta=eta, training=training)
     memory = deque(maxlen=max_steps)
     count = 0
 
@@ -266,7 +269,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 300
+    n_episodes = 50
     learning_rate = 0.01
     rows = 7
     columns = 7
@@ -282,14 +285,15 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.0005
-    P_weights = 'data/weights/w_P_26_171012.h5'
-    V_weights = 'data/weights/w_V_26_171012.h5'
+    P_weights = 'data/weights/w_P_30_103227.h5'
+    V_weights = 'data/weights/w_V_30_103227.h5'
+    training = False
 
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
 
     rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                         max_misses, max_steps, seed, n_step, speed, boot, 
-                        P_weights, V_weights, minibatch, eta, stamp, baseline)
+                        P_weights, V_weights, minibatch, eta, stamp, baseline, training)
 
     with open("data/documentation.txt", 'a') as f:
         f.write(f'\n\n {stamp} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
