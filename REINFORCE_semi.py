@@ -135,6 +135,8 @@ class Actor():
     def update_weights(self, states, actions, Q_values, values=None):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
         states = tf.convert_to_tensor(states)
+        if not self.training:
+            return
 
         with tf.GradientTape() as tape:
             if self.critic:
@@ -187,7 +189,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     all_rewards = []
     actor = Actor(learning_rate, boot=boot, n_step=n_step, rows=rows, columns=columns,
                   observation_type=obs_type, saved_weights=P_weights, 
-                  seed=seed, eta=eta, baseline=baseline)
+                  seed=seed, eta=eta, baseline=baseline, training=training)
 
     if boot == 'n_step' or baseline:
         critic = Actor(learning_rate, boot=boot, n_step=n_step, rows=rows, columns=columns,
