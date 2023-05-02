@@ -6,7 +6,7 @@ import sys
 args = sys.argv[1:]
 
 # game settings
-n_episodes = 500
+n_episodes = 300
 learning_rate = 0.01
 rows = 7
 columns = 7
@@ -56,12 +56,11 @@ if section == 0:
 # PART 2
 if section == 1:
 
-    n_episodes = 50
     boot = "n_step"
     baseline = True
-    training = False
-    P_weights = 'data/weights/w_P_26_171012.h5'
-    V_weights = 'data/weights/w_V_26_171012.h5'
+    training = True
+    # P_weights = 'data/weights/w_P_26_171012.h5'
+    # V_weights = 'data/weights/w_V_26_171012.h5'
 
     # Experiment 0 - Size Variation
     # square 7x7, square 11x11, rectangle 7x14, rectangle 14x7
@@ -70,8 +69,11 @@ if section == 1:
 
         for rows, columns in list_of_rows_columns:
             for j in range(5):
+                if rows == 11 and j < 3:
+                    continue
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
-                print(f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
+                print(
+                    f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
                                     P_weights, V_weights, minibatch, eta, stamp, baseline, training)
@@ -85,7 +87,7 @@ if section == 1:
     # but also include speed=1.0 in plot
 
     if i == 1:
-        speeds = [1.5, 2.0]
+        speeds = [0.5, 1.5, 2.0]
         for speed in speeds:
             for j in range(5):
                 if j == 4:
@@ -138,4 +140,3 @@ if section == 1:
                     f.write(
                         f'\n\n {stamp}, Exp{i},{j} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
     # Experiment 4 - other interesting variations
-
