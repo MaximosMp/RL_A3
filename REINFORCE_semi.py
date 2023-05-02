@@ -68,7 +68,7 @@ class Actor():
             learning_rate=learning_rate, )
 
         if (observation_type == 'pixel'):
-            input_shape = (rows, columns, 2)
+            input_shape = (columns, rows, 2)
         elif (observation_type == 'vector'):
             input_shape = (3,)
         if arch == 1:
@@ -215,7 +215,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
                 action = rng.choice(
                     ACTION_EFFECTS, p=action_p.reshape(3,))
-
+                # LOOK INTO COLUMNS VS ROWS!!
                 next_state, r, done = env.step(action)
                 count += 1
                 next_state = actor.reshape_state(next_state)
@@ -288,7 +288,7 @@ if __name__ == '__main__':
     eta = 0.0005
     P_weights = 'data/weights/w_P_30_103227.h5'
     V_weights = 'data/weights/w_V_30_103227.h5'
-    training = False
+    training = True
 
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
 

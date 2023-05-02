@@ -6,7 +6,7 @@ import sys
 args = sys.argv[1:]
 
 # game settings
-n_episodes = 500
+n_episodes = 400
 learning_rate = 0.01
 rows = 7
 columns = 7
@@ -56,12 +56,12 @@ if section == 0:
 # PART 2
 if section == 1:
 
-    n_episodes = 50
+    n_episodes = 400
     boot = "n_step"
     baseline = True
-    training = False
-    P_weights = 'data/weights/w_P_26_171012.h5'
-    V_weights = 'data/weights/w_V_26_171012.h5'
+    # training = False
+    # P_weights = 'data/weights/w_P_26_171012.h5'
+    # V_weights = 'data/weights/w_V_26_171012.h5'
 
     # Experiment 0 - Size Variation
     # square 7x7, square 11x11, rectangle 7x14, rectangle 14x7
@@ -74,7 +74,7 @@ if section == 1:
                 print(f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
-                                    P_weights, V_weights, minibatch, eta, stamp, baseline, training)
+                                    P_weights, V_weights, minibatch, eta, stamp, baseline)
 
                 with open("data/documentation.txt", 'a') as f:
                     f.write(
@@ -95,7 +95,7 @@ if section == 1:
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
-                                    P_weights, V_weights, minibatch, eta, stamp, baseline, training)
+                                    P_weights, V_weights, minibatch, eta, stamp, baseline)
 
                 with open("data/documentation.txt", 'a') as f:
                     f.write(
@@ -112,7 +112,7 @@ if section == 1:
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
-                                    P_weights, V_weights, minibatch, eta, stamp, baseline, training)
+                                    P_weights, V_weights, minibatch, eta, stamp, baseline)
 
                 with open("data/documentation.txt", 'a') as f:
                     f.write(
@@ -132,7 +132,7 @@ if section == 1:
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
-                                    P_weights, V_weights, minibatch, eta, stamp, baseline, training)
+                                    P_weights, V_weights, minibatch, eta, stamp, baseline)
 
                 with open("data/documentation.txt", 'a') as f:
                     f.write(
