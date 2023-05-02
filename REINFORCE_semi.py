@@ -53,6 +53,7 @@ class Actor():
         self.critic = critic # if true, it is a critic network
         self.baseline = baseline
         self.eta = eta
+        self.training = training
         self.gamma = 0.99
         self.training = training
 
@@ -67,7 +68,7 @@ class Actor():
             learning_rate=learning_rate, )
 
         if (observation_type == 'pixel'):
-            input_shape = (rows, columns, 2)
+            input_shape = (columns, rows, 2)
         elif (observation_type == 'vector'):
             input_shape = (3,)
         if arch == 1:
@@ -133,9 +134,9 @@ class Actor():
 
     def update_weights(self, states, actions, Q_values, values=None):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
+        states = tf.convert_to_tensor(states)
         if not self.training:
             return
-        states = tf.convert_to_tensor(states)
 
         with tf.GradientTape() as tape:
             if self.critic:
@@ -214,7 +215,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
                 action = rng.choice(
                     ACTION_EFFECTS, p=action_p.reshape(3,))
-
+                # LOOK INTO COLUMNS VS ROWS!!
                 next_state, r, done = env.step(action)
                 count += 1
                 next_state = actor.reshape_state(next_state)
@@ -269,7 +270,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 300
+    n_episodes = 50
     learning_rate = 0.01
     rows = 7
     columns = 7
@@ -285,14 +286,15 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.0005
-    P_weights = 'data/weights/w_P_26_171012.h5'
-    V_weights = 'data/weights/w_V_26_171012.h5'
+    P_weights = 'data/weights/w_P_30_103227.h5'
+    V_weights = 'data/weights/w_V_30_103227.h5'
+    training = True
 
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
 
     rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                         max_misses, max_steps, seed, n_step, speed, boot, 
-                        P_weights, V_weights, minibatch, eta, stamp, baseline)
+                        P_weights, V_weights, minibatch, eta, stamp, baseline, training)
 
     with open("data/documentation.txt", 'a') as f:
         f.write(f'\n\n {stamp} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')

@@ -1,78 +1,5 @@
 
 
-Stamp: 17_165513 ... Episodes: 100, Learning: 0.005
-
-
-Stamp: 17_165513 ... Episodes: 100, Learning: 0.001
-
-
-Stamp: 17_165513 ... Episodes: 100, Learning: 0.0001
-
-
-Stamp: 17_165513 ... Episodes: 100, Learning: 5e-05
-
-
-Stamp: 18_183534 ... Episodes: 100, Learning: 0.0001, Avg reward: -8.35
-
-
-Stamp: 18_184522 ... Episodes: 50, Learning: 0.01, Avg reward: -8.2
-
-
-Stamp: 18_185052 ... Episodes: 100, Learning: 0.01, Avg reward: -8.25
-
-
-Stamp: 18_190210 ... Episodes: 100, Learning: 0.0001, Avg reward: -8.41
-
-
-Stamp: 19_105958 ... Episodes: 50, Learning: 0.1, Avg reward: -8.36
-
-
-Stamp: 19_105958 ... Episodes: 50, Learning: 0.01, Avg reward: -8.14
-
-
-Stamp: 19_105958 ... Episodes: 50, Learning: 0.001, Avg reward: -8.5
-
-
-Stamp: 19_105958 ... Episodes: 50, Learning: 0.0001, Avg reward: -8.12
-
-
-Stamp: 19_114344 ... Episodes: 150, Learning: 0.001, Avg reward: -8.366666666666667
-
-
-Stamp: 19_140108 ... Episodes: 50, Learning: 0.001, Seed: None, Avg reward: {np.mean(rewards)}
-
-
-Stamp: 19_140759 ... Episodes: 50, Learning: 0.001, Seed: None, Avg reward: {np.mean(rewards)}
-
-
-Stamp: 19_144821 ... Episodes: 150, Learning: 0.001, Seed: None, Avg reward: {np.mean(rewards)}
-
-
-Stamp: 19_155040 ... Episodes: 150, Learning: 0.001, Seed: None, Avg reward: {np.mean(rewards)}
-
-
-Stamp: 19_171005 ... Episodes: 200, Learning: 0.001, Seed: 42, Eta: 0.0001, Avg reward: -8.28
-
-
-Stamp: 20_114804 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.385
-
-
-Stamp: 20_120711 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.3
-
-
-Stamp: 20_122516 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.125
-
-
-Stamp: 20_124745 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.34
-
-
-Stamp: 20_130559 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.235
-
-
-Stamp: 20_132550 ... Episodes: 200, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.22
-### converged on 99.9%
-
-
 Stamp: 21_175739 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -1.2525 
 learned to only go left or idle!
 
@@ -462,3 +389,19 @@ Stamp: 24_211301 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg re
 
 
  02_214455, Exp0,4,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_214455, True, True, Avg reward: -9.100 
+ 30_202045 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 30_202045, True, False, Avg reward: 34.84 
+
+
+ 30_204133 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 30_204133, True, False, Avg reward: 34.8 
+
+
+ 30_210223 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 30_210223, True, False, Avg reward: 34.8 
+
+
+ 30_212339 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 30_212339, True, False, Avg reward: 34.8 
+
+
+ 01_065527 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 01_065527, True, False, Avg reward: 34.84 
+
+
+ 02_154150, Exp3,0 ... params: Parameters: 400, 0.01, 7, 14, pixel, 10, 250, 13, 5, 0.5, n_step, None, None, 1, 0.0005, 02_154150, True, Avg reward: -9.205 

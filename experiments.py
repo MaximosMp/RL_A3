@@ -76,7 +76,7 @@ if section == 1:
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
-                                    P_weights, V_weights, minibatch, eta, stamp, baseline, training)
+                                    P_weights, V_weights, minibatch, eta, stamp, baseline)
 
                 with open("data/documentation.txt", 'a') as f:
                     f.write(
@@ -97,7 +97,7 @@ if section == 1:
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
-                                    P_weights, V_weights, minibatch, eta, stamp, baseline, training)
+                                    P_weights, V_weights, minibatch, eta, stamp, baseline)
 
                 with open("data/documentation.txt", 'a') as f:
                     f.write(
@@ -114,7 +114,7 @@ if section == 1:
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
-                                    P_weights, V_weights, minibatch, eta, stamp, baseline, training)
+                                    P_weights, V_weights, minibatch, eta, stamp, baseline)
 
                 with open("data/documentation.txt", 'a') as f:
                     f.write(
@@ -134,7 +134,7 @@ if section == 1:
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
-                                    P_weights, V_weights, minibatch, eta, stamp, baseline, training)
+                                    P_weights, V_weights, minibatch, eta, stamp, baseline)
 
                 with open("data/documentation.txt", 'a') as f:
                     f.write(
