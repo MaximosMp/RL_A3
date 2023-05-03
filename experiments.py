@@ -38,19 +38,19 @@ or just change it back to the way it was
 for i in [0,1,2,3]:
 '''
 if section == 0:
-    for eta in [0.0005, 0.001, 0.005, 0.01]:
-        for j in range(1):
-            stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
-            print(
-                f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
+    # here, "i" (second comand line argument) decides which experiment is: run MC, MC+baseline, Nstep, Nstep+baseline
+    for j in range(5):
+        stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
+        print(
+            f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
 
-            rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
-                                max_misses, max_steps, seed, n_step, speed, boot[i],
-                                P_weights, V_weights, minibatch, eta, stamp, baseline[i])
+        rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
+                            max_misses, max_steps, seed, n_step, speed, boot[i],
+                            P_weights, V_weights, minibatch, eta, stamp, baseline[i])
 
-            with open("data/documentation.txt", 'a') as f:
-                f.write(
-                    f'\n\n {stamp}, Exp{i},{j} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
+        with open("data/documentation.txt", 'a') as f:
+            f.write(
+                f'\n\n {stamp}, Exp{i},{j} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
 
 
 # PART 2
@@ -123,7 +123,9 @@ if section == 1:
     if i == 3:
         rows = 7
         columns = 14
-        speeds = [0.5, 2.0]
+        speeds = [.5,2.0]
+        # P_weights = 'data/weights/w_P_02_224335.h5'
+        # V_weights = 'data/weights/w_V_02_224335.h5'
 
         for speed in speeds:
             for j in range(5):

@@ -29,15 +29,6 @@ ACTION_EFFECTS = (-1, 0, 1)  # left, idle right.
 OBSERVATION_TYPES = ['pixel', 'vector']
 
 
-def make_tensor(state, list: bool = False):
-    '''in order to be used in model.predict() method'''
-    s_tensor = tf.convert_to_tensor(state)
-    if list:
-        return s_tensor
-    return tf.expand_dims(s_tensor, 0)
-
-
-
 class Actor():
     def __init__(self, learning_rate: float = 0.01, arch: int = 1, observation_type: str = "pixel",
                  rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
@@ -60,10 +51,7 @@ class Actor():
         # network parameters
         activ_func = "relu"
         init = tf.keras.initializers.GlorotNormal(seed=self.seed)
-        # IMPLEMENT ENTROPY REGULARIZATION
 
-        # gradient preparation
-        # self.loss_fn = tf.keras.losses.mean_squared_error
         self.optimizer = tf.keras.optimizers.Adam(
             learning_rate=learning_rate, )
 
@@ -129,7 +117,6 @@ class Actor():
         gain = tf.tensordot(tf.constant(-1 * np.ones(len(Q)) * Q,dtype=tf.float32),
                             tf.math.log(prob_out), 1)
         gain -= self.eta* tf.tensordot(prob_out, tf.math.log(prob_out),1) # -sum_i ( pi * log(pi) )
-        """why doesnt anything change when self.eta is a list???"""
         return gain
 
     def update_weights(self, states, actions, Q_values, values=None):
@@ -137,7 +124,6 @@ class Actor():
         states = tf.convert_to_tensor(states)
         if not self.training:
             return
-
         with tf.GradientTape() as tape:
             if self.critic:
                 values = self.model(states)
@@ -215,7 +201,6 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
                 action = rng.choice(
                     ACTION_EFFECTS, p=action_p.reshape(3,))
-                # LOOK INTO COLUMNS VS ROWS!!
                 next_state, r, done = env.step(action)
                 count += 1
                 next_state = actor.reshape_state(next_state)
@@ -260,6 +245,10 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
         if ep % 20 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
+        if ep % 50 == 0 and ep >= 100:
+            actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
+            if boot == "n_step" or baseline:
+                critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
 
     actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
     if boot == "n_step" or baseline:
@@ -270,24 +259,24 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 50
+    n_episodes = 300
     learning_rate = 0.01
-    rows = 7
-    columns = 7
+    rows = 9
+    columns = 9
     obs_type = "pixel"  # "vector" or "pixel"
     max_misses = 10
     max_steps = 250
-    seed = 13  # 13, 18 also good
+    seed = None
     n_step = 5
-    speed = 1.0
+    speed = 1.
     boot = "n_step"  # "n_step" or "MC"
     minibatch = 1
     P_weights = None
     V_weights = None
     baseline = True
     eta = 0.0005
-    P_weights = 'data/weights/w_P_30_103227.h5'
-    V_weights = 'data/weights/w_V_30_103227.h5'
+    # P_weights = 'data/weights/w_P_30_103227.h5'
+    # V_weights = 'data/weights/w_V_30_103227.h5'
     training = True
 
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
