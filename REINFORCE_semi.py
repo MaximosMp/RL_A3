@@ -51,6 +51,7 @@ class Actor():
         # network parameters
         activ_func = "relu"
         init = tf.keras.initializers.GlorotNormal(seed=self.seed)
+        init2 = tf.keras.initializers.GlorotNormal(seed=self.seed)
 
         self.optimizer = tf.keras.optimizers.Adam(
             learning_rate=learning_rate, )
@@ -66,10 +67,11 @@ class Actor():
                 64, activation=activ_func, kernel_initializer=init)(flatten)
             batchNorm = tf.keras.layers.BatchNormalization()(dense)
             dense2 = tf.keras.layers.Dense(
-                32, activation=activ_func, kernel_initializer=init)(batchNorm)
+                32, activation=activ_func, kernel_initializer=init2)(batchNorm)
+            # batchNorm2 = tf.keras.layers.BatchNormalization()(dense2)
             dense3 = tf.keras.layers.Dropout(0.2)(dense2)
             # dense3 = tf.keras.layers.Flatten()(dropout)
-
+# 03/05 changed initializer, added second batch norm
         if critic:
             output_value = tf.keras.layers.Dense(1, activation='linear')(dense3)
             self.model = tf.keras.models.Model(
@@ -165,12 +167,8 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
     rng = np.random.default_rng(seed=seed)
 
-    # IMPLEMENT (TENSORBOARD) CALLBACKS FOR ANALYZATION, long book 315
-
     env = Catch(rows=rows, columns=columns, speed=speed, max_steps=max_steps,
                 max_misses=max_misses, observation_type=obs_type, seed=None)
-
-    # NON-training average is around -8.4. So we are only learning when we're significantly higher (let's say < -7.0)        
 
     all_rewards = []
     actor = Actor(learning_rate, boot=boot, n_step=n_step, rows=rows, columns=columns,
@@ -247,6 +245,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             np.save(f'data/rewards/tmp_reward', all_rewards)
         if ep % 50 == 0 and ep >= 100:
             actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
+            np.save(f'data/rewards/r_{stamp}', all_rewards)
             if boot == "n_step" or baseline:
                 critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
 
@@ -259,7 +258,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 300
+    n_episodes = 400
     learning_rate = 0.01
     rows = 9
     columns = 9
@@ -275,8 +274,8 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.0005
-    # P_weights = 'data/weights/w_P_30_103227.h5'
-    # V_weights = 'data/weights/w_V_30_103227.h5'
+    P_weights = 'data/weights/w_P_03_100155.h5'
+    V_weights = 'data/weights/w_V_03_100155.h5'
     training = True
 
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
