@@ -376,6 +376,19 @@ Stamp: 24_211301 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg re
  30_090513 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 30_090513, True, Avg reward: -8.266666666666667 
 
 
+ 02_103151, Exp0,0,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_103151, True, True, Avg reward: -8.933 
+
+
+ 02_154756, Exp0,1,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_154756, True, True, Avg reward: -8.297 
+
+
+ 02_172839, Exp0,2,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_172839, True, True, Avg reward: -8.910 
+
+
+ 02_200820, Exp0,3,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_200820, True, True, Avg reward: -8.973 
+
+
+ 02_214455, Exp0,4,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_214455, True, True, Avg reward: -9.100 
  30_202045 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 30_202045, True, False, Avg reward: 34.84 
 
 
