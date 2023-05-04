@@ -450,3 +450,12 @@ Stamp: 24_211301 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg re
 first 150 eps of 04_120054 ran. (first updated improved run) 
 
 
+
+
+ 04_132956 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 60, 5, 1.0, n_step, data/weights/w_P_04_120054.h5, data/weights/w_V_04_120054.h5, 4, 0.0005, 04_132956, True, True, Avg reward: -1.2866666666666666 
+
+04_145510 this run went for 200. GlorotUniform and eta=0.0005, rest same as always
+
+04_183040 this run went for 300. GlorotNormal! and eta=0.001, rest same. performing well!
+
+

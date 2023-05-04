@@ -6,7 +6,7 @@ import sys
 args = sys.argv[1:]
 
 # game settings
-n_episodes = 300
+n_episodes = 400
 learning_rate = 0.01
 rows = 7
 columns = 7
@@ -14,11 +14,11 @@ max_misses = 10
 max_steps = 250
 n_step = 5
 speed = 1.0
-minibatch = 1
+minibatch = 4
 P_weights = None
 V_weights = None
-eta = 0.0005
-seed = 13
+eta = 0.001
+seed = np.random.randint(100)
 obs_type = 'pixel'
 
 
@@ -39,7 +39,9 @@ for i in [0,1,2,3]:
 '''
 if section == 0:
     # here, "i" (second comand line argument) decides which experiment is: run MC, MC+baseline, Nstep, Nstep+baseline
-    for j in range(3):
+    for j in range(2):
+        if i == 3 and j == 0:
+            continue  # we already have a 400 run on full agent
         stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
         print(
             f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
@@ -65,10 +67,10 @@ if section == 1:
     # Experiment 0 - Size Variation
     # square 7x7, square 11x11, rectangle 7x14, rectangle 14x7
     if i == 0:
-        list_of_rows_columns = [(11, 11), (7, 14), (14, 7)]
+        list_of_rows_columns = [(9, 9), (7, 9), (9, 7)]
 
         for rows, columns in list_of_rows_columns:
-            for j in range(5):
+            for j in range(3):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
@@ -87,7 +89,7 @@ if section == 1:
     if i == 1:
         speeds = [0.5, 1.5, 2.0]
         for speed in speeds:
-            for j in range(5):
+            for j in range(3):
                 if j == 4:
                     continue
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
@@ -106,7 +108,7 @@ if section == 1:
     if i == 2:
         obs_types = ['vector']
         for obs_type in obs_types:
-            for j in range(5):
+            for j in range(3):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
@@ -122,13 +124,13 @@ if section == 1:
     # but also include speed 1.0 (7x14) from 1st experiment
     if i == 3:
         rows = 7
-        columns = 14
-        speeds = [.5,2.0]
+        columns = 9
+        speeds = [0.5,2.0]
         # P_weights = 'data/weights/w_P_02_224335.h5'
         # V_weights = 'data/weights/w_V_02_224335.h5'
 
         for speed in speeds:
-            for j in range(5):
+            for j in range(3):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")

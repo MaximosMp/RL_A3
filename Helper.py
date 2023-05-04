@@ -52,7 +52,6 @@ def save_params(func):
         params_str += ", ".join([str(arg) for arg in args])
         params_str += ", ".join([f"{key}={value}" for key, value in kwargs.items()])
         wrapper.params = params_str
-        print(f"\n\nRunning on params: {params_str}\n\n")
         return func(*args, **kwargs)
     wrapper.params = ""
     return wrapper
