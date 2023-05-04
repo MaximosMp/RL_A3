@@ -69,8 +69,6 @@ if section == 1:
 
         for rows, columns in list_of_rows_columns:
             for j in range(5):
-                if rows == 11 and j < 3:
-                    continue
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
