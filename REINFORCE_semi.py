@@ -32,7 +32,7 @@ OBSERVATION_TYPES = ['pixel', 'vector']
 class Actor():
     def __init__(self, learning_rate: float = 0.01, arch: int = 1, observation_type: str = "pixel",
                  rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
-                 seed=None, critic: bool = False, eta: float = 0.01, baseline: bool = False,training: bool = True):
+                 seed=None, critic: bool = False, eta: float = 0.01, baseline: bool = False, training: bool = True):
         self.seed = seed
         self.rows = rows
         self.columns = columns
@@ -41,7 +41,7 @@ class Actor():
         self.observation_type = observation_type
         self.boot = boot
         self.n_step = n_step
-        self.critic = critic # if true, it is a critic network
+        self.critic = critic  # if true, it is a critic network
         self.baseline = baseline
         self.eta = eta
         self.training = training
@@ -73,7 +73,8 @@ class Actor():
             # dense3 = tf.keras.layers.Flatten()(dropout)
 # 03/05 changed initializer, added second batch norm
         if critic:
-            output_value = tf.keras.layers.Dense(1, activation='linear')(dense3)
+            output_value = tf.keras.layers.Dense(
+                1, activation='linear')(dense3)
             self.model = tf.keras.models.Model(
                 inputs=input, outputs=[output_value])
         else:
@@ -95,52 +96,67 @@ class Actor():
             rewards = rewards[t:]
             return self.gamma**np.arange(0, len(rewards)) @ rewards
         elif self.boot == "n_step":
-            lim = min(t+self.n_step,len(rewards))
+            lim = min(t+self.n_step, len(rewards))
             rewards = rewards[t:lim]
             return self.gamma**np.arange(0, len(rewards)) @ rewards + self.gamma**self.n_step * values[lim-1]
 
-    def gain_fn(self, prob_out=None, Q=None, actions=None):
-        # if self.boot == 'MC':
-        #     return -Q * tf.math.log(prob_out)
-        actions = np.where(actions==-1,0, np.where(actions==0,1,2))  # rewrites [-1,0,1,-1,1,0,1] into [0,1,2,0,2,1,2]
-        mask = tf.one_hot(actions, 3)  # mask = [[0,1,0],[0,0,1],[1,0,0],[0,1,0],[1,0,0],[0,0,1],[0,0,1]]
-        prob_out = tf.reduce_max(mask * prob_out, axis=1) # prob_out = [0.2,0.3,0.5,0.2,0.5,0.3,0.3]
-
-        Q_tensor = tf.constant(-1* np.ones(len(Q)) * Q,dtype=tf.float32) # Q_tensor = [-1,-1,-1,-1,-1,-1,-1]
-        gain = Q_tensor * tf.math.log(prob_out) # shoud this be dot product?
-        gain = tf.reduce_sum(gain)
-        return gain
-
-    def gain_fn_entropy(self,prob_out=None, Q=None, actions=None):
-        actions = np.where(actions==-1,0, np.where(actions==0,1,2))  # rewrites [-1,0,1] into [0,1,2]
+    def gain_fn_entropy(self, prob_out=None, Q=None, actions=None):
+        # rewrites [-1,0,1] into [0,1,2]
+        actions = np.where(actions == -1, 0, np.where(actions == 0, 1, 2))
         mask = tf.one_hot(actions, 3)
         prob_out = tf.reduce_max(mask * prob_out, axis=1)
 
-        gain = tf.tensordot(tf.constant(-1 * np.ones(len(Q)) * Q,dtype=tf.float32),
+        gain = tf.tensordot(tf.constant(-1 * np.ones(len(Q)) * Q, dtype=tf.float32),
                             tf.math.log(prob_out), 1)
-        gain -= self.eta* tf.tensordot(prob_out, tf.math.log(prob_out),1) # -sum_i ( pi * log(pi) )
+        # -sum_i ( pi * log(pi) )
+        gain -= self.eta * tf.tensordot(prob_out, tf.math.log(prob_out), 1)
         return gain
 
-    def update_weights(self, states, actions, Q_values, values=None):
+    def update_weights(self, memory):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
-        states = tf.convert_to_tensor(states)
         if not self.training:
             return
-        with tf.GradientTape() as tape:
-            if self.critic:
-                values = self.model(states)
-                gain_value = tf.losses.mean_squared_error(Q_values,values)
-            else:
-                probs_out = self.model(states)
-                gain_value = self.gain_fn_entropy(prob_out=probs_out, Q=Q_values, actions=actions)
 
-        grads = tape.gradient(gain_value,
-                              self.model.trainable_weights)
+        gradients = []
+        for i, mem in enumerate(memory):
+            mem = [mem[index] for index in range(len(mem))]
+            # memory['number_of_minibatches', 'values']
+            states, actions, rewards, values = [np.array([experience[field_index]
+                                                          for experience in mem])
+                                                for field_index in range(6)]
+            
+            ## I just wanna see where it is going
+            left = np.sum(np.where(actions == -1, 1, 0))
+            idle = np.sum(np.where(actions == 0, 1, 0))
+            right = np.sum(np.where(actions == 1, 1, 0))
+            print(f"left {left}, idle {idle}, right {right}")
 
+            QA_values = [self.bootstrap(t, rewards, values)
+                         for t in range(len(rewards))]
+            if self.baseline:
+                QA_values = [QA_values[i]-values[i]
+                             for i in range(len(rewards))]
+
+            states = tf.convert_to_tensor(states)
+            with tf.GradientTape() as tape:
+                if self.critic:
+                    values = self.model(states)
+                    gain_value = tf.losses.mean_squared_error(QA_values, values)
+                else:
+                    probs_out = self.model(states)
+                    gain_value = self.gain_fn_entropy(
+                        prob_out=probs_out, Q=QA_values, actions=actions)
+
+            gradients[i] = tape.gradient(gain_value,
+                                         self.model.trainable_weights)
+
+        # average of grads
+        average_grads = np.mean(gradients, axis=0)
+        
         self.optimizer.apply_gradients(
-            zip(grads, self.model.trainable_weights))
+            zip(average_grads, self.model.trainable_weights))
         # norm_grads = [tf.norm(grad) for grad in grads]
-        return grads
+        return average_grads
 
     def reshape_state(self, state):
         if self.observation_type == "pixel":
@@ -158,8 +174,8 @@ class Actor():
 
 @save_params
 @time_it
-def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7, columns: int = 7, 
-              obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None, 
+def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7, columns: int = 7,
+              obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None,
               n_step: int = 5, speed: float = 1.0, boot: str = "MC", P_weights: str = None, V_weights: str = None,
               minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False, training: bool = True):
     if boot == "MC":
@@ -172,20 +188,23 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
     all_rewards = []
     actor = Actor(learning_rate, boot=boot, n_step=n_step, rows=rows, columns=columns,
-                  observation_type=obs_type, saved_weights=P_weights, 
+                  observation_type=obs_type, saved_weights=P_weights,
                   seed=seed, eta=eta, baseline=baseline, training=training)
 
     if boot == 'n_step' or baseline:
         critic = Actor(learning_rate, boot=boot, n_step=n_step, rows=rows, columns=columns,
-                       observation_type=obs_type, saved_weights=V_weights, seed=seed, 
-                       critic=True, eta=eta, training=training)
-    memory = deque(maxlen=max_steps)
+                       observation_type=obs_type, saved_weights=V_weights, seed=seed,
+                       critic=True, eta=eta, training=training, baseline=False)
     count = 0
-
-    for ep in range(n_episodes):
-        for m in range(minibatch):
+    memory = [deque(maxlen=max_steps) for _ in minibatch]
+    ep = 0
+    while ep < n_episodes:
+        # for ep in range(n_episodes):  # n_episodes = 500
+        for mem in memory:
+            mem.clear()
+        ep += 1
+        for m in range(minibatch):  # minibatch = 2
             ep_reward = 0
-            memory.clear()
             state = actor.reshape_state(env.reset())
             # generate full trace
             for T in range(max_steps):
@@ -206,40 +225,18 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                 # env.render(0.2)
 
                 # take out the extra "1" dimensions
-                memory.append((tf.squeeze(state),
-                              action, r, next_state, done, value))
+                memory[m].append((tf.squeeze(state), action, r, value))
 
                 if done:
                     break
                 state = next_state
-
             # trace is finished
             print(f'{ep}, step {count}, reward: {ep_reward}')
             all_rewards.append(ep_reward)
 
-        # extract data from memory (to do: delete unused variables)
-        memory = [memory[index] for index in range(len(memory))]
-        states, actions, rewards, next_states, dones, values = [np.array([experience[field_index]
-                                                                          for experience in memory])
-                                                                for field_index in range(6)]
-
-
-        Q_values = [actor.bootstrap(t,rewards,values) for t in range(T+1)]
-
-        left = np.sum(np.where(actions==-1,1,0))
-        idle = np.sum(np.where(actions==0,1,0))
-        right = np.sum(np.where(actions==1,1,0))
-        print(f"left {left}, idle {idle}, right {right}")
         if actor.boot == 'n_step' or baseline:
-            # in case V network is updated separately!
-            critic.update_weights(states, actions, Q_values)
-
-        if actor.baseline:  # now MC can also have baseline
-            A_values = [Q_values[i]-values[i] for i in range(T+1)]
-            actor.update_weights(states, actions, A_values)
-        else:
-            actor.update_weights(states, actions, Q_values)
-
+            critic.update_weights(memory)
+        actor.update_weights(memory)
 
         if ep % 20 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
@@ -281,8 +278,9 @@ if __name__ == '__main__':
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
 
     rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
-                        max_misses, max_steps, seed, n_step, speed, boot, 
+                        max_misses, max_steps, seed, n_step, speed, boot,
                         P_weights, V_weights, minibatch, eta, stamp, baseline, training)
 
     with open("data/documentation.txt", 'a') as f:
-        f.write(f'\n\n {stamp} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
+        f.write(
+            f'\n\n {stamp} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
