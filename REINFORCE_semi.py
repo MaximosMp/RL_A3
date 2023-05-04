@@ -243,20 +243,20 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             rewards = [np.array([experience[2] for experience in mem])]
             avg_total_rewards.append(np.mean(rewards))
             total_rewards.append(rewards)
+        # avg_total_rewards = np.mean(total_rewards,axis=1) instead?
 
 
         best_memory = []
         ## Choose the best two average total rewards from memory buffer
         for _ in range(2):  # this decides over how many we are going to average
             rewards_max_index = np.argmax(avg_total_rewards)
-            avg_total_rewards.pop(rewards_max_index)
+            avg_total_rewards[rewards_max_index] = 0.
             best_memory.append(memory[rewards_max_index])
-            all_rewards.append(total_rewards[rewards_max_index])
+            all_rewards.append(np.sum(total_rewards[rewards_max_index]))
 
         if actor.boot == 'n_step' or baseline:
             critic.update_weights(best_memory)
         actor.update_weights(best_memory)
-        print()
 
         if ep % 20 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
@@ -265,6 +265,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             np.save(f'data/rewards/r_{stamp}', all_rewards)
             if boot == "n_step" or baseline:
                 critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
+        print()
 
     actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
     if boot == "n_step" or baseline:
