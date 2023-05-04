@@ -118,18 +118,18 @@ class Actor():
             return
 
         gradients = []
-        for i, mem in enumerate(memory):
+        for k, mem in enumerate(memory):
             mem = [mem[index] for index in range(len(mem))]
             # memory['number_of_minibatches', 'values']
             states, actions, rewards, values = [np.array([experience[field_index]
                                                           for experience in mem])
-                                                for field_index in range(6)]
-            
-            ## I just wanna see where it is going
-            left = np.sum(np.where(actions == -1, 1, 0))
-            idle = np.sum(np.where(actions == 0, 1, 0))
-            right = np.sum(np.where(actions == 1, 1, 0))
-            print(f"left {left}, idle {idle}, right {right}")
+                                                for field_index in range(4)]
+            if self.critic:
+                ## I just wanna see where it is going
+                left = np.sum(np.where(actions == -1, 1, 0))
+                idle = np.sum(np.where(actions == 0, 1, 0))
+                right = np.sum(np.where(actions == 1, 1, 0))
+                print(f"left {left}, idle {idle}, right {right}")
 
             QA_values = [self.bootstrap(t, rewards, values)
                          for t in range(len(rewards))]
@@ -147,12 +147,14 @@ class Actor():
                     gain_value = self.gain_fn_entropy(
                         prob_out=probs_out, Q=QA_values, actions=actions)
 
-            gradients[i] = tape.gradient(gain_value,
-                                         self.model.trainable_weights)
-
-        # average of grads
-        average_grads = np.mean(gradients, axis=0)
+            gradients.append(tape.gradient(gain_value,self.model.trainable_weights))
         
+        # average of grads
+        average_grads = []
+        for t1, t2 in zip(gradients[0], gradients[1]):  # if minibatch is size grater than two then this will not work
+            avg = tf.reduce_mean(tf.stack([t1,t2],axis=0),axis=0)  # tf.reduce_mean(tf.stack([t1,t2])) --  (t1 + t2) / 2
+            average_grads.append(avg)
+
         self.optimizer.apply_gradients(
             zip(average_grads, self.model.trainable_weights))
         # norm_grads = [tf.norm(grad) for grad in grads]
@@ -266,7 +268,7 @@ if __name__ == '__main__':
     n_step = 5
     speed = 1.
     boot = "n_step"  # "n_step" or "MC"
-    minibatch = 2
+    minibatch = 2  # !!! check in update weights. minibatch > 2 is not implemented
     P_weights = None
     V_weights = None
     baseline = True
