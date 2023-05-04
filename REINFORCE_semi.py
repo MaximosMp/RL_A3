@@ -68,9 +68,9 @@ class Actor():
             batchNorm = tf.keras.layers.BatchNormalization()(dense)
             dense2 = tf.keras.layers.Dense(
                 32, activation=activ_func, kernel_initializer=init2)(batchNorm)
-            # batchNorm2 = tf.keras.layers.BatchNormalization()(dense2)
-            dense3 = tf.keras.layers.Dropout(0.2)(dense2)
-            # dense3 = tf.keras.layers.Flatten()(dropout)
+            batchNorm2 = tf.keras.layers.BatchNormalization()(dense2)
+            dropout = tf.keras.layers.Dropout(0.2)(batchNorm2)
+            dense3 = tf.keras.layers.Flatten()(dropout)
 # 03/05 changed initializer, added second batch norm
         if critic:
             output_value = tf.keras.layers.Dense(
@@ -255,10 +255,10 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 400
+    n_episodes = 600
     learning_rate = 0.01
     rows = 9
-    columns = 9
+    columns = 7
     obs_type = "pixel"  # "vector" or "pixel"
     max_misses = 10
     max_steps = 250
@@ -271,8 +271,8 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.0005
-    P_weights = 'data/weights/w_P_03_100155.h5'
-    V_weights = 'data/weights/w_V_03_100155.h5'
+    # P_weights = 'data/weights/w_P_03_141904.h5'
+    # V_weights = 'data/weights/w_V_03_141904.h5'
     training = True
 
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))

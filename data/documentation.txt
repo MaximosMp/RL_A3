@@ -434,3 +434,15 @@ Stamp: 24_211301 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg re
 
  03_100155 ... params: Parameters: 400, 0.01, 9, 9, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.0005, 03_100155, True, True, Avg reward: -4.8075 
 --> continued for another 100 runs under r_02_172839.npy
+
+03_14_1904 continued to 1400000 and last run of 03_
+
+
+
+ 03_204253 ... params: Parameters: 150, 0.01, 9, 9, pixel, 10, 250, None, 5, 1.0, n_step, data/weights/w_P_03_141904.h5, data/weights/w_V_03_141904.h5, 1, 0.0005, 03_204253, True, True, Avg reward: -2.8133333333333335 
+
+
+ 03_214916 ... params: Parameters: 600, 0.01, 7, 9, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.0005, 03_214916, True, True, Avg reward: -8.78 
+
+
+ 04_015211 ... params: Parameters: 600, 0.01, 9, 7, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.0005, 04_015211, True, True, Avg reward: -8.37 

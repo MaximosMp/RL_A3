@@ -24,8 +24,6 @@ hyperopt_big = ['21_205207','21_224331','21_205312','22_002411','22_015841','22_
 hyperopt_big += ['22_072616','22_083833','22_101711','22_094037','22_140345','22_163358','22_180822','22_194411','22_211909']
 hyperopt_big += ['22_231129','23_004433']
 
-learning_plots = ['']
-eta_plots = ['25_181333','25_201320','25_221342','26_151751','26_171012','26_175224']
 
 
 rewards = []
@@ -37,7 +35,7 @@ plt.plot(savgol_filter(rewards, 10,1), label='REINFORCE')
 
 rewards = []
 for plot in part1_MCbaseline:
-    rewards.append(np.load(f'data/rewards/r_{plot}.npy'))
+    rewards.append(np.load(f'data/rewards/r_{plot}.npy')[:300])
 rewards = np.mean(rewards,axis=0)
 plt.plot(savgol_filter(rewards, 10,1), label = 'MC baseline')
 
@@ -58,37 +56,46 @@ plt.plot(savgol_filter(rewards, 10,1), label = 'full')
 plt.title('End of Part 1')
 plt.grid()
 plt.legend()
+plt.savefig('plots/Part_1.pdf')
 plt.show()
 
-for j, plots in enumerate(hyperopt_big):
+learning_plots = ['23_131422','23_151619','23_203642','23_225132']  # with 0.01 eta
+eta_plots = ['26_151751','26_171012','26_175224']  # with 0.001 learning '25_181333','25_201320','25_221342' more runs but bad
+# 0.5, 0.1, 0.01, 0.001, 0.0005, 0.0001
+tuning = eta_plots + learning_plots
+
+labels = [r'$\eta=0.001$',r'$\eta=0.0005$',r'$\eta=0.0001$',
+          r'$\alpha=0.1$',r'$\alpha=0.01$',r'$\alpha=0.001$',r'$\alpha=0.0001$']
+for j, plots in enumerate(tuning):
     linestyle = "-"
-    if j > 9:
+    if j > 3:
         linestyle = "--"
-    labl = f'{j}:' + plots
     reward = np.load(f'data/rewards/r_{plots}.npy')
     reward = savgol_filter(reward,10,1)
-    plt.plot(reward, label=labl, linestyle=linestyle)
-plt.title('Grid hyperopt')
+    plt.plot(reward, label=labels[j], linestyle=linestyle)
+plt.title('Hyperparameter tuning')
 plt.grid()
 plt.xlabel('Episode')
 plt.ylabel('Reward')
-plt.legend(fontsize='8')
+plt.legend(loc='right')  # fontsize='8'
+plt.savefig('plots/learning-eta_tuning.pdf')
 plt.show()
 
-for j, plots in enumerate(eta_plots):
-    linestyle = "-"
-    labl = f'{j}:' + plots
-    reward = np.load(f'data/rewards/r_{plots}.npy')
-    reward = savgol_filter(reward,10,1)
-    plt.plot(reward, label=labl, linestyle=linestyle)
-plt.title('Eta hyperopt')
-plt.grid()
-plt.xlabel('Episode')
-plt.ylabel('Reward')
-plt.legend()
-plt.show()
+# for j, plots in enumerate(eta_plots):
+#     linestyle = "-"
+#     labl = f'{j}:' + plots
+#     reward = np.load(f'data/rewards/r_{plots}.npy')
+#     reward = savgol_filter(reward,10,1)
+#     plt.plot(reward, label=labl, linestyle=linestyle)
+# plt.title('Eta hyperopt')
+# plt.grid()
+# plt.xlabel('Episode')
+# plt.ylabel('Reward')
+# plt.legend()
+# plt.savefig('plots/eta_hyperopt.pdf')
+# plt.show()
 
-
+'''
 ### PART 2
 default = ['30_202045','30_204133','30_210223','30_212339','01_065527']
 speed_05 = ['30_113517','30_115449','30_121431','30_123431','30_140008']
@@ -105,3 +112,4 @@ plt.title('Default vs speed 0.5')
 plt.grid()
 plt.legend()
 plt.show()
+'''
