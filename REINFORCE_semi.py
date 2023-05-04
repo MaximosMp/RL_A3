@@ -113,16 +113,16 @@ class Actor():
         gain -= self.eta * tf.tensordot(prob_out, tf.math.log(prob_out), 1)
         return gain
 
-    def update_weights(self, memory):
+    def update_weights(self, memories):
         '''got code structure from https://keras.io/guides/writing_a_training_loop_from_scratch/'''
         if not self.training:
             return
 
         gradients = []
-        for k, mem in enumerate(memory):
+        for k, memory in enumerate(memories):
             # memory['number_of_minibatches', 'values']
             states, actions, rewards, values = [np.array([experience[field_index]
-                                                          for experience in mem])
+                                                          for experience in memory])
                                                 for field_index in range(4)]
             if self.critic:
                 ## I just wanna see where it is going
@@ -233,27 +233,26 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                     break
                 state = next_state
             # trace is finished
-            print(f'{ep}, step {count}, reward: {ep_reward}')
+            # print(f'{ep}, step {count}, reward: {ep_reward}')
 
             # memory['number_of_minibatches', 'values']
         
         avg_total_rewards = []
         total_rewards = []
         for mem in memory:
-            rewards = [np.array([experience[2] for experience in mem])]
-            avg_total_rewards.append(np.mean(rewards))
+            rewards = np.array([experience[2] for experience in mem])
+            # avg_total_rewards.append(np.mean(rewards))
             total_rewards.append(rewards)
-        # avg_total_rewards = np.mean(total_rewards,axis=1) instead?
-
+        avg_total_rewards = np.mean(total_rewards,axis=1)
 
         best_memory = []
         ## Choose the best two average total rewards from memory buffer
         for _ in range(2):  # this decides over how many we are going to average
-            rewards_max_index = np.argmax(avg_total_rewards)
-            avg_total_rewards[rewards_max_index] = -9.
-            best_memory.append(memory[rewards_max_index])
-            all_rewards.append(np.sum(total_rewards[rewards_max_index]))
-
+            rewards_max_index = np.argmax(avg_total_rewards)  # get index of best performing
+            avg_total_rewards[rewards_max_index] = -9.  # make sure it's not chosen again
+            best_memory.append(memory[rewards_max_index])  # save this memory to use in update
+            all_rewards.append(np.sum(total_rewards[rewards_max_index]))  # export rewards for plot later
+        print(f"{ep}, step {count}, rewards: {all_rewards[-2:]}")
         if actor.boot == 'n_step' or baseline:
             critic.update_weights(best_memory)
         actor.update_weights(best_memory)
@@ -276,7 +275,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 300
+    n_episodes = 150
     learning_rate = 0.01
     rows = 7
     columns = 7
@@ -292,8 +291,8 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.0005
-    # P_weights = 'data/weights/w_P_27_220351.h5'
-    # V_weights = 'data/weights/w_V_27_220351.h5'
+    P_weights = 'data/weights/w_P_04_120054.h5'
+    V_weights = 'data/weights/w_V_04_120054.h5'
     # use '27_230853','28_002357' next
     training = True
 

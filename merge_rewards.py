@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
+from scipy.signal import savgol_filter
 
 
 '''
@@ -15,8 +16,8 @@ args = sys.argv[1:]
 rewards = np.array([])
 
 for plot in args[:-1]:
-    rewards = np.append(rewards,np.load(f'data/rewards/r_{plot}.npy'))
+    rewards = np.append(rewards,np.load(f'data/rewards/{plot}.npy'))
 
 np.save(f'data/rewards/r_{args[-1]}',rewards)
-plt.plot(rewards)
+plt.plot(savgol_filter(rewards,10,1))
 plt.show()
