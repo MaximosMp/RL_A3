@@ -2,13 +2,10 @@ import numpy as np
 from catch import Catch
 import tensorflow as tf
 from collections import deque
-from Helper import time_it, print_it, save_params
+from Helper import time_it, print_it, save_params, write_to_doc
 import time
 from keras.utils.vis_utils import plot_model
 
-def write_to_doc(text: str):
-    with open("data/documentation.txt", 'a') as f:
-        f.write(text)
     
 '''
     TO DO: 
@@ -183,7 +180,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
               obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None,
               n_step: int = 5, speed: float = 1.0, boot: str = "MC", P_weights: str = None, V_weights: str = None,
               minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False, training: bool = True):
-    text = f"\n\nRunning on params: {reinforce.params}\n"
+    text = f"\n\nRunning on {reinforce.params}\n"
     print(text)
     write_to_doc(text=text)
     if boot == "MC":
@@ -275,7 +272,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     if boot == "n_step" or baseline:
         critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
     np.save(f'data/rewards/r_{stamp}', all_rewards)
-    write_to_doc(f'{stamp} ... Avg reward: {np.mean(rewards)} \n')
+    write_to_doc(f'{stamp} ... Avg reward: {np.mean(all_rewards)} \n')
     return all_rewards
 
 

@@ -2,6 +2,7 @@ from REINFORCE_semi import reinforce
 import time
 import numpy as np
 import sys
+from Helper import write_to_doc
 
 args = sys.argv[1:]
 
@@ -44,15 +45,13 @@ if section == 0:
             continue  # we already have a 400 run on full agent
         stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
         print(
-            f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
-
+            f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp}")
+        write_to_doc(f'\nExp{section},{i},{j}')
         rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                             max_misses, max_steps, seed, n_step, speed, boot[i],
                             P_weights, V_weights, minibatch, eta, stamp, baseline[i])
 
-        with open("data/documentation.txt", 'a') as f:
-            f.write(
-                f'\n\n {stamp}, Exp{i},{j} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
+        
 
 
 # PART 2
