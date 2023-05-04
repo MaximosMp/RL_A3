@@ -250,7 +250,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         ## Choose the best two average total rewards from memory buffer
         for _ in range(2):  # this decides over how many we are going to average
             rewards_max_index = np.argmax(avg_total_rewards)
-            avg_total_rewards[rewards_max_index] = 0.
+            avg_total_rewards[rewards_max_index] = -9.
             best_memory.append(memory[rewards_max_index])
             all_rewards.append(np.sum(total_rewards[rewards_max_index]))
 
