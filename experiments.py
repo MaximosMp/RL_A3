@@ -39,7 +39,7 @@ for i in [0,1,2,3]:
 '''
 if section == 0:
     # here, "i" (second comand line argument) decides which experiment is: run MC, MC+baseline, Nstep, Nstep+baseline
-    for j in range(5):
+    for j in range(3):
         stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
         print(
             f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")

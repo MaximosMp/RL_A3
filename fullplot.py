@@ -68,7 +68,7 @@ labels = [r'$\eta=0.001$',r'$\eta=0.0005$',r'$\eta=0.0001$',
           r'$\alpha=0.1$',r'$\alpha=0.01$',r'$\alpha=0.001$',r'$\alpha=0.0001$']
 for j, plots in enumerate(tuning):
     linestyle = "-"
-    if j > 3:
+    if j > 2:
         linestyle = "--"
     reward = np.load(f'data/rewards/r_{plots}.npy')
     reward = savgol_filter(reward,10,1)

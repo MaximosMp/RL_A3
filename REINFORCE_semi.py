@@ -52,9 +52,11 @@ class Actor():
         activ_func = "relu"
         init = tf.keras.initializers.GlorotNormal(seed=self.seed)
         init2 = tf.keras.initializers.GlorotNormal(seed=self.seed)
-
-        self.optimizer = tf.keras.optimizers.Adam(
-            learning_rate=learning_rate, )
+        # hard coded Value learning rate to 0.05
+        if critic:
+            self.optimizer = tf.keras.optimizers.Adam(learning_rate=0.05)
+        else:
+            self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
 
         if (observation_type == 'pixel'):
             input_shape = (columns, rows, 2)
@@ -68,10 +70,9 @@ class Actor():
             batchNorm = tf.keras.layers.BatchNormalization()(dense)
             dense2 = tf.keras.layers.Dense(
                 32, activation=activ_func, kernel_initializer=init2)(batchNorm)
-            batchNorm2 = tf.keras.layers.BatchNormalization()(dense2)
-            dropout = tf.keras.layers.Dropout(0.2)(batchNorm2)
+            # batchNorm2 = tf.keras.layers.BatchNormalization()(dense2)
+            dropout = tf.keras.layers.Dropout(0.2)(dense2)
             dense3 = tf.keras.layers.Flatten()(dropout)
-# 03/05 changed initializer, added second batch norm
         if critic:
             output_value = tf.keras.layers.Dense(
                 1, activation='linear')(dense3)
@@ -119,7 +120,6 @@ class Actor():
 
         gradients = []
         for k, mem in enumerate(memory):
-            mem = [mem[index] for index in range(len(mem))]
             # memory['number_of_minibatches', 'values']
             states, actions, rewards, values = [np.array([experience[field_index]
                                                           for experience in mem])
@@ -151,8 +151,8 @@ class Actor():
         
         # average of grads
         average_grads = []
-        for t1, t2 in zip(gradients[0], gradients[1]):  # if minibatch is size grater than two then this will not work
-            avg = tf.reduce_mean(tf.stack([t1,t2],axis=0),axis=0)  # tf.reduce_mean(tf.stack([t1,t2])) --  (t1 + t2) / 2
+        for grads in zip(*gradients):
+            avg = tf.reduce_mean(tf.stack(grads, axis=0), axis=0)
             average_grads.append(avg)
 
         self.optimizer.apply_gradients(
@@ -204,8 +204,8 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         # for ep in range(n_episodes):  # n_episodes = 500
         for mem in memory:
             mem.clear()
-        ep += 1
-        for m in range(minibatch):  # minibatch = 2
+        ep += 2
+        for m in range(minibatch):
             ep_reward = 0
             state = actor.reshape_state(env.reset())
             # generate full trace
@@ -234,11 +234,29 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                 state = next_state
             # trace is finished
             print(f'{ep}, step {count}, reward: {ep_reward}')
-            all_rewards.append(ep_reward)
+
+            # memory['number_of_minibatches', 'values']
+        
+        avg_total_rewards = []
+        total_rewards = []
+        for mem in memory:
+            rewards = [np.array([experience[2] for experience in mem])]
+            avg_total_rewards.append(np.mean(rewards))
+            total_rewards.append(rewards)
+
+
+        best_memory = []
+        ## Choose the best two average total rewards from memory buffer
+        for _ in range(2):  # this decides over how many we are going to average
+            rewards_max_index = np.argmax(avg_total_rewards)
+            avg_total_rewards.pop(rewards_max_index)
+            best_memory.append(memory[rewards_max_index])
+            all_rewards.append(total_rewards[rewards_max_index])
 
         if actor.boot == 'n_step' or baseline:
-            critic.update_weights(memory)
-        actor.update_weights(memory)
+            critic.update_weights(best_memory)
+        actor.update_weights(best_memory)
+        print()
 
         if ep % 20 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
@@ -264,17 +282,18 @@ if __name__ == '__main__':
     obs_type = "pixel"  # "vector" or "pixel"
     max_misses = 10
     max_steps = 250
-    seed = None
+    seed = np.random.randint(100)
     n_step = 5
     speed = 1.
     boot = "n_step"  # "n_step" or "MC"
-    minibatch = 2  # !!! check in update weights. minibatch > 2 is not implemented
+    minibatch = 4  # but only 2 best ones are used 
     P_weights = None
     V_weights = None
     baseline = True
     eta = 0.0005
-    # P_weights = 'data/weights/w_P_03_141904.h5'
-    # V_weights = 'data/weights/w_V_03_141904.h5'
+    # P_weights = 'data/weights/w_P_27_220351.h5'
+    # V_weights = 'data/weights/w_V_27_220351.h5'
+    # use '27_230853','28_002357' next
     training = True
 
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
