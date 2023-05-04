@@ -196,7 +196,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                        observation_type=obs_type, saved_weights=V_weights, seed=seed,
                        critic=True, eta=eta, training=training, baseline=False)
     count = 0
-    memory = [deque(maxlen=max_steps) for _ in minibatch]
+    memory = [deque(maxlen=max_steps) for _ in range(minibatch)]
     ep = 0
     while ep < n_episodes:
         # for ep in range(n_episodes):  # n_episodes = 500
@@ -266,7 +266,7 @@ if __name__ == '__main__':
     n_step = 5
     speed = 1.
     boot = "n_step"  # "n_step" or "MC"
-    minibatch = 3
+    minibatch = 2
     P_weights = None
     V_weights = None
     baseline = True
