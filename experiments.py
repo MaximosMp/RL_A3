@@ -43,6 +43,8 @@ if section == 0:
     for j in range(2):
         if i == 3 and j == 0:
             continue  # we already have a 400 run on full agent
+        if i == 0 and j == 0:
+            continue  # we already have a 400 run on basic agent
         stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
         print(
             f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp}")
@@ -51,7 +53,6 @@ if section == 0:
                             max_misses, max_steps, seed, n_step, speed, boot[i],
                             P_weights, V_weights, minibatch, eta, stamp, baseline[i])
 
-        
 
 
 # PART 2

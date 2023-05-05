@@ -459,3 +459,33 @@ first 150 eps of 04_120054 ran. (first updated improved run)
 04_183040 this run went for 300. GlorotNormal! and eta=0.001, rest same. performing well!
 
 
+
+Exp0,0,0
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 58, 5, 1.0, MC, None, None, 4, 0.001, 04_215854, False
+04_215854 ... Avg reward: -7.425 
+
+
+Exp0,1,0
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 78, 5, 1.0, MC, None, None, 4, 0.001, 04_225730, True
+04_225730 ... Avg reward: -7.485 
+
+Exp0,1,1
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 78, 5, 1.0, MC, None, None, 4, 0.001, 05_004942, True
+05_004942 ... Avg reward: -2.01 
+
+Exp0,2,0
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 86, 5, 1.0, n_step, None, None, 4, 0.001, 05_034633, False
+05_034633 ... Avg reward: -7.4175 
+
+Exp0,2,1
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 86, 5, 1.0, n_step, None, None, 4, 0.001, 05_053914, False
+05_053914 ... Avg reward: -7.3975 
+
+Exp0,3,1
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 73, 5, 1.0, n_step, None, None, 4, 0.001, 05_075841, True

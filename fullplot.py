@@ -60,7 +60,7 @@ plt.savefig('plots/Part_1.pdf')
 plt.show()
 
 learning_plots = ['23_131422','23_151619','23_203642','23_225132']  # with 0.01 eta
-eta_plots = ['26_151751','26_171012','26_175224']  # with 0.001 learning '25_181333','25_201320','25_221342' more runs but bad
+eta_plots = ['26_171012','26_151751','26_175224']  # with 0.001 learning '25_181333','25_201320','25_221342' more runs but bad
 # 0.5, 0.1, 0.01, 0.001, 0.0005, 0.0001
 tuning = eta_plots + learning_plots
 
