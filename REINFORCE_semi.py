@@ -275,7 +275,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 150
+    n_episodes = 400
     learning_rate = 0.01
     rows = 7
     columns = 7
@@ -290,9 +290,9 @@ if __name__ == '__main__':
     P_weights = None
     V_weights = None
     baseline = True
-    eta = 0.0005
-    P_weights = 'data/weights/w_P_04_120054.h5'
-    V_weights = 'data/weights/w_V_04_120054.h5'
+    eta = 0.001
+    # P_weights = 'data/weights/w_P_04_120054.h5'
+    # V_weights = 'data/weights/w_V_04_120054.h5'
     # use '27_230853','28_002357' next
     training = True
 

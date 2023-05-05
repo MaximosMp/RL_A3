@@ -450,3 +450,27 @@ Stamp: 24_211301 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg re
 first 150 eps of 04_120054 ran. (first updated improved run) 
 
 
+
+
+ 04_210821, Exp0,0,9x9 ... params: Parameters: 300, 0.01, 9, 9, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 04_210821, True, Avg reward: -8.600 
+
+
+ 04_213900, Exp0,1,9x9 ... params: Parameters: 300, 0.01, 9, 9, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 04_213900, True, Avg reward: -6.893 
+
+
+ 04_221523, Exp0,2,9x9 ... params: Parameters: 300, 0.01, 9, 9, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 04_221523, True, Avg reward: -8.747 
+
+
+ 04_224709, Exp0,3,9x9 ... params: Parameters: 300, 0.01, 9, 9, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 04_224709, True, Avg reward: -8.607 
+
+
+ 04_232119, Exp0,4,9x9 ... params: Parameters: 300, 0.01, 9, 9, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 04_232119, True, Avg reward: -8.127 
+
+
+ 05_002934, Exp1,0,0.5 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, None, None, 1, 0.0005, 05_002934, True, Avg reward: -8.127 
+
+
+ 05_012051, Exp1,1,0.5 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, None, None, 1, 0.0005, 05_012051, True, Avg reward: -8.100 
+
+
+ 05_021216, Exp1,2,0.5 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, None, None, 1, 0.0005, 05_021216, True, Avg reward: -4.653 

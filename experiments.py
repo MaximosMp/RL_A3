@@ -65,7 +65,7 @@ if section == 1:
     # Experiment 0 - Size Variation
     # square 7x7, square 11x11, rectangle 7x14, rectangle 14x7
     if i == 0:
-        list_of_rows_columns = [(11, 11), (7, 14), (14, 7)]
+        list_of_rows_columns = [(9, 9), (7, 9), (9, 7)]
 
         for rows, columns in list_of_rows_columns:
             for j in range(5):
@@ -88,8 +88,6 @@ if section == 1:
         speeds = [0.5, 1.5, 2.0]
         for speed in speeds:
             for j in range(5):
-                if j == 4:
-                    continue
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
@@ -138,5 +136,5 @@ if section == 1:
 
                 with open("data/documentation.txt", 'a') as f:
                     f.write(
-                        f'\n\n {stamp}, Exp{i},{j} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
+                        f'\n\n {stamp}, Exp{i},{j},speed,size ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
     # Experiment 4 - other interesting variations
