@@ -41,10 +41,6 @@ for i in [0,1,2,3]:
 if section == 0:
     # here, "i" (second comand line argument) decides which experiment is: run MC, MC+baseline, Nstep, Nstep+baseline
     for j in range(2):
-        if i == 3 and j == 0:
-            continue  # we already have a 400 run on full agent
-        if i == 0 and j == 0:
-            continue  # we already have a 400 run on basic agent
         stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
         print(
             f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp}")
