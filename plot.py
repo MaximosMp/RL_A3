@@ -28,7 +28,6 @@ if __name__ == "__main__":
     for j, reward in enumerate(rewards):
         avg = np.mean(reward)
         median = np.median(reward)
-    
         print(f"Average performance {args[j]}: {avg:.3f} after {len(reward)} episodes. Avg last 50: {np.mean(reward[-50:]):.3f}\n")
         # if "mean" in args:
         #     reward = np.mean(reward,axis=0)
