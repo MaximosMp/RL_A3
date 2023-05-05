@@ -45,10 +45,6 @@ colors = ['tab:blue','tab:orange','tab:green','tab:red','tab:purple','tab:brown'
 
 ### Part 1
 
-old_part1_full = ['27_220351','27_230853','28_002357','28_013246','28_065433']
-old_part1_reinforce = ['27_182504','27_184923','27_191045','27_193144','27_195244']
-old_part1_bootstrap = ['27_201503','27_205749','28_075635']
-old_part1_MCbaseline = ['28_153349']
 
 part1_full = ['04_183040','05_075841']
 part1_reinforce = ['04_215854']
@@ -115,23 +111,14 @@ plt.legend(loc='right')  # fontsize='8'
 plt.savefig('plots/learning-eta_tuning.pdf')
 plt.show()
 
-# for j, plots in enumerate(eta_plots):
-#     linestyle = "-"
-#     labl = f'{j}:' + plots
-#     reward = np.load(f'data/rewards/r_{plots}.npy')
-#     reward = savgol_filter(reward,10,1)
-#     plt.plot(reward, label=labl, linestyle=linestyle)
-# plt.title('Eta hyperopt')
-# plt.grid()
-# plt.xlabel('Episode')
-# plt.ylabel('Reward')
-# plt.legend()
-# plt.savefig('plots/eta_hyperopt.pdf')
-# plt.show()
-
 
 ### PART 2
 default = ['30_202045','30_204133','30_210223','30_212339','01_065527']
 speed_05 = ['30_113517','30_115449','30_121431','30_123431','30_140008']
 speed_15 = ['30_151006','30_151743','30_152617','30_153421','30_142345']
 speed_20 = ['30_154243','30_154719','30_155202','30_155709']
+
+old_part1_full = ['27_220351','27_230853','28_002357','28_013246','28_065433']
+old_part1_reinforce = ['27_182504','27_184923','27_191045','27_193144','27_195244']
+old_part1_bootstrap = ['27_201503','27_205749','28_075635']
+old_part1_MCbaseline = ['28_153349']
