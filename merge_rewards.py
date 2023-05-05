@@ -20,4 +20,5 @@ for plot in args[:-1]:
 
 np.save(f'data/rewards/r_{args[-1]}',rewards)
 plt.plot(savgol_filter(rewards,10,1))
+plt.grid()
 plt.show()

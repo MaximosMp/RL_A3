@@ -28,18 +28,17 @@ if __name__ == "__main__":
     for j, reward in enumerate(rewards):
         avg = np.mean(reward)
         median = np.median(reward)
-    
         print(f"Average performance {args[j]}: {avg:.3f} after {len(reward)} episodes. Avg last 50: {np.mean(reward[-50:]):.3f}\n")
         # if "mean" in args:
         #     reward = np.mean(reward,axis=0)
         plt.title(titles[j])
-        plt.plot(reward,alpha=0.2,color=colors[j],label=f"Raw data {j}")
-        plt.plot(savgol_filter(reward,10,polyorder=1),color=colors[j],label=f"Convolution {j}")  # end always goes down due to conv
+        plt.plot(reward,alpha=0.2,color=colors[j])
+        plt.plot(savgol_filter(reward,10,polyorder=1),color=colors[j],label=f" {titles[j][-15:]}")  # end always goes down due to conv
         plt.axhline(avg, color=colors[j],linewidth=1,label= "Average", linestyle="--")
 
     plt.xlabel("Episodes")
     plt.ylabel("Reward")
-    # plt.legend()
+    plt.legend()
     plt.grid()
-    #plt.savefig(f"data/rewards_{j}.pdf")
+    plt.savefig(f"data/plot.pdf")
     plt.show()

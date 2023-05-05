@@ -2,11 +2,11 @@ import numpy as np
 from catch import Catch
 import tensorflow as tf
 from collections import deque
-from Helper import time_it, print_it, save_params
+from Helper import time_it, print_it, save_params, write_to_doc
 import time
 from keras.utils.vis_utils import plot_model
 
-
+    
 '''
     TO DO: 
         ask: 
@@ -180,6 +180,9 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
               obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None,
               n_step: int = 5, speed: float = 1.0, boot: str = "MC", P_weights: str = None, V_weights: str = None,
               minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False, training: bool = True):
+    text = f"\n\nRunning on {reinforce.params}\n"
+    print(text)
+    write_to_doc(text=text)
     if boot == "MC":
         n_step = max_steps
 
@@ -206,7 +209,6 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             mem.clear()
         ep += 2
         for m in range(minibatch):
-            ep_reward = 0
             state = actor.reshape_state(env.reset())
             # generate full trace
             for T in range(max_steps):
@@ -223,7 +225,6 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                 next_state, r, done = env.step(action)
                 count += 1
                 next_state = actor.reshape_state(next_state)
-                ep_reward += r
                 # env.render(0.2)
 
                 # take out the extra "1" dimensions
@@ -241,9 +242,9 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         total_rewards = []
         for mem in memory:
             rewards = np.array([experience[2] for experience in mem])
-            # avg_total_rewards.append(np.mean(rewards))
+            avg_total_rewards.append(np.mean(rewards))
             total_rewards.append(rewards)
-        avg_total_rewards = np.mean(total_rewards,axis=1)
+        # avg_total_rewards = np.mean(total_rewards,axis=1)
 
         best_memory = []
         ## Choose the best two average total rewards from memory buffer
@@ -252,6 +253,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             avg_total_rewards[rewards_max_index] = -9.  # make sure it's not chosen again
             best_memory.append(memory[rewards_max_index])  # save this memory to use in update
             all_rewards.append(np.sum(total_rewards[rewards_max_index]))  # export rewards for plot later
+
         print(f"{ep}, step {count}, rewards: {all_rewards[-2:]}")
         if actor.boot == 'n_step' or baseline:
             critic.update_weights(best_memory)
@@ -270,6 +272,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     if boot == "n_step" or baseline:
         critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
     np.save(f'data/rewards/r_{stamp}', all_rewards)
+    write_to_doc(f'{stamp} ... Avg reward: {np.mean(all_rewards)} \n')
     return all_rewards
 
 
@@ -282,7 +285,7 @@ if __name__ == '__main__':
     obs_type = "pixel"  # "vector" or "pixel"
     max_misses = 10
     max_steps = 250
-    seed = np.random.randint(100)
+    seed = np.random.randint(100)  # 25 went well
     n_step = 5
     speed = 1.
     boot = "n_step"  # "n_step" or "MC"
@@ -302,6 +305,4 @@ if __name__ == '__main__':
                         max_misses, max_steps, seed, n_step, speed, boot,
                         P_weights, V_weights, minibatch, eta, stamp, baseline, training)
 
-    with open("data/documentation.txt", 'a') as f:
-        f.write(
-            f'\n\n {stamp} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
+    
