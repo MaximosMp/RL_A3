@@ -1,4 +1,3 @@
-
 ## end learning rate opt
 
 
@@ -267,7 +266,10 @@ Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 2, 5, 1.0, n_step, data/
 
 Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 49, 5, 1.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 4, 0.001, 06_144133, True, True
 
-06_180000 is longer eta optimizaiton version of r_26_171012!!
+06_180000 is longer eta optimi version of r_26_171012!!
 
 
 Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 25, 5, 1.0, n_step, data/weights/w_P_26_151751.h5, data/weights/w_V_26_151751.h5, 4, 0.001, 06_174353, True, True
+06_200000 is longer eta optimi version of r_26_151751!!
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 66, 5, 1.0, n_step, data/weights/w_P_26_175224.h5, data/weights/w_V_26_175224.h5, 4, 0.001, 06_182321, True, True

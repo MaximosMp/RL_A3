@@ -25,7 +25,7 @@ seed = np.random.randint(100)
 training = True
 
 # give a list which weights you wanna run
-weights = ['26_151751','26_175224']  # eta runs. len: 128, 168, 165 
+weights = ['26_175224']  # eta runs. len: 128, 168, 165 
 # weights = ['04_183040','05_075841','05_200146']  # full run runs (len 300, we want 350 or 400)
 
 
