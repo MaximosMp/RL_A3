@@ -46,13 +46,14 @@ colors = ['tab:blue','tab:orange','tab:green','tab:red','tab:purple','tab:brown'
 
 ### TO DO
 
-#--> hyperopt: continue on eta weights!!
-#--> part1: continue on full network until 350/400
-#--> obs_type: more vectors! (longer?)
-#--> size: 3 nine_seven missing, 1 seven_nine!
-#--> speed and size: more 0.5 7x9
-#--> speed: missing 1.5 and 2.0, 0.5 could have more
-#--> our own implementation: full agent without average (we have default w/average)
+#--> obs_type: more vectors! (longer?) <--- luca vllt
+#--> our own implementation: full agent without average (we have default w/average) <---
+
+#--> hyperopt: continue on eta weights luca
+#--> part1: continue on full network until 350/400 maximos now
+#--> size: 3 nine_seven missing, 1 seven_nine! maximos now
+#--> speed and size: more 0.5 7x9  tsiro now
+#--> speed: missing 1.5, 0.5 could have more tsiro now
 
 
 # hyperopt
@@ -60,7 +61,7 @@ colors = ['tab:blue','tab:orange','tab:green','tab:red','tab:purple','tab:brown'
 #--> continue on eta weights!!
 
 learning_plots = ['23_131422','23_151619','23_203642','23_225132']  # with 0.01 eta
-eta_plots = ['06_180000','26_151751','26_175224']  # with 0.001 learning '25_181333','25_201320','25_221342' more runs but bad
+eta_plots = ['06_180000','06_200000','26_175224']  # with 0.001 learning '25_181333','25_201320','25_221342' more runs but bad
 tuning = eta_plots + learning_plots
 
 labels = [r'$\eta=0.001$',r'$\eta=0.0005$',r'$\eta=0.0001$',
@@ -70,7 +71,7 @@ for j, plots in enumerate(tuning):
     if j > 2:
         linestyle = "--"
     if j < 3:
-        reward = np.load(f'data/rewards/r_{plots}.npy')[:200]
+        reward = np.load(f'data/rewards/r_{plots}.npy')
     else:
         reward = np.load(f'data/rewards/r_{plots}.npy')
     reward = savgol_filter(reward,10,1)
@@ -84,7 +85,7 @@ plt.savefig('plots/learning-eta_tuning.pdf')
 plt.show()
 
 ### Part 1
-#--> continue on full network until 350/400
+#--> continue on full network until 350/400 maximos right now
 part1_reinforce = ['04_215854','05_122403','05_125405','05_132446']
 part1_MCbaseline = ['04_225730','05_004942','05_135512','05_145547','05_155817']
 part1_bootstrap = ['05_034633','05_053914','05_165944','05_175952','05_185955']
@@ -106,11 +107,11 @@ plt.show()
 # size
 #--> 3 nine_seven missing, 1 seven_nine!
 seven_nine = ['06_024834','03_214916']
-nine_seven = ['']
+nine_seven = ['']  # maximos now
 nine_nine = ['04_210821','04_213900','04_221523','04_224709','04_232119']
 list_full_plot(part1_full, label='shape 7x7 (default)', color='darkviolet')
 list_full_plot(nine_nine,label='shape = 9x9', color= 'tab:orange')
-list_full_plot(seven_nine,label='shape = 7x9', color= 'tab:green',cutoff=300)  # could go to 400 
+list_full_plot(seven_nine,label='shape = 7x9', color= 'tab:green',cutoff=400)  # could go to 400 
 # list_full_plot(nine_seven,label='shape = 9x7', color= 'tab:red')
 
 plt.title('Environment size variations')
@@ -122,7 +123,7 @@ plt.savefig('plots/part2_size.pdf')
 plt.show()
 
 # vector
-#--> more vectors! (longer?)
+#--> more vectors! (longer?)  # vectors!
 vectors = ['06_103356']
 list_full_plot(part1_full, label='observation by pixel (default)', color='darkviolet')
 list_full_plot(vectors, label='observation by vector', color='tab:orange')
@@ -137,12 +138,12 @@ plt.show()
 # speed
 #--> missing 1.5 and 2.0, 0.5 could have more
 speed_05 = ['05_002934','05_012051','05_021216']
-speed_15 = ['']
-speed_20 = ['']
+speed_15 = ['']  # tsiro running now
+speed_20 = ['06_130604','06_154940']
 
 list_full_plot(speed_05, label='speed = 0.5', color = 'tab:blue')
 list_full_plot(part1_full, label='speed = 1.0', color = 'darkviolet')
-list_full_plot(speed_15, label='speed = 1.5', color = 'tab:green')
+# list_full_plot(speed_15, label='speed = 1.5', color = 'tab:green')
 list_full_plot(speed_20, label='speed = 2.0', color = 'tab:red')
 plt.title('Environment speed variations')
 plt.xlabel('Episode')
@@ -156,7 +157,7 @@ plt.show()
 #--> more 0.5 7x9
 
 speed_20_79 = ['06_000442','05_231413','05_171708']
-speed_05_79 = ['05_123003']
+speed_05_79 = ['05_123003']  # tsiro also doing this
 
 list_full_plot(speed_05_79,label='speed 0.5, size 7x9',color='tab:blue')
 list_full_plot(speed_20_79,label='speed 2.0, size 7x9',color='tab:orange')
