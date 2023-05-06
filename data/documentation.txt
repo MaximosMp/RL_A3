@@ -117,11 +117,6 @@ Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 60, 5, 0.5, n_step, None
 Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 60, 5, 0.5, n_step, None, None, 4, 0.001, 05_163342, True
 
 
-Running on Parameters: 2, 0.01, 7, 7, pixel, 10, 250, 2, 5, 1.0, n_step, data/weights/w_P_05_075841.h5, data/weights/w_V_05_075841.h5, 4, 0.001, 05_171412, True, False
-
-
-Running on Parameters: 2, 0.01, 7, 7, pixel, 10, 250, 90, 5, 1.5, n_step, data/weights/w_P_05_075841.h5, data/weights/w_V_05_075841.h5, 4, 0.001, 05_171527, True, False
-
 
 Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 72, 5, 2.0, n_step, None, None, 4, 0.001, 05_171708, True
 05_171708 ... Avg reward: -4.6275 
@@ -168,3 +163,121 @@ Running on Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 49, 5, 2.0, n_step, None
 
 
 Running on Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 49, 5, 2.0, n_step, None, None, 4, 0.001, 06_162927, True
+
+# maximos experiment 0
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 40, 5, 1.0, MC, None, None, 1, 0.001, 05_122403, False
+05_122403 ... Avg reward: -8.445 
+
+
+ 05_122403, Exp0,0 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 40, 5, 1.0, MC, None, None, 1, 0.001, 05_122403, False, Avg reward: -8.445 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 40, 5, 1.0, MC, None, None, 1, 0.001, 05_125405, False
+05_125405 ... Avg reward: -8.19 
+
+
+ 05_125405, Exp0,1 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 40, 5, 1.0, MC, None, None, 1, 0.001, 05_125405, False, Avg reward: -8.19 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 40, 5, 1.0, MC, None, None, 1, 0.001, 05_132446, False
+05_132446 ... Avg reward: -8.385 
+
+
+ 05_132446, Exp0,2 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 40, 5, 1.0, MC, None, None, 1, 0.001, 05_132446, False, Avg reward: -8.385 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 36, 5, 1.0, MC, None, None, 1, 0.001, 05_135512, True
+05_135512 ... Avg reward: -8.36 
+
+
+ 05_135512, Exp1,0 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 36, 5, 1.0, MC, None, None, 1, 0.001, 05_135512, True, Avg reward: -8.36 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 36, 5, 1.0, MC, None, None, 1, 0.001, 05_145547, True
+05_145547 ... Avg reward: -7.91 
+
+
+ 05_145547, Exp1,1 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 36, 5, 1.0, MC, None, None, 1, 0.001, 05_145547, True, Avg reward: -7.91 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 36, 5, 1.0, MC, None, None, 1, 0.001, 05_155817, True
+05_155817 ... Avg reward: -8.45 
+
+
+ 05_155817, Exp1,2 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 36, 5, 1.0, MC, None, None, 1, 0.001, 05_155817, True, Avg reward: -8.45 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 82, 5, 1.0, n_step, None, None, 1, 0.001, 05_165944, False
+05_165944 ... Avg reward: -8.29 
+
+
+ 05_165944, Exp2,0 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 82, 5, 1.0, n_step, None, None, 1, 0.001, 05_165944, False, Avg reward: -8.29 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 82, 5, 1.0, n_step, None, None, 1, 0.001, 05_175952, False
+05_175952 ... Avg reward: -8.415 
+
+
+ 05_175952, Exp2,1 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 82, 5, 1.0, n_step, None, None, 1, 0.001, 05_175952, False, Avg reward: -8.415 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 82, 5, 1.0, n_step, None, None, 1, 0.001, 05_185955, False
+05_185955 ... Avg reward: -8.29 
+
+
+ 05_185955, Exp2,2 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 82, 5, 1.0, n_step, None, None, 1, 0.001, 05_185955, False, Avg reward: -8.29 
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 32, 5, 1.0, n_step, None, None, 1, 0.001, 05_200146, True
+05_200146 ... Avg reward: 0.5466666666666666 
+
+
+ 05_200146, Exp3,0 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 32, 5, 1.0, n_step, None, None, 1, 0.001, 05_200146, True, Avg reward: 0.5466666666666666 
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 32, 5, 1.0, n_step, None, None, 1, 0.001, 05_211226, True
+05_211226 ... Avg reward: -7.666666666666667 
+
+
+ 05_211226, Exp3,1 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 32, 5, 1.0, n_step, None, None, 1, 0.001, 05_211226, True, Avg reward: -7.666666666666667 
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 32, 5, 1.0, n_step, None, None, 1, 0.001, 05_220031, True
+05_220031 ... Avg reward: -7.273333333333333 
+
+
+ 05_220031, Exp3,2 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 32, 5, 1.0, n_step, None, None, 1, 0.001, 05_220031, True, Avg reward: -7.273333333333333 
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 74, 5, 1.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 4, 0.001, 06_142441, True, True
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 14, 5, 1.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 4, 0.001, 06_142902, True, True
+
+
+Running on Parameters: 2, 0.01, 7, 7, pixel, 10, 250, 69, 5, 1.0, n_step, data/weights/w_P_04_183040.h5, data/weights/w_V_04_183040.h5, 4, 0.001, 06_143111, True, True
+
+
+Running on Parameters: 2, 0.01, 7, 7, pixel, 10, 250, 98, 5, 1.0, n_step, data/weights/w_P_04_183040.h5, data/weights/w_V_04_183040.h5, 4, 0.001, 06_143132, True, True
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 2, 5, 1.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 4, 0.001, 06_144103, True, True
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 49, 5, 1.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 4, 0.001, 06_144133, True, True
+
+06_180000 is longer eta optimizaiton version of r_26_171012!!
+
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 95, 5, 1.0, n_step, data/weights/w_P_26_151751.h5, data/weights/w_V_26_151751.h5, 4, 0.001, 06_161653, True, True
+
+
+Running on Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 97, 5, 1.0, n_step, data/weights/w_P_04_183040.h5, data/weights/w_V_04_183040.h5, 4, 0.001, 06_164908, True, True
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 32, 5, 1.0, n_step, data/weights/w_P_26_151751.h5, data/weights/w_V_26_151751.h5, 4, 0.001, 06_165907, True, True
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 38, 5, 1.0, n_step, data/weights/w_P_26_151751.h5, data/weights/w_V_26_151751.h5, 4, 0.001, 06_172245, True, True

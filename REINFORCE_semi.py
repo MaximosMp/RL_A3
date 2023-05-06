@@ -205,6 +205,9 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     ep = 0
     while ep < n_episodes:
         # for ep in range(n_episodes):  # n_episodes = 500
+        if len(all_rewards) > 20 and np.mean(all_rewards[-20:]) > 15:
+            # turn off selection of best-performing when we already reached high rewards
+            minibatch = 2
         for mem in memory:
             mem.clear()
         ep += 2
@@ -259,7 +262,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             critic.update_weights(best_memory)
         actor.update_weights(best_memory)
 
-        if ep % 20 == 0 and ep > 0:
+        if ep % 10 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
         if ep % 50 == 0 and ep >= 100:
             actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
@@ -278,7 +281,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 400
+    n_episodes = 2
     learning_rate = 0.01
     rows = 7
     columns = 7
@@ -294,8 +297,8 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.001
-    # P_weights = 'data/weights/w_P_04_120054.h5'
-    # V_weights = 'data/weights/w_V_04_120054.h5'
+    # P_weights = 'data/weights/w_P_04_183040.h5'
+    # V_weights = 'data/weights/w_V_04_183040.h5'
     # use '27_230853','28_002357' next
     training = True
 
