@@ -205,9 +205,11 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     ep = 0
     while ep < n_episodes:
         # for ep in range(n_episodes):  # n_episodes = 500
-        if len(all_rewards) > 20 and np.mean(all_rewards[-20:]) > 15:
+        if len(all_rewards) > 0 and np.mean(all_rewards[-20:]) > 15:
             # turn off selection of best-performing when we already reached high rewards
             minibatch = 2
+            memory = [deque(maxlen=max_steps) for _ in range(minibatch)]
+
         for mem in memory:
             mem.clear()
         ep += 2
