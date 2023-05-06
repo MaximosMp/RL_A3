@@ -205,6 +205,9 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     ep = 0
     while ep < n_episodes:
         # for ep in range(n_episodes):  # n_episodes = 500
+        if len(all_rewards) > 20 and np.mean(all_rewards[-20:]) > 15:
+            # turn off selection of best-performing when we already reached high rewards
+            minibatch = 2
         for mem in memory:
             mem.clear()
         ep += 2
@@ -294,8 +297,8 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.001
-    P_weights = 'data/weights/w_P_04_183040.h5'
-    V_weights = 'data/weights/w_V_04_183040.h5'
+    # P_weights = 'data/weights/w_P_04_183040.h5'
+    # V_weights = 'data/weights/w_V_04_183040.h5'
     # use '27_230853','28_002357' next
     training = True
 

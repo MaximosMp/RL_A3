@@ -252,3 +252,12 @@ Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 49, 5, 1.0, n_step, data
 
 
 Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 95, 5, 1.0, n_step, data/weights/w_P_26_151751.h5, data/weights/w_V_26_151751.h5, 4, 0.001, 06_161653, True, True
+
+
+Running on Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 97, 5, 1.0, n_step, data/weights/w_P_04_183040.h5, data/weights/w_V_04_183040.h5, 4, 0.001, 06_164908, True, True
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 32, 5, 1.0, n_step, data/weights/w_P_26_151751.h5, data/weights/w_V_26_151751.h5, 4, 0.001, 06_165907, True, True
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 38, 5, 1.0, n_step, data/weights/w_P_26_151751.h5, data/weights/w_V_26_151751.h5, 4, 0.001, 06_172245, True, True

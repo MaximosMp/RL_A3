@@ -6,7 +6,7 @@ import sys
 args = sys.argv[1:]
 
 # game settings
-n_episodes = 50
+n_episodes = 100
 learning_rate = 0.01
 rows = 7
 columns = 7
@@ -26,7 +26,7 @@ training = True
 
 # give a list which weights you wanna run
 weights = ['26_151751','26_175224']  # eta runs. len: 128, 168, 165 
-weights = ['04_183040','05_075841','05_200146']  # full run runs (len 300, we want 350 or 400)
+# weights = ['04_183040','05_075841','05_200146']  # full run runs (len 300, we want 350 or 400)
 
 
 for weight in weights:
