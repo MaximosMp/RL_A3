@@ -271,3 +271,26 @@ Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 49, 5, 1.0, n_step, data
 
 
 Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 25, 5, 1.0, n_step, data/weights/w_P_26_151751.h5, data/weights/w_V_26_151751.h5, 4, 0.001, 06_174353, True, True
+
+
+Running on Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 81, 5, 1.5, n_step, None, None, 4, 0.001, 06_175453, True
+
+
+Running on Parameters: 90, 0.01, 7, 7, pixel, 10, 250, 77, 5, 1.5, n_step, data/weights/w_P_26_175453.h5, data/weights/w_V_26_175453.h5, 4, 0.001, 06_184938, True
+
+
+Running on Parameters: 90, 0.01, 7, 7, pixel, 10, 250, 96, 5, 1.5, n_step, data/weights/w_P_06_175453.h5, data/weights/w_V_06_175453.h5, 4, 0.001, 06_184950, True
+06_184950 ... Avg reward: 13.2 
+
+continued run for r_06_175453
+ 06_184950, Exp1,0,1.5 ... params: Parameters: 90, 0.01, 7, 7, pixel, 10, 250, 96, 5, 1.5, n_step, data/weights/w_P_06_175453.h5, data/weights/w_V_06_175453.h5, 4, 0.001, 06_184950, True, Avg reward: 13.200 
+
+
+Running on Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 94, 5, 1.5, n_step, data/weights/w_P_06_175453.h5, data/weights/w_V_06_175453.h5, 4, 0.001, 06_191321, True
+
+continue of 191321
+Running on Parameters: 126, 0.01, 7, 7, pixel, 10, 250, 17, 5, 1.5, n_step, data/weights/w_P_06_191321.h5, data/weights/w_V_06_191321.h5, 4, 0.001, 06_200510, True
+06_200510 ... Avg reward: 15.119047619047619 
+
+
+ 06_200510, Exp1,0,1.5 ... params: Parameters: 126, 0.01, 7, 7, pixel, 10, 250, 17, 5, 1.5, n_step, data/weights/w_P_06_191321.h5, data/weights/w_V_06_191321.h5, 4, 0.001, 06_200510, True, Avg reward: 15.119 
