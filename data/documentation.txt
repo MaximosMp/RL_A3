@@ -1,205 +1,4 @@
 
-
-Stamp: 21_175739 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -1.2525 
-learned to only go left or idle!
-
-Stamp: 21_193611 ... Episodes: 600, Learning: 0.01, Seed: 28, Eta: 0.01, Avg reward: -8.381666666666666, obs: pixel
-
-
-Stamp: 22_033816 ... Episodes: 500, Learning: 0.05, Seed: 31, Eta: 0.01, Avg reward: -8.234, obs: vector
-
-stamp: 22_120000 ... Episodes: 500 crashed after 450, super high performance, learning after 50eps but seed unknown (vector)
-
-
-
-Stamp: 22_154425 ... Episodes: 200, Learning: 0.01, Seed: 41, Eta: 0.01, Avg reward: -8.335, obs: vector
-
-
-Stamp: 22_161336 ... Episodes: 200, Learning: 0.01, Seed: 1, Eta: 0.01, Avg reward: -8.09, obs: vector
-
-
-Stamp: 22_164720 ... Episodes: 100, Learning: 0.01, Seed: 39, Eta: 0.01, Avg reward: -8.02, obs: vector
-
-
-Stamp: 22_170221 ... Episodes: 100, Learning: 0.01, Seed: 4, Eta: 0.01, Avg reward: -8.19, obs: vector
-
-
-Stamp: 22_171720 ... Episodes: 100, Learning: 0.01, Seed: 40, Eta: 0.01, Avg reward: -8.46, obs: vector
-
-
-Stamp: 22_173204 ... Episodes: 100, Learning: 0.01, Seed: 19, Eta: 0.01, Avg reward: -8.14, obs: vector
-
-
-Stamp: 22_174729 ... Episodes: 100, Learning: 0.01, Seed: 10, Eta: 0.01, Avg reward: -8.33, obs: vector
-
-
-Stamp: 22_184752 ... Episodes: 200, Learning: 0.01, Seed: 11, Eta: 0.1, Avg reward: -8.355, obs: vector
-
-
-Stamp: 22_191655 ... Episodes: 200, Learning: 0.01, Seed: 12, Eta: 0.1, Avg reward: -8.33, obs: vector
-
-
-Stamp: 22_194625 ... Episodes: 200, Learning: 0.01, Seed: 13, Eta: 0.1, Avg reward: -4.05, obs: vector
-
-
-Stamp: 22_202833 ... Episodes: 200, Learning: 0.01, Seed: 14, Eta: 0.1, Avg reward: -8.32, obs: vector
-
-
-Stamp: 22_212347 ... Episodes: 200, Learning: 0.01, Seed: 15, Eta: 0.1, Avg reward: -0.915, obs: vector
-
-
-Stamp: 23_074327 ... Episodes: 200, Learning: 0.01, Seed: 16, Eta: 0.1, Avg reward: -8.44, obs: vector
-
-
-Stamp: 23_081206 ... Episodes: 200, Learning: 0.01, Seed: 18, Eta: 0.1, Avg reward: -6.205, obs: vector
-
-
-Stamp: 23_085005 ... Episodes: 200, Learning: 0.01, Seed: 20, Eta: 0.1, Avg reward: -8.205, obs: vector
-
-
-Stamp: 23_092140 ... Episodes: 200, Learning: 0.01, Seed: 22, Eta: 0.1, Avg reward: -8.25, obs: vector
-
-
-Stamp: 23_121036 ... Episodes: 200, Learning: 0.01, Seed: 26, Eta: 0.1, Avg reward: -0.26, obs: vector
-
-## maximos hyperopt
-
-
-
-Stamp: 21_205207 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.234285714285715 
-
-
-Stamp: 21_224331 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.345714285714285 
-
-
-Stamp: 21_205312 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: 7.757142857142857 
-
-
-Stamp: 22_002411 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.371428571428572 
-
-
-Stamp: 22_015841 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.417142857142856 
-
-
-Stamp: 22_021350 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: 4.671428571428572 
-
-
-Stamp: 22_042033 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.271428571428572 
-
-
-Stamp: 22_054051 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -8.368571428571428 
-
-
-Stamp: 22_063949 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -8.354285714285714 
-
-
-Stamp: 22_072616 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -5.034285714285715 
-
-
-Stamp: 22_083833 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -8.34 
-
-
-Stamp: 22_101711 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -6.637142857142857 
-
-
-Stamp: 22_094037 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.001, Avg reward: 19.957142857142856 
-
-
-Stamp: 22_140345 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.001, Avg reward: 0.4857142857142857 
-
-
-Stamp: 22_163358 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.001, Avg reward: -8.297142857142857 
-
-
-Stamp: 22_180822 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.254285714285714 
-
-
-Stamp: 22_194411 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.22 
-
-
-Stamp: 22_211909 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -6.042857142857143 
-
-
-Stamp: 22_231129 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.01, Avg reward: -8.445714285714285 
-
-
-Stamp: 23_004433 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.01, Avg reward: -2.802857142857143 
-
-Stamp: 23_160141 ... Episodes: 350, obs: vector, Avg reward: -1.4, seed 18, going down
-
-
-Stamp: 24_090946 ... Episodes: 350, obs: vector, Avg reward: -3.23, seed 13, going up
-
-
-Stamp: 24_113647 ... Episodes: 350, obs: vector, Avg reward: -8.37
-64 x 64 network
-
-
-Stamp: 24_123250 ... Episodes: 350, obs: vector, Avg reward: -1.1171428571428572 
-
-## hyperopt lr
-
-
-
-Stamp: 21_205207 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.234285714285715 
-
-
-Stamp: 21_224331 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.345714285714285 
-
-
-Stamp: 21_205312 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: 7.757142857142857 
-
-
-Stamp: 22_002411 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.371428571428572 
-
-
-Stamp: 22_015841 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.417142857142856 
-
-
-Stamp: 22_021350 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: 4.671428571428572 
-
-
-Stamp: 22_042033 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.271428571428572 
-
-
-Stamp: 22_054051 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -8.368571428571428 
-
-
-Stamp: 22_063949 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -8.354285714285714 
-
-
-Stamp: 22_072616 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -5.034285714285715 
-
-
-Stamp: 22_083833 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -8.34 
-
-
-Stamp: 22_101711 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -6.637142857142857 
-
-
-Stamp: 22_094037 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.001, Avg reward: 19.957142857142856 
-
-
-Stamp: 22_140345 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.001, Avg reward: 0.4857142857142857 
-
-
-Stamp: 22_163358 ... Episodes: 350, Learning: 0.01, Seed: None, Eta: 0.001, Avg reward: -8.297142857142857 
-
-
-Stamp: 22_180822 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.254285714285714 
-
-
-Stamp: 22_194411 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -8.22 
-
-
-Stamp: 22_211909 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.1, Avg reward: -6.042857142857143 
-
-
-Stamp: 22_231129 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.01, Avg reward: -8.445714285714285 
-
-
-Stamp: 23_004433 ... Episodes: 350, Learning: 0.001, Seed: None, Eta: 0.01, Avg reward: -2.802857142857143 
-
 ## end learning rate opt
 
 
@@ -216,33 +15,6 @@ Stamp: 23_225132 ... Episodes: 400, Learning: 0.0001, Seed: None, Eta: 0.01, Avg
 
 
 
-Stamp: 24_152111 ... Episodes: 100, obs: vector, Avg reward: -8.15 
-
-
-
-Stamp: 24_162848 ... Episodes: 400, obs: pixel, Avg reward: 15.695 
-64x32 pixel
-
-
-
-
-
-Stamp: 24_200502 ... Episodes: 1, obs: pixel, Avg reward: -7.0 
-
-
- 13 ... params: Parameters: 1, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0, 24_202208, True, Avg reward: -7.0 
-
-
- 24_203021 ... params: Parameters: 1, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0, 24_203021, True, Avg reward: -10.0
-
-
- 25_075235 ... params: Parameters: 400, 0.01, 7, 7, vector, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.01, 25_075235, True, Avg reward: -7.25 
-
-
- 26_140900 ... params: Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, [0.1, 0.01, 0.001], 26_140900, True, Avg reward: -8.145714285714286
---> we could continue learning here and it would improve (see end of plot). why can we give eta as a list???
-
-
 
 
  26_151751 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.001, 26_151751, True, Avg reward: -2.25
@@ -254,189 +26,6 @@ eta 0.01 war shit, nur nach links
 
 
  26_175224 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0001, 26_175224, True, Avg reward: -0.6606060606060606 
-
-
- 27_182504, Exp0,0 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 27_182504, False, Avg reward: -8.263333333333334 
-
-
- 27_184923, Exp0,1 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 27_184923, False, Avg reward: -8.336666666666666 
-
-
- 27_191045, Exp0,2 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 27_191045, False, Avg reward: -8.476666666666667 
-
-
- 27_193144, Exp0,3 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 27_193144, False, Avg reward: -8.216666666666667 
-
-
- 27_195244, Exp0,4 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 27_195244, False, Avg reward: -8.22 
-
-
- 27_201503, Exp1,0 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 27_201503, False, Avg reward: -8.186666666666667 
-
-
- 27_205749, Exp1,1 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 27_205749, False, Avg reward: -8.333333333333334 
-
-
- 27_220351, Exp2,0 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 27_220351, True, Avg reward: -1.0933333333333333 
-
-
- 27_230853, Exp2,1 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 27_230853, True, Avg reward: 0.0033333333333333335 
-
-
- 28_002357, Exp2,2 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_002357, True, Avg reward: -2.73 
-
-
- 28_013246, Exp2,3 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_013246, True, Avg reward: -2.7466666666666666 
-
-
- 28_065433, Exp2,4 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_065433, True, Avg reward: -3.683333333333333 
-
-
- 28_075635, Exp1,2 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_075635, False, Avg reward: -8.323333333333334 
-
-
-## eta opt 2 followed by 1 (maximos)
-
-Stamp: 25_181333 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg reward: -8.3 
-
-
-Stamp: 25_201320 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.1, Avg reward: -8.37 
-
-
-Stamp: 25_221342 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.01, Avg reward: -8.305 
-
-
-Stamp: 24_155029 ... Episodes: 400, Learning: 0.01, Seed: 13, Eta: 0.5, Avg reward: -8.4325 
-
-
-Stamp: 24_174851 ... Episodes: 400, Learning: 0.01, Seed: 13, Eta: 0.1, Avg reward: -8.3275 
-
-
-Stamp: 24_211301 ... Episodes: 400, Learning: 0.01, Seed: None, Eta: 0.5, Avg reward: -8.3425 
- 28_102557 ... params: Parameters: 200, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 28_102557, True, Avg reward: -8.05 
-
-
- 28_125902 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, data/weights/w_P_27_201503.h5, data/weights/w_V_27_201503.h5, 1, 0.0005, 28_125902, False, Avg reward: -8.35 
-
-
- 28_135203 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.001, 28_135203, False, Avg reward: -8.4275 
-
-
- 28_160336 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.01, 28_160336, False, Avg reward: -8.22 
-
-
- 28_171126 ... params: Parameters: 400, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.1, 28_171126, False, Avg reward: -8.355 
- 28_153349, Exp1,0 ... params: Parameters: 500, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, MC, None, None, 1, 0.0005, 28_153349, True, Avg reward: -8.32 
-
-
- 30_113517, Exp1,0,0.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_113517, True, False, Avg reward: 17.680 
-
-
- 30_115449, Exp1,1,0.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_115449, True, False, Avg reward: 17.640 
-
-
- 30_121431, Exp1,2,0.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_121431, True, False, Avg reward: 17.680 
-
-
- 30_123431, Exp1,3,0.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_123431, True, False, Avg reward: 17.560 
-
-
- 30_140008, Exp1,4,0.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 0.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_140008, True, False, Avg reward: 17.520 
-
-
- 30_142345, Exp1,4,1.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_142345, True, False, Avg reward: 2.880 
-
-
- 30_143104, Exp1,4,2.0 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 2.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_143104, True, False, Avg reward: -3.140 
-
-
- 30_151006, Exp1,0,1.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_151006, True, False, Avg reward: 1.980 
-
-
- 30_151743, Exp1,1,1.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_151743, True, False, Avg reward: 3.120 
-
-
- 30_152617, Exp1,2,1.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_152617, True, False, Avg reward: 1.780 
-
-
- 30_153421, Exp1,3,1.5 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.5, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_153421, True, False, Avg reward: 3.460 
-
-
- 30_154243, Exp1,0,2.0 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 2.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_154243, True, False, Avg reward: -3.640 
-
-
- 30_154719, Exp1,1,2.0 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 2.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_154719, True, False, Avg reward: -3.880 
-
-
- 30_155202, Exp1,2,2.0 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 2.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_155202, True, False, Avg reward: -2.580 
-
-
- 30_155709, Exp1,3,2.0 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 2.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_155709, True, False, Avg reward: -3.560 
- 30_103227 ... params: Parameters: 100, 0.01, 7, 7, pixel, 10, 250, None, 5, 1.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 1, 0.0005, 30_103227, True, Avg reward: 33.86 
- 30_090513 ... params: Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 30_090513, True, Avg reward: -8.266666666666667 
-
-
- 02_103151, Exp0,0,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_103151, True, True, Avg reward: -8.933 
-
-
- 02_154756, Exp0,1,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_154756, True, True, Avg reward: -8.297 
-
-
- 02_172839, Exp0,2,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_172839, True, True, Avg reward: -8.910 
-
-
- 02_200820, Exp0,3,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_200820, True, True, Avg reward: -8.973 
-
-
- 02_214455, Exp0,4,11x11 ... params: Parameters: 300, 0.01, 11, 11, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_214455, True, True, Avg reward: -9.100 
- 30_202045 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 30_202045, True, False, Avg reward: 34.84 
-
-
- 30_204133 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 30_204133, True, False, Avg reward: 34.8 
-
-
- 30_210223 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 30_210223, True, False, Avg reward: 34.8 
-
-
- 30_212339 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 30_212339, True, False, Avg reward: 34.8 
-
-
- 01_065527 ... params: Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 13, 5, 1.0, n_step, data/weights/w_P_30_103227.h5, data/weights/w_V_30_103227.h5, 1, 0.0005, 01_065527, True, False, Avg reward: 34.84 
-
-
- 02_154150, Exp3,0 ... params: Parameters: 400, 0.01, 7, 14, pixel, 10, 250, 13, 5, 0.5, n_step, None, None, 1, 0.0005, 02_154150, True, Avg reward: -9.205 
-
-
- 02_234126, Exp0,0,7x14 ... params: Parameters: 300, 0.01, 7, 14, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 02_234126, True, Avg reward: -9.123 
-
-
- 03_002752, Exp0,1,7x14 ... params: Parameters: 300, 0.01, 7, 14, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 03_002752, True, Avg reward: -9.177 
-
-
- 03_011754, Exp0,2,7x14 ... params: Parameters: 300, 0.01, 7, 14, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 03_011754, True, Avg reward: -9.240 
-
-
- 03_085247, Exp0,3,7x14 ... params: Parameters: 300, 0.01, 7, 14, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 03_085247, True, Avg reward: -9.080 
-
-
- 03_094106, Exp0,4,7x14 ... params: Parameters: 300, 0.01, 7, 14, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 03_094106, True, Avg reward: -8.853 
- 02_210510, Exp3,0 ... params: Parameters: 400, 0.01, 7, 14, pixel, 10, 250, 13, 5, 0.5, n_step, None, None, 1, 0.0005, 02_210510, True, Avg reward: -9.12 
-
-
- 02_224335, Exp3,1 ... params: Parameters: 400, 0.01, 7, 14, pixel, 10, 250, 13, 5, 0.5, n_step, None, None, 1, 0.0005, 02_224335, True, Avg reward: -9.0825 
-
-
- 03_071707 ... params: Parameters: 300, 0.01, 9, 9, pixel, 10, 250, 13, 5, 1.0, n_step, None, None, 1, 0.0005, 03_071707, True, True, Avg reward: -8.686666666666667 
-
-
- 03_082240 ... params: Parameters: 300, 0.01, 9, 9, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.0005, 03_082240, True, True, Avg reward: -8.22 
-
-
- 03_100155 ... params: Parameters: 400, 0.01, 9, 9, pixel, 10, 250, None, 5, 1.0, n_step, None, None, 1, 0.0005, 03_100155, True, True, Avg reward: -4.8075 
---> continued for another 100 runs under r_02_172839.npy
-
-03_14_1904 continued to 1400000 and last run of 03_
-
 
 
  03_204253 ... params: Parameters: 150, 0.01, 9, 9, pixel, 10, 250, None, 5, 1.0, n_step, data/weights/w_P_03_141904.h5, data/weights/w_V_03_141904.h5, 1, 0.0005, 03_204253, True, True, Avg reward: -2.8133333333333335 
@@ -517,3 +106,45 @@ Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 19, 5, 1.0, n_step, None
 
 
  06_024834, Exp0,0,7x9 ... params: Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 19, 5, 1.0, n_step, None, None, 4, 0.001, 06_024834, True, Avg reward: -6.115 
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 60, 5, 0.5, n_step, None, None, 4, 0.001, 05_123003, True
+05_123003 ... Avg reward: -6.5325 
+
+
+ 05_123003, Exp3,0,speed,size ... params: Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 60, 5, 0.5, n_step, None, None, 4, 0.001, 05_123003, True, Avg reward: -6.5325 
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 60, 5, 0.5, n_step, None, None, 4, 0.001, 05_163342, True
+
+
+Running on Parameters: 2, 0.01, 7, 7, pixel, 10, 250, 2, 5, 1.0, n_step, data/weights/w_P_05_075841.h5, data/weights/w_V_05_075841.h5, 4, 0.001, 05_171412, True, False
+
+
+Running on Parameters: 2, 0.01, 7, 7, pixel, 10, 250, 90, 5, 1.5, n_step, data/weights/w_P_05_075841.h5, data/weights/w_V_05_075841.h5, 4, 0.001, 05_171527, True, False
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 72, 5, 2.0, n_step, None, None, 4, 0.001, 05_171708, True
+05_171708 ... Avg reward: -4.6275 
+
+
+ 05_171708, Exp3,0,speed,size ... params: Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 72, 5, 2.0, n_step, None, None, 4, 0.001, 05_171708, True, Avg reward: -4.6275 
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 56, 5, 0.5, n_step, None, None, 4, 0.001, 05_182258, True
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 33, 5, 2.0, n_step, None, None, 4, 0.001, 05_231413, True
+05_231413 ... Avg reward: -7.8225 
+
+
+ 05_231413, Exp3,0,speed,size ... params: Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 33, 5, 2.0, n_step, None, None, 4, 0.001, 05_231413, True, Avg reward: -7.8225 
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 33, 5, 2.0, n_step, None, None, 4, 0.001, 06_000442, True
+06_000442 ... Avg reward: -6.99 
+
+
+ 06_000442, Exp3,1,speed,size ... params: Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 33, 5, 2.0, n_step, None, None, 4, 0.001, 06_000442, True, Avg reward: -6.99 
+
+
+Running on Parameters: 350, 0.01, 7, 7, vector, 10, 250, 85, 5, 1.0, n_step, None, None, 4, 0.001, 06_103356, True

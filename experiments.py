@@ -7,7 +7,7 @@ from Helper import write_to_doc
 args = sys.argv[1:]
 
 # game settings
-n_episodes = 400
+n_episodes = 350
 learning_rate = 0.01
 rows = 7
 columns = 7
@@ -126,7 +126,9 @@ if section == 1:
         # V_weights = 'data/weights/w_V_02_224335.h5'
 
         for speed in speeds:
-            for j in range(3):
+            if speed == 0.5:
+                continue
+            for j in range(2):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
@@ -136,5 +138,5 @@ if section == 1:
 
                 with open("data/documentation.txt", 'a') as f:
                     f.write(
-                        f'\n\n {stamp}, Exp{i},{j},speed,size ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
+                        f'\n\n {stamp}, Exp{i},{j},{speed},size ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
     # Experiment 4 - other interesting variations
