@@ -11,11 +11,7 @@ def load_and_mean(files: list[str]) -> list:
     return np.mean(rewards,axis=0)
 
 def load_list(files: list[str]) -> list:
-    rewards = []
-    for plot in files:
-        rew = np.load(f'data/rewards/r_{plot}.npy')
-        rewards.append(rew)
-    return np.array(rewards)
+    return np.array([np.load(f'data/rewards/r_{plot}.npy') for plot in files])
 
 def plot_list(list_strings: list[str],label: str = None, color: str = None):
     rewards = load_and_mean(list_strings)
@@ -35,6 +31,10 @@ def plot_list_errors(list_strings: list[str], save_name: str = None,color:str='#
     # Plot the means with error bars representing the confidence interval
     # plt.errorbar(np.arange(reward.shape[1]), savgol_filter(means,10,1), yerr=conf_int, fmt='o', capsize=5,color='tab:red',markersize=0.2)
     plt.fill_between(np.arange(means.shape[0]),savgol_filter(means,10,1)-conf_int,savgol_filter(means,10,1)+conf_int,alpha=0.3,color=color)
+
+def list_full_plot(list_strings: list[str], color:str='tab:red', label=None, save_name:str = None):
+    plot_list(list_strings=list_strings,label=label,color=color)
+    plot_list_errors(list_strings=list_strings,color=color)
 
 colors = ['tab:blue','tab:orange','tab:green','tab:red','tab:purple','tab:brown','tab:pink','tab:grey','tab:olive','tab:cyan']
 
@@ -97,13 +97,27 @@ plt.show()
 
 
 ### PART 2
+speed_20_79 = ['06_000442','05_231413','05_171708']
+speed_05_79 = ['05_123003']
+
+list_full_plot(speed_05_79,label='speed 0.5, size 7x9',color='tab:blue')
+list_full_plot(speed_20_79,label='speed 2.0, size 7x9',color='tab:orange')
+plt.xlabel('Episode')
+plt.ylabel('Reward')
+plt.grid()
+plt.legend()
+plt.savefig('plots/mixed_experiment.pdf')
+plt.show()
+
+
+
+
+
 nine_nine = ['04_210821','04_213900','04_221523','04_224709','04_232119']
 speed_05 = ['05_002934','05_012051','05_021216']
 
-plot_list(speed_05, 'speed = 0.5', color = 'tab:blue')
-plot_list(nine_nine,'shape = 9x9', color= 'tab:orange')
-plot_list_errors(speed_05, color = 'tab:blue')
-plot_list_errors(nine_nine, color= 'tab:orange')
+list_full_plot(speed_05, label='speed = 0.5', color = 'tab:blue')
+list_full_plot(nine_nine,label='shape = 9x9', color= 'tab:orange')
 
 plt.title('some of part2')
 plt.grid()

@@ -100,3 +100,46 @@ Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 86, 5, 1.0, n_step, None
 Exp0,3,1
 
 Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 73, 5, 1.0, n_step, None, None, 4, 0.001, 05_075841, True
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 60, 5, 0.5, n_step, None, None, 4, 0.001, 05_123003, True
+05_123003 ... Avg reward: -6.5325 
+
+
+ 05_123003, Exp3,0,speed,size ... params: Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 60, 5, 0.5, n_step, None, None, 4, 0.001, 05_123003, True, Avg reward: -6.5325 
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 60, 5, 0.5, n_step, None, None, 4, 0.001, 05_163342, True
+
+
+Running on Parameters: 2, 0.01, 7, 7, pixel, 10, 250, 2, 5, 1.0, n_step, data/weights/w_P_05_075841.h5, data/weights/w_V_05_075841.h5, 4, 0.001, 05_171412, True, False
+
+
+Running on Parameters: 2, 0.01, 7, 7, pixel, 10, 250, 90, 5, 1.5, n_step, data/weights/w_P_05_075841.h5, data/weights/w_V_05_075841.h5, 4, 0.001, 05_171527, True, False
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 72, 5, 2.0, n_step, None, None, 4, 0.001, 05_171708, True
+05_171708 ... Avg reward: -4.6275 
+
+
+ 05_171708, Exp3,0,speed,size ... params: Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 72, 5, 2.0, n_step, None, None, 4, 0.001, 05_171708, True, Avg reward: -4.6275 
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 56, 5, 0.5, n_step, None, None, 4, 0.001, 05_182258, True
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 33, 5, 2.0, n_step, None, None, 4, 0.001, 05_231413, True
+05_231413 ... Avg reward: -7.8225 
+
+
+ 05_231413, Exp3,0,speed,size ... params: Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 33, 5, 2.0, n_step, None, None, 4, 0.001, 05_231413, True, Avg reward: -7.8225 
+
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 33, 5, 2.0, n_step, None, None, 4, 0.001, 06_000442, True
+06_000442 ... Avg reward: -6.99 
+
+
+ 06_000442, Exp3,1,speed,size ... params: Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 33, 5, 2.0, n_step, None, None, 4, 0.001, 06_000442, True, Avg reward: -6.99 
+
+
+Running on Parameters: 350, 0.01, 7, 7, vector, 10, 250, 85, 5, 1.0, n_step, None, None, 4, 0.001, 06_103356, True
