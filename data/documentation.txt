@@ -511,3 +511,9 @@ Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 86, 5, 1.0, n_step, None
 Exp0,3,1
 
 Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 73, 5, 1.0, n_step, None, None, 4, 0.001, 05_075841, True
+
+Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 19, 5, 1.0, n_step, None, None, 4, 0.001, 06_024834, True
+06_024834 ... Avg reward: -6.115 
+
+
+ 06_024834, Exp0,0,7x9 ... params: Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 19, 5, 1.0, n_step, None, None, 4, 0.001, 06_024834, True, Avg reward: -6.115 
