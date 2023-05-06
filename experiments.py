@@ -85,9 +85,12 @@ if section == 1:
     # but also include speed=1.0 in plot
 
     if i == 1:
-        speeds = [0.5, 1.5, 2.0]
+        print('speed')
+        speeds = [2.0]
         for speed in speeds:
             for j in range(3):
+                if j == 0:
+                    continue
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
