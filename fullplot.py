@@ -4,21 +4,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import savgol_filter
 
-def load_and_mean(files: list[str]) -> list:
-    rewards = []
-    for plot in files:
-        rewards.append(np.load(f'data/rewards/r_{plot}.npy'))
-    return np.mean(rewards,axis=0)
+def load_and_mean(files: list[str],cutoff:int=None) -> list:
+    if cutoff:
+        try:
+            return np.mean([np.load(f'data/rewards/r_{plot}.npy')[:cutoff] for plot in files],axis=0)
+        except:
+            return np.mean([np.load(f'data/rewards/r_{plot}.npy') for plot in files],axis=0)
+    else:
+        return np.mean([np.load(f'data/rewards/r_{plot}.npy') for plot in files],axis=0)
 
-def load_list(files: list[str]) -> list:
-    return np.array([np.load(f'data/rewards/r_{plot}.npy') for plot in files])
+def load_list(files: list[str],cutoff:int=None) -> list:
+    if cutoff:
+        return np.array([np.load(f'data/rewards/r_{plot}.npy')[:cutoff] for plot in files])
+    else:
+        return np.array([np.load(f'data/rewards/r_{plot}.npy') for plot in files])
 
-def plot_list(list_strings: list[str],label: str = None, color: str = None):
-    rewards = load_and_mean(list_strings)
+def plot_list(list_strings: list[str],label: str = None, color: str = None,cutoff:int=None):
+    rewards = load_and_mean(list_strings,cutoff=cutoff)
     plt.plot(savgol_filter(rewards,10,1),label=label, color=color)
 
-def plot_list_errors(list_strings: list[str], save_name: str = None,color:str='#BEBEBE'):
-    reward = load_list(list_strings)
+def plot_list_errors(list_strings: list[str], save_name: str = None,color:str='#BEBEBE',cutoff:int=None):
+    reward = load_list(list_strings,cutoff=cutoff)
     # Calculate the mean and standard deviation of the data
     means = np.mean(reward, axis=0)
     stds = np.std(reward, axis=0, ddof=1)
@@ -32,15 +38,27 @@ def plot_list_errors(list_strings: list[str], save_name: str = None,color:str='#
     # plt.errorbar(np.arange(reward.shape[1]), savgol_filter(means,10,1), yerr=conf_int, fmt='o', capsize=5,color='tab:red',markersize=0.2)
     plt.fill_between(np.arange(means.shape[0]),savgol_filter(means,10,1)-conf_int,savgol_filter(means,10,1)+conf_int,alpha=0.3,color=color)
 
-def list_full_plot(list_strings: list[str], color:str='tab:red', label=None, save_name:str = None):
-    plot_list(list_strings=list_strings,label=label,color=color)
-    plot_list_errors(list_strings=list_strings,color=color)
+def list_full_plot(list_strings: list[str], color:str='tab:red', label=None, save_name:str = None, cutoff:int=None):
+    plot_list(list_strings=list_strings,label=label,color=color,cutoff=cutoff)
+    plot_list_errors(list_strings=list_strings,color=color,cutoff=cutoff)
 
 colors = ['tab:blue','tab:orange','tab:green','tab:red','tab:purple','tab:brown','tab:pink','tab:grey','tab:olive','tab:cyan']
+
+### TO DO
+
+#--> hyperopt: continue on eta weights!!
+#--> part1: continue on full network until 350/400
+#--> obs_type: more vectors! (longer?)
+#--> size: 3 nine_seven missing, 1 seven_nine!
+#--> speed and size: more 0.5 7x9
+#--> speed: missing 1.5 and 2.0, 0.5 could have more
+#--> our own implementation: full agent without average (we have default w/average)
+
 
 # hyperopt
 # 0.5, 0.1, 0.01, 0.001, 0.0005, 0.0001
 #--> continue on eta weights!!
+
 learning_plots = ['23_131422','23_151619','23_203642','23_225132']  # with 0.01 eta
 eta_plots = ['26_171012','26_151751','26_175224']  # with 0.001 learning '25_181333','25_201320','25_221342' more runs but bad
 tuning = eta_plots + learning_plots
@@ -72,7 +90,7 @@ part1_full = ['04_183040','05_075841','05_200146']  # ,'05_211226','05_220031'
 list_full_plot(part1_reinforce, color='tab:blue',label='REINFORCE (MC)')
 list_full_plot(part1_MCbaseline, color='tab:orange',label='MC baseline')
 list_full_plot(part1_bootstrap, color='tab:green',label='5-step bootstrap')
-list_full_plot(part1_full, color='tab:red',label='5-step bootstrap+baseline')
+list_full_plot(part1_full, color='darkviolet',label='5-step bootstrap+baseline')
 
 plt.title('Comparison of different agents')
 plt.grid()
@@ -83,12 +101,13 @@ plt.show()
 
 ### PART 2
 # size
+#--> 3 nine_seven missing, 1 seven_nine!
+seven_nine = ['06_024834','03_214916']
 nine_seven = ['']
-seven_nine = ['']
 nine_nine = ['04_210821','04_213900','04_221523','04_224709','04_232119']
-list_full_plot(part1_full, label='shape 7x7 (default)', color='tab:blue')
+list_full_plot(part1_full, label='shape 7x7 (default)', color='darkviolet')
 list_full_plot(nine_nine,label='shape = 9x9', color= 'tab:orange')
-# list_full_plot(seven_nine,label='shape = 7x9', color= 'tab:green')
+list_full_plot(seven_nine,label='shape = 7x9', color= 'tab:green',cutoff=300)  # could go to 400 
 # list_full_plot(nine_seven,label='shape = 9x7', color= 'tab:red')
 
 plt.title('Environment size variations')
@@ -100,17 +119,26 @@ plt.savefig('plots/part2_size.pdf')
 plt.show()
 
 # vector
-vectors = ['']
-list_full_plot(part1_full, label='observation by pixel (default)', color='tab:blue')
-# list_full_plot(vectors, label='observation by vector', color='tab:blue')
+#--> more vectors! (longer?)
+vectors = ['06_103356']
+list_full_plot(part1_full, label='observation by pixel (default)', color='darkviolet')
+list_full_plot(vectors, label='observation by vector', color='tab:orange')
+plt.title('Observation types')
+plt.grid()
+plt.xlabel('Episode')
+plt.ylabel('Reward')
+plt.legend(loc='best')  # fontsize='8'
+plt.savefig('plots/part2_vector.pdf')
+plt.show()
 
 # speed
+#--> missing 1.5 and 2.0, 0.5 could have more
 speed_05 = ['05_002934','05_012051','05_021216']
 speed_15 = ['']
 speed_20 = ['']
 
 list_full_plot(speed_05, label='speed = 0.5', color = 'tab:blue')
-list_full_plot(part1_full, label='speed = 1.0', color = 'tab:orange')
+list_full_plot(part1_full, label='speed = 1.0', color = 'darkviolet')
 list_full_plot(speed_15, label='speed = 1.5', color = 'tab:green')
 list_full_plot(speed_20, label='speed = 2.0', color = 'tab:red')
 plt.title('Environment speed variations')
@@ -122,12 +150,14 @@ plt.savefig('plots/part2_speed.pdf')
 plt.show()
 
 # speed size
+#--> more 0.5 7x9
+
 speed_20_79 = ['06_000442','05_231413','05_171708']
 speed_05_79 = ['05_123003']
 
 list_full_plot(speed_05_79,label='speed 0.5, size 7x9',color='tab:blue')
 list_full_plot(speed_20_79,label='speed 2.0, size 7x9',color='tab:orange')
-list_full_plot(part1_full,label='speed 1.0, size 7x7 (default)',color='tab:green')
+list_full_plot(part1_full,label='speed 1.0, size 7x7 (default)',color='darkviolet')
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Multiple environment variations')
@@ -137,7 +167,7 @@ plt.savefig('plots/speed-size_experiment.pdf')
 plt.show()
 
 # more experiments: compare n-step baseline vs n-step baseline w/ average over 2 best of 4
-
+#--> full agent without average (we have default w/average)
 
 
 ''' run on finished weights
