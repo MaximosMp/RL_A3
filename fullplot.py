@@ -84,7 +84,7 @@ plt.savefig('plots/learning-eta_tuning.pdf')
 plt.show()
 
 ### Part 1
-#--> continue on full network until 350/400
+#--> continue on full network until 350/400 maximos right now
 part1_reinforce = ['04_215854','05_122403','05_125405','05_132446']
 part1_MCbaseline = ['04_225730','05_004942','05_135512','05_145547','05_155817']
 part1_bootstrap = ['05_034633','05_053914','05_165944','05_175952','05_185955']
@@ -106,7 +106,7 @@ plt.show()
 # size
 #--> 3 nine_seven missing, 1 seven_nine!
 seven_nine = ['06_024834','03_214916']
-nine_seven = ['']
+nine_seven = ['']  # maximos now
 nine_nine = ['04_210821','04_213900','04_221523','04_224709','04_232119']
 list_full_plot(part1_full, label='shape 7x7 (default)', color='darkviolet')
 list_full_plot(nine_nine,label='shape = 9x9', color= 'tab:orange')
@@ -137,12 +137,12 @@ plt.show()
 # speed
 #--> missing 1.5 and 2.0, 0.5 could have more
 speed_05 = ['05_002934','05_012051','05_021216']
-speed_15 = ['']
-speed_20 = ['']
+speed_15 = ['']  # tsiro running now
+speed_20 = ['06_130604','06_154940']
 
 list_full_plot(speed_05, label='speed = 0.5', color = 'tab:blue')
 list_full_plot(part1_full, label='speed = 1.0', color = 'darkviolet')
-list_full_plot(speed_15, label='speed = 1.5', color = 'tab:green')
+# list_full_plot(speed_15, label='speed = 1.5', color = 'tab:green')
 list_full_plot(speed_20, label='speed = 2.0', color = 'tab:red')
 plt.title('Environment speed variations')
 plt.xlabel('Episode')

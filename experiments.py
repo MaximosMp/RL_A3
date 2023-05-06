@@ -63,7 +63,7 @@ if section == 1:
     # Experiment 0 - Size Variation
     # square 7x7, square 11x11, rectangle 7x14, rectangle 14x7
     if i == 0:
-        list_of_rows_columns = [(7, 9), (9, 7)]
+        list_of_rows_columns = [(9, 7)]
 
         for rows, columns in list_of_rows_columns:
             for j in range(3):
