@@ -60,7 +60,7 @@ colors = ['tab:blue','tab:orange','tab:green','tab:red','tab:purple','tab:brown'
 #--> continue on eta weights!!
 
 learning_plots = ['23_131422','23_151619','23_203642','23_225132']  # with 0.01 eta
-eta_plots = ['26_171012','26_151751','26_175224']  # with 0.001 learning '25_181333','25_201320','25_221342' more runs but bad
+eta_plots = ['06_180000','26_151751','26_175224']  # with 0.001 learning '25_181333','25_201320','25_221342' more runs but bad
 tuning = eta_plots + learning_plots
 
 labels = [r'$\eta=0.001$',r'$\eta=0.0005$',r'$\eta=0.0001$',
@@ -69,7 +69,10 @@ for j, plots in enumerate(tuning):
     linestyle = "-"
     if j > 2:
         linestyle = "--"
-    reward = np.load(f'data/rewards/r_{plots}.npy')
+    if j < 3:
+        reward = np.load(f'data/rewards/r_{plots}.npy')[:200]
+    else:
+        reward = np.load(f'data/rewards/r_{plots}.npy')
     reward = savgol_filter(reward,10,1)
     plt.plot(reward, label=labels[j], linestyle=linestyle)
 plt.title('Hyperparameter tuning')

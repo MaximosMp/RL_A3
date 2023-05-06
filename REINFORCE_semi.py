@@ -259,7 +259,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             critic.update_weights(best_memory)
         actor.update_weights(best_memory)
 
-        if ep % 20 == 0 and ep > 0:
+        if ep % 10 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
         if ep % 50 == 0 and ep >= 100:
             actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')

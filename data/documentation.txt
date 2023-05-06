@@ -246,3 +246,9 @@ Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 2, 5, 1.0, n_step, data/
 
 
 Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 49, 5, 1.0, n_step, data/weights/w_P_26_171012.h5, data/weights/w_V_26_171012.h5, 4, 0.001, 06_144133, True, True
+
+06_180000 is longer eta optimizaiton version of r_26_171012!!
+
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 95, 5, 1.0, n_step, data/weights/w_P_26_151751.h5, data/weights/w_V_26_151751.h5, 4, 0.001, 06_161653, True, True
