@@ -273,3 +273,32 @@ Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 25, 5, 1.0, n_step, data
 06_200000 is longer eta optimi version of r_26_151751!!
 
 Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 66, 5, 1.0, n_step, data/weights/w_P_26_175224.h5, data/weights/w_V_26_175224.h5, 4, 0.001, 06_182321, True, True
+06_182321 ... Avg reward: 24.73 
+
+
+Running on Parameters: 250, 0.01, 7, 7, vector, 10, 250, 2, 5, 1.0, n_step, None, None, 4, 0.001, 06_191148, True
+06_191148 ... Avg reward: -7.496 
+
+
+ 06_191148, Exp2,0,vector ... params: Parameters: 250, 0.01, 7, 7, vector, 10, 250, 2, 5, 1.0, n_step, None, None, 4, 0.001, 06_191148, True, Avg reward: -7.496 
+
+
+Running on Parameters: 250, 0.01, 7, 7, vector, 10, 250, 2, 5, 1.0, n_step, None, None, 4, 0.001, 06_202327, True
+06_202327 ... Avg reward: -3.588 
+
+
+ 06_202327, Exp2,1,vector ... params: Parameters: 250, 0.01, 7, 7, vector, 10, 250, 2, 5, 1.0, n_step, None, None, 4, 0.001, 06_202327, True, Avg reward: -3.588 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 16, 5, 1.0, n_step, None, None, 2, 0.001, 06_233746, True, True
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 49, 5, 1.0, n_step, None, None, 2, 0.001, 06_233822, True, True
+06_233822 ... Avg reward: 2.57 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 44, 5, 1.0, n_step, None, None, 2, 0.001, 07_011347, True, True
+07_011347 ... Avg reward: 1.815 
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 68, 5, 1.0, n_step, None, None, 2, 0.001, 07_025544, True, True

@@ -105,9 +105,10 @@ if section == 1:
     # Experiment 2 - Observation Type
     # but also include 'pixel' in plot
     if i == 2:
+        n_episodes = 250
         obs_types = ['vector']
         for obs_type in obs_types:
-            for j in range(3):
+            for j in range(2):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
