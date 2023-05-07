@@ -84,7 +84,7 @@ if section == 1:
 
     if i == 1:
         print('speed')
-        speeds = [1.5]
+        speeds = [0.5]
         for speed in speeds:
             for j in range(1):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))

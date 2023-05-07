@@ -396,3 +396,15 @@ Running on Parameters: 150, 0.01, 7, 7, vector, 10, 250, 93, 5, 1.0, n_step, dat
 
 Running on Parameters: 150, 0.01, 7, 7, vector, 10, 250, 93, 5, 1.0, n_step, data/weights/w_P_06_202327.h5, data/weights/w_V_06_202327.h5, 4, 0.001, 07_111930, True, True
 07_111930 ... Avg reward: 29.433333333333334 
+
+
+Running on Parameters: 3, 0.01, 7, 7, vector, 10, 250, 3, 5, 1.0, n_step, data/weights/w_P_07_084302.h5, data/weights/w_V_07_084302.h5, 4, 0.001, 07_164242, True, False
+
+
+Running on Parameters: 3, 0.01, 7, 7, vector, 10, 250, 1, 5, 1.0, n_step, data/weights/w_P_07_084302.h5, data/weights/w_V_07_084302.h5, 4, 0.001, 07_164317, True, False
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 82, 5, 1.0, n_step, None, None, 4, 0.001, 07_180710, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 26, 5, 1.0, n_step, None, None, 4, 0.001, 07_180808, True, True

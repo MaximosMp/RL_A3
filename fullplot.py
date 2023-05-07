@@ -46,9 +46,7 @@ colors = ['tab:blue','tab:orange','tab:green','tab:red','tab:purple','tab:brown'
 
 ### TO DO
 
-#--> part1: continue on full network until 350/400 maximos now
 #--> speed and size: more 0.5 7x9  tsiro now
-#--> speed: missing 1.5 tsiro now
 
 ## further options
 #--> 0.5 speed could have more
@@ -148,10 +146,11 @@ speed_05 = ['05_002934','05_012051','05_021216']
 speed_15 = ['07_121340','first_15']  # tsiro running now
 speed_20 = ['06_130604','06_154940','07_015759','07_025726']
 
-list_full_plot(speed_05, label='speed = 0.5', color = 'tab:blue')
-list_full_plot(part1_full, label='speed = 1.0', color = 'darkviolet')
-list_full_plot(speed_15, label='speed = 1.5', color = 'tab:green',cutoff=340)
-list_full_plot(speed_20, label='speed = 2.0', color = 'tab:red')
+list_full_plot(speed_05, label='speed = 0.5', color = 'tab:blue',cutoff=300)
+list_full_plot(part1_full, label='speed = 1.0', color = 'darkviolet',cutoff=300)
+list_full_plot(speed_15, label='speed = 1.5', color = 'tab:green',cutoff=300)
+list_full_plot(speed_20, label='speed = 2.0', color = 'tab:red',cutoff=300)
+
 plt.title('Environment speed variations')
 plt.xlabel('Episode')
 plt.ylabel('Reward')
@@ -165,10 +164,12 @@ plt.show()
 #--> more 0.5 7x9
 
 speed_20_79 = ['06_000442','05_231413','05_171708']
-speed_05_79 = ['05_123003']  # tsiro also doing this
+speed_05_79 = ['05_123003','06_182321']  # tsiro also doing this
+speed_10_79 = ['03_214916','06_024834']
 
 list_full_plot(speed_05_79,label='speed 0.5, size 7x9',color='tab:blue')
 list_full_plot(speed_20_79,label='speed 2.0, size 7x9',color='tab:orange')
+list_full_plot(speed_10_79,label='speed 1.0, size 7x9',color='tab:green',cutoff=400)
 list_full_plot(part1_full,label='speed 1.0, size 7x7 (default)',color='darkviolet')
 plt.xlabel('Episode')
 plt.ylabel('Reward')
