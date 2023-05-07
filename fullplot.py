@@ -180,7 +180,7 @@ plt.show()
 # more experiments: compare n-step baseline vs n-step baseline w/ average over 2 best of 4
 #--> full agent without average (we have default w/average)
 
-naked_run = ['06_233822','07_011347','07_025544']
+naked_run = ['06_233822','07_011347','r_06_100000']
 
 list_full_plot(naked_run,label='without selection and average',color='tab:blue',cutoff=350)
 list_full_plot(part1_full,label='with selection and average (default)',color='darkviolet')

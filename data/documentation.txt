@@ -305,3 +305,4 @@ Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 68, 5, 1.0, n_step, None
 
 
 Running on Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 9, 5, 1.0, n_step, data/weights/w_P_07_025544.h5, data/weights/w_V_07_025544.h5, 4, 0.001, 07_075316, True, True
+07_075316 ... Avg reward: 2.6 

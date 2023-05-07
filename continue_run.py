@@ -26,8 +26,8 @@ training = True
 
 # give a list which weights you wanna run
 # weights = ['26_175224']  # eta runs. len: 128, 168, 165 
-# weights = ['04_183040','05_075841','05_200146']  # full run runs (len 300, we want 350 or 400)
-weights = ['07_025544']  # naked run
+weights = ['06_174531', '06_183121', '06_191736']  # full run runs (we want 400, current:350)
+# weights = ['07_025544']  # naked run
 
 for weight in weights:
     P_weights = f'data/weights/w_P_{weight}.h5'
