@@ -40,5 +40,5 @@ if __name__ == "__main__":
     plt.ylabel("Reward")
     plt.legend()
     plt.grid()
-    plt.savefig(f"data/plot.pdf")
+    plt.savefig(f"data/tmp_plot.pdf")
     plt.show()

@@ -67,8 +67,6 @@ if section == 1:
 
         for rows, columns in list_of_rows_columns:
             for j in range(3):
-                if rows == 7 and j == 1:
-                    continue
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
@@ -103,9 +101,10 @@ if section == 1:
     # Experiment 2 - Observation Type
     # but also include 'pixel' in plot
     if i == 2:
+        n_episodes = 250
         obs_types = ['vector']
         for obs_type in obs_types:
-            for j in range(3):
+            for j in range(2):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
@@ -123,8 +122,8 @@ if section == 1:
         rows = 7
         columns = 9
         speeds = [0.5]
-        P_weights = 'data/weights/w_P_06_203834.h5'
-        V_weights = 'data/weights/w_V_06_203834.h5'
+        # P_weights = 'data/weights/w_P_06_203834.h5'
+        # V_weights = 'data/weights/w_V_06_203834.h5'
 
         for speed in speeds:
             

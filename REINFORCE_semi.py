@@ -249,7 +249,6 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             rewards = np.array([experience[2] for experience in mem])
             avg_total_rewards.append(np.mean(rewards))
             total_rewards.append(rewards)
-        # avg_total_rewards = np.mean(total_rewards,axis=1)
 
         best_memory = []
         ## Choose the best two average total rewards from memory buffer
@@ -283,14 +282,13 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 2
+    n_episodes = 400
     learning_rate = 0.01
     rows = 7
     columns = 7
     obs_type = "pixel"  # "vector" or "pixel"
     max_misses = 10
     max_steps = 250
-    seed = np.random.randint(100)  # 25 went well
     n_step = 5
     speed = 1.
     boot = "n_step"  # "n_step" or "MC"
@@ -304,10 +302,8 @@ if __name__ == '__main__':
     # use '27_230853','28_002357' next
     training = True
 
+    seed = np.random.randint(100)  # 25 went well
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
-
     rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                         max_misses, max_steps, seed, n_step, speed, boot,
                         P_weights, V_weights, minibatch, eta, stamp, baseline, training)
-
-    

@@ -51,17 +51,24 @@ colors = ['tab:blue','tab:orange','tab:green','tab:red','tab:purple','tab:brown'
 
 #--> hyperopt: continue on eta weights luca
 #--> part1: continue on full network until 350/400 maximos now
-#--> size: 3 nine_seven missing, 1 seven_nine! maximos now
+#--> size: 3 nine_seven missing! maximos now
 #--> speed and size: more 0.5 7x9  tsiro now
-#--> speed: missing 1.5, 0.5 could have more tsiro now
+#--> speed: missing 1.5 tsiro now
 
+## further options
+#--> 0.5 speed could have more
+#--> 1 7x9 run missing
+#--> 350 eps full run
+#--> continue 9x9 for another 100
+#--> continue 0.5 for another 50
+#-->
 
 # hyperopt
 # 0.5, 0.1, 0.01, 0.001, 0.0005, 0.0001
 #--> continue on eta weights!!
 
 learning_plots = ['23_131422','23_151619','23_203642','23_225132']  # with 0.01 eta
-eta_plots = ['06_180000','06_200000','26_175224']  # with 0.001 learning '25_181333','25_201320','25_221342' more runs but bad
+eta_plots = ['06_180000','06_200000','06_210000']  # with 0.001 learning '25_181333','25_201320','25_221342' more runs but bad
 tuning = eta_plots + learning_plots
 
 labels = [r'$\eta=0.001$',r'$\eta=0.0005$',r'$\eta=0.0001$',
@@ -70,8 +77,8 @@ for j, plots in enumerate(tuning):
     linestyle = "-"
     if j > 2:
         linestyle = "--"
-    if j < 3:
-        reward = np.load(f'data/rewards/r_{plots}.npy')
+    if j == 1 or j == 2:
+        reward = np.load(f'data/rewards/r_{plots}.npy')[:221]
     else:
         reward = np.load(f'data/rewards/r_{plots}.npy')
     reward = savgol_filter(reward,10,1)
@@ -89,7 +96,7 @@ plt.show()
 part1_reinforce = ['04_215854','05_122403','05_125405','05_132446']
 part1_MCbaseline = ['04_225730','05_004942','05_135512','05_145547','05_155817']
 part1_bootstrap = ['05_034633','05_053914','05_165944','05_175952','05_185955']
-part1_full = ['04_183040','05_075841','05_200146']  # ,'05_211226','05_220031'
+part1_full = ['full_first','full_second','full_third']  # ,'05_211226','05_220031'
 
 list_full_plot(part1_reinforce, color='tab:blue',label='REINFORCE (MC)')
 list_full_plot(part1_MCbaseline, color='tab:orange',label='MC baseline')
@@ -107,12 +114,12 @@ plt.show()
 # size
 #--> 3 nine_seven missing, 1 seven_nine!
 seven_nine = ['06_024834','03_214916']
-nine_seven = ['']  # maximos now
+nine_seven = ['06_180708','06_233404']  # 07_061209 but only 100 long
 nine_nine = ['04_210821','04_213900','04_221523','04_224709','04_232119']
 list_full_plot(part1_full, label='shape 7x7 (default)', color='darkviolet')
-list_full_plot(nine_nine,label='shape = 9x9', color= 'tab:orange')
-list_full_plot(seven_nine,label='shape = 7x9', color= 'tab:green',cutoff=400)  # could go to 400 
-# list_full_plot(nine_seven,label='shape = 9x7', color= 'tab:red')
+list_full_plot(nine_nine,label='shape = 9x9', color= 'tab:blue')
+list_full_plot(seven_nine,label='shape = 7x9', color= 'tab:orange',cutoff=400)  # could go to 400 
+list_full_plot(nine_seven,label='shape = 9x7', color= 'tab:green')
 
 plt.title('Environment size variations')
 plt.grid()
@@ -124,7 +131,7 @@ plt.show()
 
 # vector
 #--> more vectors! (longer?)  # vectors!
-vectors = ['06_103356']
+vectors = ['06_103356','06_191148','06_202327']
 list_full_plot(part1_full, label='observation by pixel (default)', color='darkviolet')
 list_full_plot(vectors, label='observation by vector', color='tab:orange')
 plt.title('Observation types')
@@ -172,6 +179,18 @@ plt.show()
 
 # more experiments: compare n-step baseline vs n-step baseline w/ average over 2 best of 4
 #--> full agent without average (we have default w/average)
+
+naked_run = ['06_233822','07_011347','r_06_100000']
+
+list_full_plot(naked_run,label='without selection and average',color='tab:blue',cutoff=350)
+list_full_plot(part1_full,label='with selection and average (default)',color='darkviolet')
+plt.xlabel('Episode')
+plt.ylabel('Reward')
+plt.title('Comparison of enhancement')
+plt.grid()
+plt.legend()
+plt.savefig('plots/standard_enhanced.pdf')
+plt.show()
 
 
 ''' run on finished weights
