@@ -205,6 +205,11 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     ep = 0
     while ep < n_episodes:
         # for ep in range(n_episodes):  # n_episodes = 500
+        if len(all_rewards) > 0 and np.mean(all_rewards[-20:]) > 15:
+            # turn off selection of best-performing when we already reached high rewards
+            minibatch = 2
+            memory = [deque(maxlen=max_steps) for _ in range(minibatch)]
+
         for mem in memory:
             mem.clear()
         ep += 2
@@ -244,7 +249,6 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             rewards = np.array([experience[2] for experience in mem])
             avg_total_rewards.append(np.mean(rewards))
             total_rewards.append(rewards)
-        # avg_total_rewards = np.mean(total_rewards,axis=1)
 
         best_memory = []
         ## Choose the best two average total rewards from memory buffer
@@ -259,7 +263,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
             critic.update_weights(best_memory)
         actor.update_weights(best_memory)
 
-        if ep % 20 == 0 and ep > 0:
+        if ep % 10 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
         if ep % 50 == 0 and ep >= 100:
             actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
@@ -285,7 +289,6 @@ if __name__ == '__main__':
     obs_type = "pixel"  # "vector" or "pixel"
     max_misses = 10
     max_steps = 250
-    seed = np.random.randint(100)  # 25 went well
     n_step = 5
     speed = 1.
     boot = "n_step"  # "n_step" or "MC"
@@ -294,15 +297,13 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.001
-    # P_weights = 'data/weights/w_P_04_120054.h5'
-    # V_weights = 'data/weights/w_V_04_120054.h5'
+    # P_weights = 'data/weights/w_P_04_183040.h5'
+    # V_weights = 'data/weights/w_V_04_183040.h5'
     # use '27_230853','28_002357' next
     training = True
 
+    seed = np.random.randint(100)  # 25 went well
     stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
-
     rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                         max_misses, max_steps, seed, n_step, speed, boot,
                         P_weights, V_weights, minibatch, eta, stamp, baseline, training)
-
-    
