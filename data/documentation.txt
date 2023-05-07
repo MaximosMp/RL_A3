@@ -334,11 +334,14 @@ Running on Parameters: 50, 0.01, 7, 7, pixel, 10, 250, 9, 5, 1.0, n_step, data/w
 07_075316 ... Avg reward: 2.6 
 
 
-Running on Parameters: 150, 0.01, 7, 7, pixel, 10, 250, 60, 5, 1.0, n_step, data/weights/w_P_06_103356.h5, data/weights/w_V_06_103356.h5, 4, 0.001, 07_082523, True, True
-
 
 Running on Parameters: 150, 0.01, 7, 7, vector, 10, 250, 93, 5, 1.0, n_step, data/weights/w_P_06_103356.h5, data/weights/w_V_06_103356.h5, 4, 0.001, 07_084302, True, True
 07_084302 ... Avg reward: 32.99333333333333 
 
 
 Running on Parameters: 150, 0.01, 7, 7, vector, 10, 250, 93, 5, 1.0, n_step, data/weights/w_P_06_191148.h5, data/weights/w_V_06_191148.h5, 4, 0.001, 07_095123, True, True
+07_095123 ... Avg reward: 0.5533333333333333 
+
+
+Running on Parameters: 150, 0.01, 7, 7, vector, 10, 250, 93, 5, 1.0, n_step, data/weights/w_P_06_202327.h5, data/weights/w_V_06_202327.h5, 4, 0.001, 07_111930, True, True
+07_111930 ... Avg reward: 29.433333333333334 

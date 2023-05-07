@@ -46,12 +46,7 @@ colors = ['tab:blue','tab:orange','tab:green','tab:red','tab:purple','tab:brown'
 
 ### TO DO
 
-#--> obs_type: more vectors! (longer?) <--- luca vllt
-#--> our own implementation: full agent without average (we have default w/average) <---
-
-#--> hyperopt: continue on eta weights luca
 #--> part1: continue on full network until 350/400 maximos now
-#--> size: 3 nine_seven missing! maximos now
 #--> speed and size: more 0.5 7x9  tsiro now
 #--> speed: missing 1.5 tsiro now
 
@@ -61,7 +56,8 @@ colors = ['tab:blue','tab:orange','tab:green','tab:red','tab:purple','tab:brown'
 #--> 350 eps full run
 #--> continue 9x9 for another 100
 #--> continue 0.5 for another 50
-#-->
+#--> size: 3 nine_seven missing! maximos now
+
 
 # hyperopt
 # 0.5, 0.1, 0.01, 0.001, 0.0005, 0.0001
@@ -85,6 +81,7 @@ for j, plots in enumerate(tuning):
     plt.plot(reward, label=labels[j], linestyle=linestyle)
 plt.title('Hyperparameter tuning')
 plt.grid()
+plt.ylim(-10.,35)
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.legend(loc='right')  # fontsize='8'
@@ -96,7 +93,7 @@ plt.show()
 part1_reinforce = ['04_215854','05_122403','05_125405','05_132446']
 part1_MCbaseline = ['04_225730','05_004942','05_135512','05_145547','05_155817']
 part1_bootstrap = ['05_034633','05_053914','05_165944','05_175952','05_185955']
-part1_full = ['full_first','full_second','full_third']  # ,'05_211226','05_220031'
+part1_full = ['full_1st','full_2nd','full_3rd']  # ,'05_211226','05_220031'
 
 list_full_plot(part1_reinforce, color='tab:blue',label='REINFORCE (MC)')
 list_full_plot(part1_MCbaseline, color='tab:orange',label='MC baseline')
@@ -105,6 +102,7 @@ list_full_plot(part1_full, color='darkviolet',label='5-step bootstrap+baseline')
 
 plt.title('Comparison of different agents')
 plt.grid()
+plt.ylim(-10.,35)
 plt.legend()
 plt.savefig('plots/Part_1.pdf')
 plt.show()
@@ -123,6 +121,7 @@ list_full_plot(nine_seven,label='shape = 9x7', color= 'tab:green')
 
 plt.title('Environment size variations')
 plt.grid()
+plt.ylim(-10.,35)
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.legend(loc='best')  # fontsize='8'
@@ -131,11 +130,12 @@ plt.show()
 
 # vector
 #--> more vectors! (longer?)  # vectors!
-vectors = ['06_103356','06_191148','06_202327']
+vectors = ['vector1','vector2','vector3']  # ,'06_202327'
 list_full_plot(part1_full, label='observation by pixel (default)', color='darkviolet')
-list_full_plot(vectors, label='observation by vector', color='tab:orange')
+list_full_plot(vectors, label='observation by vector', color='tab:blue')
 plt.title('Observation types')
 plt.grid()
+plt.ylim(-10.,35)
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.legend(loc='best')  # fontsize='8'
@@ -146,7 +146,7 @@ plt.show()
 #--> missing 1.5 and 2.0, 0.5 could have more
 speed_05 = ['05_002934','05_012051','05_021216']
 speed_15 = ['']  # tsiro running now
-speed_20 = ['06_130604','06_154940']
+speed_20 = ['06_130604','06_154940','07_015759','07_025726']
 
 list_full_plot(speed_05, label='speed = 0.5', color = 'tab:blue')
 list_full_plot(part1_full, label='speed = 1.0', color = 'darkviolet')
@@ -156,6 +156,7 @@ plt.title('Environment speed variations')
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.grid()
+plt.ylim(-10.,35)
 plt.legend(loc='best')  # fontsize='8'
 plt.savefig('plots/part2_speed.pdf')
 plt.show()
@@ -173,6 +174,7 @@ plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Multiple environment variations')
 plt.grid()
+plt.ylim(-10.,35)
 plt.legend()
 plt.savefig('plots/speed-size_experiment.pdf')
 plt.show()
@@ -182,12 +184,13 @@ plt.show()
 
 naked_run = ['06_233822','07_011347','r_06_100000']
 
-list_full_plot(naked_run,label='without selection and average',color='tab:blue',cutoff=350)
+list_full_plot(naked_run,label='without selection and average',color='tab:blue')
 list_full_plot(part1_full,label='with selection and average (default)',color='darkviolet')
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Comparison of enhancement')
 plt.grid()
+plt.ylim(-10.,35)
 plt.legend()
 plt.savefig('plots/standard_enhanced.pdf')
 plt.show()
