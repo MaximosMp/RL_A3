@@ -148,3 +148,29 @@ Running on Parameters: 400, 0.01, 7, 9, pixel, 10, 250, 33, 5, 2.0, n_step, None
 
 
 Running on Parameters: 350, 0.01, 7, 7, vector, 10, 250, 85, 5, 1.0, n_step, None, None, 4, 0.001, 06_103356, True
+
+Running on Parameters: 350, 0.01, 7, 9, pixel, 10, 250, 65, 5, 0.5, n_step, None, None, 4, 0.001, 06_131025, True
+
+
+Running on Parameters: 150, 0.01, 7, 9, pixel, 10, 250, 33, 5, 0.5, n_step, data/weights/w_P_06_131025.h5, data/weights/w_V_06_131025.h5, 4, 0.001, 06_175444, True
+
+
+Running on Parameters: 350, 0.01, 7, 9, pixel, 10, 250, 26, 5, 0.5, n_step, None, None, 4, 0.001, 07_015403, True
+
+
+Running on Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 80, 5, 2.0, n_step, None, None, 4, 0.001, 07_015759, True
+07_015759 ... Avg reward: -6.08 
+
+
+ 07_015759, Exp1,0,2.0 ... params: Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 80, 5, 2.0, n_step, None, None, 4, 0.001, 07_015759, True, Avg reward: -6.080 
+
+
+Running on Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 80, 5, 2.0, n_step, None, None, 4, 0.001, 07_025726, True
+07_025726 ... Avg reward: -6.3428571428571425 
+
+
+ 07_025726, Exp1,1,2.0 ... params: Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 80, 5, 2.0, n_step, None, None, 4, 0.001, 07_025726, True, Avg reward: -6.343 
+
+
+terminated at 350
+Running on Parameters: 350, 0.01, 7, 7, pixel, 10, 250, 80, 5, 2.0, n_step, None, None, 4, 0.001, 07_035819, True

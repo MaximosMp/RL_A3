@@ -57,18 +57,16 @@ if section == 1:
     boot = "n_step"
     baseline = True
     training = True
-    # P_weights = 'data/weights/w_P_26_171012.h5'
-    # V_weights = 'data/weights/w_V_26_171012.h5'
+    # P_weights = 'data/weights/w_P_06_131025.h5'
+    # V_weights = 'data/weights/w_V_06_131025.h5'
 
     # Experiment 0 - Size Variation
     # square 7x7, square 11x11, rectangle 7x14, rectangle 14x7
     if i == 0:
-        list_of_rows_columns = [(7, 9), (9, 7)]
+        list_of_rows_columns = [(9, 7)]
 
         for rows, columns in list_of_rows_columns:
             for j in range(3):
-                if rows == 7 and j == 1:
-                    continue
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
@@ -85,7 +83,7 @@ if section == 1:
     # but also include speed=1.0 in plot
 
     if i == 1:
-        speeds = [0.5, 1.5, 2.0]
+        speeds = [2.0]
         for speed in speeds:
             for j in range(3):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
@@ -121,14 +119,12 @@ if section == 1:
     if i == 3:
         rows = 7
         columns = 9
-        speeds = [0.5, 2.0]
-        # P_weights = 'data/weights/w_P_02_224335.h5'
-        # V_weights = 'data/weights/w_V_02_224335.h5'
+        speeds = [0.5]
+        # P_weights = 'data/weights/w_P_06_131025.h5'
+        # V_weights = 'data/weights/w_V_06_131025.h5'
 
         for speed in speeds:
-            if speed == 0.5:
-                continue
-            for j in range(2):
+            for j in range(1):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
