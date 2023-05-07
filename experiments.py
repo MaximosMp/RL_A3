@@ -7,7 +7,7 @@ from Helper import write_to_doc
 args = sys.argv[1:]
 
 # game settings
-n_episodes = 126
+n_episodes = 200
 learning_rate = 0.01
 rows = 7
 columns = 7
@@ -57,8 +57,8 @@ if section == 1:
     boot = "n_step"
     baseline = True
     training = True
-    P_weights = 'data/weights/w_P_06_191321.h5'
-    V_weights = 'data/weights/w_V_06_191321.h5'
+    # P_weights = 'data/weights/w_P_06_191321.h5'
+    # V_weights = 'data/weights/w_V_06_191321.h5'
 
     # Experiment 0 - Size Variation
     # square 7x7, square 11x11, rectangle 7x14, rectangle 14x7
@@ -122,14 +122,13 @@ if section == 1:
     if i == 3:
         rows = 7
         columns = 9
-        speeds = [0.5, 2.0]
-        # P_weights = 'data/weights/w_P_02_224335.h5'
-        # V_weights = 'data/weights/w_V_02_224335.h5'
+        speeds = [0.5]
+        P_weights = 'data/weights/w_P_06_203834.h5'
+        V_weights = 'data/weights/w_V_06_203834.h5'
 
         for speed in speeds:
-            if speed == 0.5:
-                continue
-            for j in range(2):
+            
+            for j in range(1):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")

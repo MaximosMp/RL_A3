@@ -308,3 +308,12 @@ Running on Parameters: 126, 0.01, 7, 9, pixel, 10, 250, 8, 5, 0.5, n_step, None,
 
 
 Running on Parameters: 150, 0.01, 7, 9, pixel, 10, 250, 89, 5, 0.5, n_step, None, None, 4, 0.001, 06_221605, True
+
+
+Running on Parameters: 350, 0.01, 7, 9, pixel, 10, 250, 20, 5, 0.5, n_step, None, None, 4, 0.001, 07_015558, True
+
+
+Running on Parameters: 200, 0.01, 7, 9, pixel, 10, 250, 20, 5, 0.5, n_step, data/weights/w_P_06_203834.h5, data/weights/w_V_06_203834.h5, 4, 0.001, 07_094236, True
+
+
+Running on Parameters: 200, 0.01, 7, 9, pixel, 10, 250, 71, 5, 0.5, n_step, data/weights/w_P_06_203834.h5, data/weights/w_V_06_203834.h5, 4, 0.001, 07_111054, True
