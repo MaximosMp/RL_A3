@@ -96,7 +96,7 @@ plt.show()
 part1_reinforce = ['04_215854','05_122403','05_125405','05_132446']
 part1_MCbaseline = ['04_225730','05_004942','05_135512','05_145547','05_155817']
 part1_bootstrap = ['05_034633','05_053914','05_165944','05_175952','05_185955']
-part1_full = ['04_183040','05_075841','05_200146']  # ,'05_211226','05_220031'
+part1_full = ['full_first','full_second','full_third']  # ,'05_211226','05_220031'
 
 list_full_plot(part1_reinforce, color='tab:blue',label='REINFORCE (MC)')
 list_full_plot(part1_MCbaseline, color='tab:orange',label='MC baseline')
@@ -114,12 +114,12 @@ plt.show()
 # size
 #--> 3 nine_seven missing, 1 seven_nine!
 seven_nine = ['06_024834','03_214916']
-nine_seven = ['']  # maximos now
+nine_seven = ['06_180708','06_233404']  # 07_061209 but only 100 long
 nine_nine = ['04_210821','04_213900','04_221523','04_224709','04_232119']
 list_full_plot(part1_full, label='shape 7x7 (default)', color='darkviolet')
-list_full_plot(nine_nine,label='shape = 9x9', color= 'tab:orange')
-list_full_plot(seven_nine,label='shape = 7x9', color= 'tab:green',cutoff=400)  # could go to 400 
-# list_full_plot(nine_seven,label='shape = 9x7', color= 'tab:red')
+list_full_plot(nine_nine,label='shape = 9x9', color= 'tab:blue')
+list_full_plot(seven_nine,label='shape = 7x9', color= 'tab:orange',cutoff=400)  # could go to 400 
+list_full_plot(nine_seven,label='shape = 9x7', color= 'tab:green')
 
 plt.title('Environment size variations')
 plt.grid()
