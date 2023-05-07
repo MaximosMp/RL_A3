@@ -81,7 +81,7 @@ for j, plots in enumerate(tuning):
     plt.plot(reward, label=labels[j], linestyle=linestyle)
 plt.title('Hyperparameter tuning')
 plt.grid()
-plt.ylim(-10.,35)
+plt.ylim(-10.,36.)
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.legend(loc='right')  # fontsize='8'
@@ -102,7 +102,7 @@ list_full_plot(part1_full, color='darkviolet',label='5-step bootstrap+baseline')
 
 plt.title('Comparison of different agents')
 plt.grid()
-plt.ylim(-10.,35)
+plt.ylim(-10.,36.)
 plt.legend()
 plt.savefig('plots/Part_1.pdf')
 plt.show()
@@ -121,7 +121,7 @@ list_full_plot(nine_seven,label='shape = 9x7', color= 'tab:green')
 
 plt.title('Environment size variations')
 plt.grid()
-plt.ylim(-10.,35)
+plt.ylim(-10.,36.)
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.legend(loc='best')  # fontsize='8'
@@ -135,7 +135,7 @@ list_full_plot(part1_full, label='observation by pixel (default)', color='darkvi
 list_full_plot(vectors, label='observation by vector', color='tab:blue')
 plt.title('Observation types')
 plt.grid()
-plt.ylim(-10.,35)
+plt.ylim(-10.,36.)
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.legend(loc='best')  # fontsize='8'
@@ -145,18 +145,18 @@ plt.show()
 # speed
 #--> missing 1.5 and 2.0, 0.5 could have more
 speed_05 = ['05_002934','05_012051','05_021216']
-speed_15 = ['']  # tsiro running now
+speed_15 = ['07_121340','first_15']  # tsiro running now
 speed_20 = ['06_130604','06_154940','07_015759','07_025726']
 
 list_full_plot(speed_05, label='speed = 0.5', color = 'tab:blue')
 list_full_plot(part1_full, label='speed = 1.0', color = 'darkviolet')
-# list_full_plot(speed_15, label='speed = 1.5', color = 'tab:green')
+list_full_plot(speed_15, label='speed = 1.5', color = 'tab:green',cutoff=340)
 list_full_plot(speed_20, label='speed = 2.0', color = 'tab:red')
 plt.title('Environment speed variations')
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.grid()
-plt.ylim(-10.,35)
+plt.ylim(-10.,36.)
 plt.legend(loc='best')  # fontsize='8'
 plt.savefig('plots/part2_speed.pdf')
 plt.show()
@@ -174,7 +174,7 @@ plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Multiple environment variations')
 plt.grid()
-plt.ylim(-10.,35)
+plt.ylim(-10.,36.)
 plt.legend()
 plt.savefig('plots/speed-size_experiment.pdf')
 plt.show()
@@ -190,7 +190,7 @@ plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Comparison of enhancement')
 plt.grid()
-plt.ylim(-10.,35)
+plt.ylim(-10.,36.)
 plt.legend()
 plt.savefig('plots/standard_enhanced.pdf')
 plt.show()
