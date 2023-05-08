@@ -279,7 +279,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 300
+    n_episodes = 400
     learning_rate = 0.01
     rows = 7
     columns = 7
@@ -298,7 +298,7 @@ if __name__ == '__main__':
     # V_weights = 'data/weights/w_V_07_084302.h5'
     # use '27_230853','28_002357' next
     training = True
-    for _ in range(2):
+    for _ in range(1):
         seed = np.random.randint(100)  # 25 went well
         stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
         rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,

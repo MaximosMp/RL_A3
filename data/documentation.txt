@@ -408,3 +408,6 @@ Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 82, 5, 1.0, n_step, None
 
 
 Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 26, 5, 1.0, n_step, None, None, 4, 0.001, 07_180808, True, True
+
+
+Running on Parameters: 400, 0.01, 7, 7, pixel, 10, 250, 69, 5, 1.0, n_step, None, None, 4, 0.001, 08_085540, True, True
