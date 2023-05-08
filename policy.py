@@ -364,8 +364,6 @@ if __name__ == '__main__':
     V_weights = None
 
     training = True
-
-    print(f'boot: {boot}, baseline: {baseline}, ppo: {ppo}')
     
     for _ in range(n_repetitions):
         seed = np.random.randint(100)

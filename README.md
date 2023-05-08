@@ -18,42 +18,37 @@ The base hyperparameters are listed below and can be changed in the `policy.py` 
 
 ## Monte Carlo, N-step, Baseline, PPO
 ### Run
-Running the file without and optional flags, will execute the n-step baseline model for 1 repetition in 300 episodes
+Running the file without any flags, will execute the **n-step baseline** model for 1 repetition in 300 episodes
 ```
 python policy.py
 ```
 
 #### Add optional flags for:  
-Running the Monte Carlo model without baseline
-```
+Running the **Monte Carlo** model without **baseline**
 
 ```
 python policy.py --mc
 ```
 
-Running the Monte Carlo model with baseline
-```
+Running the **Monte Carlo** model with **baseline**
 
 ```
 python policy.py --mc --baseline
 ```
 
-Running the n-step model without baseline
-```
+Running the **n-step** model without **baseline**
 
 ```
 python policy.py --n_step
 ```
 
-Running the n-step model with baseline
-```
+Running the **n-step** model with **baseline**
 
 ```
 python policy.py --n_step --baseline
 ```
 
-Running the PPO model
-```
+Running the **PPO** model
 
 ```
 python policy.py --ppo
