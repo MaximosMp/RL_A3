@@ -197,6 +197,18 @@ plt.savefig('plots/standard_enhanced.pdf')
 plt.show()
 
 
+ppo = ['07_184856', '08_002959', '014750']
+
+list_full_plot(ppo,label='ppo',color='tab:blue')
+list_full_plot(part1_full,label='with selection and average (default)',color='darkviolet')
+plt.xlabel('Episode')
+plt.ylabel('Reward')
+plt.title('Comparison with ppo clipping')
+plt.grid()
+plt.legend()
+plt.savefig('plots/ppo.pdf')
+plt.show()
+
 ''' run on finished weights
 default = ['30_202045','30_204133','30_210223','30_212339','01_065527']
 speed_05 = ['30_113517','30_115449','30_121431','30_123431','30_140008']

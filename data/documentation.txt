@@ -391,6 +391,109 @@ Running on Parameters: 150, 0.01, 7, 7, vector, 10, 250, 93, 5, 1.0, n_step, dat
 
 
 Running on Parameters: 150, 0.01, 7, 7, vector, 10, 250, 93, 5, 1.0, n_step, data/weights/w_P_06_191148.h5, data/weights/w_V_06_191148.h5, 4, 0.001, 07_095123, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 32, 5, 1.0, n_step, None, None, 4, 0.001, 07_140216, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 18, 5, 1.0, n_step, None, None, 4, 0.001, 07_140919, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 23, 5, 1.0, n_step, None, None, 4, 0.001, 07_141349, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 10, 99, 5, 1.0, n_step, None, None, 4, 0.001, 07_141846, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 10, 61, 5, 1.0, n_step, None, None, 4, 0.001, 07_142438, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 10, 49, 5, 1.0, n_step, None, None, 4, 0.001, 07_142645, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 10, 99, 5, 1.0, n_step, None, None, 4, 0.001, 07_142815, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 10, 27, 5, 1.0, n_step, None, None, 4, 0.001, 07_143201, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 10, 4, 5, 1.0, n_step, None, None, 4, 0.001, 07_144528, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 10, 52, 5, 1.0, n_step, None, None, 4, 0.001, 07_145207, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 10, 68, 5, 1.0, n_step, None, None, 4, 0.001, 07_145410, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 10, 34, 5, 1.0, n_step, None, None, 4, 0.001, 07_145515, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 68, 5, 1.0, n_step, None, None, 2, 0.001, 07_145932, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 22, 5, 1.0, n_step, None, None, 2, 0.001, 07_150312, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 20, 5, 1.0, n_step, None, None, 2, 0.001, 07_151628, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 28, 5, 1.0, n_step, None, None, 2, 0.001, 07_152224, True, True, True
+07_152224 ... Avg reward: -9.043333333333333 
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 40, 53, 5, 1.0, n_step, None, None, 2, 0.001, 07_162510, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 40, 51, 5, 1.0, n_step, None, None, 2, 0.001, 07_163128, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 40, 75, 5, 1.0, n_step, None, None, 2, 0.001, 07_163339, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 9, 5, 1.0, n_step, None, None, 2, 0.001, 07_163404, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 54, 5, 1.0, n_step, None, None, 2, 0.001, 07_171030, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 78, 5, 1.0, n_step, None, None, 2, 0.001, 07_173017, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 84, 5, 1.0, n_step, None, None, 2, 0.001, 07_175621, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 14, 5, 1.0, n_step, None, None, 2, 0.001, 07_180644, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 30, 5, 1.0, n_step, None, None, 2, 0.001, 07_183737, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 68, 5, 1.0, n_step, None, None, 2, 0.001, 07_183853, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 30, 5, 1.0, n_step, None, None, 2, 0.001, 07_184809, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 72, 5, 1.0, n_step, None, None, 2, 0.001, 07_184856, True, True, True
+07_184856 ... Avg reward: -0.99 
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 38, 5, 1.0, n_step, None, None, 2, 0.001, 08_002422, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 53, 5, 1.0, n_step, None, None, 2, 0.001, 08_002529, True, True, True
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 6, 5, 1.0, n_step, None, None, 2, 0.001, 08_002959, True, True, True
+08_002959 ... Avg reward: -2.51 
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 6, 5, 1.0, n_step, None, None, 2, 0.001, 08_014750, True, True, True
+08_014750 ... Avg reward: -1.4466666666666668 
+
+
+Running on Parameters: 300, 0.01, 7, 7, pixel, 10, 250, 6, 5, 1.0, n_step, None, None, 2, 0.001, 08_032118, True, True, True
 07_095123 ... Avg reward: 0.5533333333333333 
 
 
