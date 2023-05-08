@@ -14,6 +14,7 @@ The base hyperparameters are listed below and can be changed in the `policy.py` 
     n_step = 5
     speed = 1.
     eta = 0.001
+    minibatch = 4
 ```
 
 ## Monte Carlo, N-step, Baseline, PPO
@@ -52,6 +53,7 @@ Running the **PPO** model
 
 ```
 python policy.py --ppo
+```
 
 Please do not use other combinations than those mentioned above. We did not make it fully functional and self-consistent.
 

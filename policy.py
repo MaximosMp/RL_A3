@@ -7,24 +7,6 @@ import time
 from keras.utils.vis_utils import plot_model
 import sys
 
-'''
-    TO DO: 
-        ask: 
-            - how many epochs/steps should we aim for? -> 200k-500k steps
-
-        implement:
-            - checkpoints (tensorboard)
-
-        issue:
-
-        Experiments:
-        1) REINFORCE, actor critic bootstrap, ac baseline, ac baseline + bootstrap (aren't the last two the same?)
-            put them all in one plot, average over 5 runs, 1000 episodes
-        2) vary size (5x5 converges faster): compare 5x5 vs 7x7, averaged over 5 runs and 1000-2000 traces
-        4) Other environment variations.
-    '''
-
-
 ACTION_EFFECTS = (-1, 0, 1)  # left, idle right.
 OBSERVATION_TYPES = ['pixel', 'vector']
 
@@ -296,22 +278,22 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         all_grads.append(np.mean(ep_grad_avg))
 
         if ep % 10 == 0 and ep > 0:
-            np.save(f'data/rewards/tmp_reward', all_rewards)
-            np.save(f'data/grads/tmp_grads', np.array(all_grads))
+            np.save(f'tmp_reward', all_rewards)
+            np.save(f'tmp_grads', np.array(all_grads))
         if ep % 50 == 0 and ep >= 100:
-            actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
-            np.save(f'data/grads/g_{stamp}', np.array(all_grads))
-            np.save(f'data/rewards/r_{stamp}', all_rewards)
+            actor.model.save_weights(f'w_P_{stamp}.h5')
+            np.save(f'g_{stamp}', np.array(all_grads))
+            np.save(f'r_{stamp}', all_rewards)
             if boot == "n_step" or baseline:
-                critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
+                critic.model.save_weights(f'w_V_{stamp}.h5')
         print()
 
-    actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
+    actor.model.save_weights(f'w_P_{stamp}.h5')
     if boot == "n_step" or baseline:
-        critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
-    np.save(f'data/rewards/r_{stamp}', all_rewards)
+        critic.model.save_weights(f'w_V_{stamp}.h5')
+    np.save(f'r_{stamp}', all_rewards)
     write_to_doc(f'{stamp} ... Avg reward: {np.mean(all_rewards)} \n')
-    np.save(f'data/grads/g_{stamp}', np.array(all_grads))
+    np.save(f'g_{stamp}', np.array(all_grads))
     return all_rewards
 
 
@@ -364,7 +346,7 @@ if __name__ == '__main__':
     V_weights = None
 
     training = True
-    
+
     for _ in range(n_repetitions):
         seed = np.random.randint(100)
         stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
