@@ -91,12 +91,12 @@ plt.show()
 part1_reinforce = ['04_215854','05_122403','05_125405','05_132446']
 part1_MCbaseline = ['04_225730','05_004942','05_135512','05_145547','05_155817']
 part1_bootstrap = ['05_034633','05_053914','05_165944','05_175952','05_185955']
-part1_full = ['full_1st','full_2nd','full_3rd']  # ,'05_211226','05_220031'
+part1_full = ['full_1st','full_2nd','full_3rd','last_full']  # ,'05_211226','05_220031'
 
 list_full_plot(part1_reinforce, color='tab:blue',label='REINFORCE (MC)')
 list_full_plot(part1_MCbaseline, color='tab:orange',label='MC baseline')
 list_full_plot(part1_bootstrap, color='tab:green',label='5-step bootstrap')
-list_full_plot(part1_full, color='darkviolet',label='5-step bootstrap & baseline')
+list_full_plot(part1_full, color='darkviolet',label='5-step bootstrap & baseline',cutoff=400)
 
 plt.title('Comparison of different agents')
 plt.grid()
@@ -112,7 +112,7 @@ plt.show()
 seven_nine = ['06_024834','03_214916']
 nine_seven = ['06_180708','06_233404']  # 07_061209 but only 100 long
 nine_nine = ['04_210821','04_213900','04_221523','04_224709','04_232119']
-list_full_plot(part1_full, label='Size 7x7 (default)', color='darkviolet')
+list_full_plot(part1_full, label='Size 7x7 (default)', color='darkviolet',cutoff=400)
 list_full_plot(nine_nine,label='Size 9x9', color= 'tab:blue')
 list_full_plot(seven_nine,label='Size 7x9', color= 'tab:orange',cutoff=400)  # could go to 400 
 list_full_plot(nine_seven,label='Size 9x7', color= 'tab:green')
@@ -129,7 +129,7 @@ plt.show()
 # vector
 #--> more vectors! (longer?)  # vectors!
 vectors = ['vector1','vector2','vector3']  # ,'06_202327'
-list_full_plot(part1_full, label='Observation by Pixel (default)', color='darkviolet')
+list_full_plot(part1_full, label='Observation by Pixel (default)', color='darkviolet',cutoff=400)
 list_full_plot(vectors, label='Observation by Vector', color='tab:blue')
 plt.title('Observation types')
 plt.grid()
@@ -149,7 +149,7 @@ speed_20 = ['06_130604','06_154940','07_015759','07_025726']
 list_full_plot(speed_05, label='Speed = 0.5', color = 'tab:blue',cutoff=300)
 list_full_plot(part1_full, label='Speed = 1.0', color = 'darkviolet',cutoff=300)
 list_full_plot(speed_15, label='Speed = 1.5', color = 'tab:green',cutoff=300)
-list_full_plot(speed_20, label='Speed = 2.0', color = 'tab:red',cutoff=300)
+list_full_plot(speed_20, label='Speed = 2.0', color = 'tab:orange',cutoff=300)
 
 plt.title('Environment speed variations')
 plt.xlabel('Episode')
@@ -170,7 +170,7 @@ speed_10_79 = ['03_214916','06_024834']
 list_full_plot(speed_05_79,label='Speed 0.5, Size 7x9',color='tab:blue',cutoff=400)
 list_full_plot(speed_20_79,label='Speed 2.0, Size 7x9',color='tab:orange')
 list_full_plot(speed_10_79,label='Speed 1.0, Size 7x9',color='tab:green',cutoff=400)
-list_full_plot(part1_full,label='Speed 1.0, Size 7x7 (default)',color='darkviolet')
+list_full_plot(part1_full,label='Speed 1.0, Size 7x7 (default)',color='darkviolet',cutoff=400)
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Multiple environment variations')
@@ -186,7 +186,7 @@ plt.show()
 naked_run = ['06_233822','07_011347','r_06_100000']
 
 list_full_plot(naked_run,label='Without selection\nand average',color='tab:blue')
-list_full_plot(part1_full,label='With selection\nand average (default)',color='darkviolet')
+list_full_plot(part1_full,label='With selection\nand average (default)',color='darkviolet',cutoff=400)
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Comparison of enhancement')
