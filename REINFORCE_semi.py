@@ -52,11 +52,8 @@ class Actor():
         activ_func = "relu"
         init = tf.keras.initializers.GlorotNormal(seed=self.seed)
         init2 = tf.keras.initializers.GlorotNormal(seed=self.seed)
-        # hard coded Value learning rate to 0.05
-        if critic:
-            self.optimizer = tf.keras.optimizers.Adam(learning_rate=0.05)
-        else:
-            self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+        
+        self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
 
         if (observation_type == 'pixel'):
             input_shape = (columns, rows, 2)
@@ -197,7 +194,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                   seed=seed, eta=eta, baseline=baseline, training=training)
 
     if boot == 'n_step' or baseline:
-        critic = Actor(learning_rate, boot=boot, n_step=n_step, rows=rows, columns=columns,
+        critic = Actor(0.05, boot=boot, n_step=n_step, rows=rows, columns=columns,
                        observation_type=obs_type, saved_weights=V_weights, seed=seed,
                        critic=True, eta=eta, training=training, baseline=False)
     count = 0
@@ -282,7 +279,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 400
+    n_episodes = 300
     learning_rate = 0.01
     rows = 7
     columns = 7
@@ -297,13 +294,13 @@ if __name__ == '__main__':
     V_weights = None
     baseline = True
     eta = 0.001
-    # P_weights = 'data/weights/w_P_04_183040.h5'
-    # V_weights = 'data/weights/w_V_04_183040.h5'
+    # P_weights = 'data/weights/w_P_07_084302.h5'
+    # V_weights = 'data/weights/w_V_07_084302.h5'
     # use '27_230853','28_002357' next
     training = True
-
-    seed = np.random.randint(100)  # 25 went well
-    stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
-    rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
-                        max_misses, max_steps, seed, n_step, speed, boot,
-                        P_weights, V_weights, minibatch, eta, stamp, baseline, training)
+    for _ in range(2):
+        seed = np.random.randint(100)  # 25 went well
+        stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
+        rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
+                            max_misses, max_steps, seed, n_step, speed, boot,
+                            P_weights, V_weights, minibatch, eta, stamp, baseline, training)
