@@ -112,10 +112,10 @@ plt.show()
 seven_nine = ['06_024834','03_214916']
 nine_seven = ['06_180708','06_233404']  # 07_061209 but only 100 long
 nine_nine = ['04_210821','04_213900','04_221523','04_224709','04_232119']
-list_full_plot(part1_full, label='shape 7x7 (default)', color='darkviolet')
-list_full_plot(nine_nine,label='shape = 9x9', color= 'tab:blue')
-list_full_plot(seven_nine,label='shape = 7x9', color= 'tab:orange',cutoff=400)  # could go to 400 
-list_full_plot(nine_seven,label='shape = 9x7', color= 'tab:green')
+list_full_plot(part1_full, label='Size 7x7 (default)', color='darkviolet')
+list_full_plot(nine_nine,label='Size 9x9', color= 'tab:blue')
+list_full_plot(seven_nine,label='Size 7x9', color= 'tab:orange',cutoff=400)  # could go to 400 
+list_full_plot(nine_seven,label='Size 9x7', color= 'tab:green')
 
 plt.title('Environment size variations')
 plt.grid()
@@ -164,7 +164,7 @@ plt.show()
 #--> more 0.5 7x9
 
 speed_20_79 = ['06_000442','05_231413','05_171708']
-speed_05_79 = ['05_123003','06_182321']  # tsiro also doing this
+speed_05_79 = ['05_123003']  # tsiro also doing this '06_182321' < weird run
 speed_10_79 = ['03_214916','06_024834']
 
 list_full_plot(speed_05_79,label='speed 0.5, size 7x9',color='tab:blue')
@@ -197,7 +197,7 @@ plt.savefig('plots/standard_enhanced.pdf')
 plt.show()
 
 
-ppo = ['07_184856', '08_002959', '014750']
+ppo = ['07_184856', '08_002959', '08_014750']
 
 list_full_plot(ppo,label='ppo',color='tab:blue')
 list_full_plot(part1_full,label='with selection and average (default)',color='darkviolet')
