@@ -38,6 +38,7 @@ if __name__ == "__main__":
 
     plt.xlabel("Episodes")
     plt.ylabel("Reward")
+    plt.xlim(0,100)
     plt.legend()
     plt.grid()
     plt.savefig(f"data/tmp_plot.pdf")

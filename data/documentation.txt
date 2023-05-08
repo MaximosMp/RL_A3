@@ -546,3 +546,4 @@ Running on Parameters: 200, 0.01, 7, 7, pixel, 10, 250, 28, 5, 1.0, n_step, None
 
 
 Running on Parameters: 200, 0.01, 7, 7, pixel, 10, 250, 46, 5, 1.0, n_step, None, None, 4, 0.001, 08_133423, True, True
+08_133423 ... Avg reward: -0.96 

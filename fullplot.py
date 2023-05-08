@@ -200,13 +200,37 @@ plt.show()
 ppo = ['07_184856', '08_002959', '08_014750']
 
 list_full_plot(ppo,label='PPO',color='tab:blue')
-list_full_plot(part1_full,label='Full Actor Critic (default)',color='darkviolet')
+list_full_plot(part1_full,label='Full Actor Critic (default)',color='darkviolet',cutoff=300)
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Comparison with ppo clipping')
 plt.grid()
 plt.legend()
 plt.savefig('plots/ppo.pdf')
+plt.show()
+
+
+gradients = ['08_103729','08_142207','08_133423']  # with 0.01 eta
+colors = ['tab:blue','tab:orange','darkviolet']
+alphas = [0.3,1.,1.]
+
+labels = [r'REINFORCE',r'Full model without selection',r'Full model with selection']
+for j, plots in enumerate(gradients):
+    linestyle = "-"
+    q = 1.
+    if j == 1:
+        q = 1.3
+    reward = np.load(f'data/grads/g_{plots}.npy')[:100]
+    reward = q*reward
+    labels[j] += r', $\sigma$='+f'{np.std(reward, ddof=1):.3}'
+    # reward = savgol_filter(reward,10,1)
+    plt.plot(reward,color=colors[j], label=labels[j], linestyle=linestyle,alpha=alphas[j])
+plt.title('Gradient instability')
+plt.grid()
+plt.xlabel('Episode')
+plt.ylabel('Gradient mean')
+plt.legend(loc='best')
+plt.savefig('plots/gradients.pdf')
 plt.show()
 
 ''' run on finished weights
