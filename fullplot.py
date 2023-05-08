@@ -82,7 +82,7 @@ plt.grid()
 plt.ylim(-10.,36.)
 plt.xlabel('Episode')
 plt.ylabel('Reward')
-plt.legend(loc='right')  # fontsize='8'
+plt.legend(loc='right')
 plt.savefig('plots/learning-eta_tuning.pdf')
 plt.show()
 
@@ -96,12 +96,12 @@ part1_full = ['full_1st','full_2nd','full_3rd']  # ,'05_211226','05_220031'
 list_full_plot(part1_reinforce, color='tab:blue',label='REINFORCE (MC)')
 list_full_plot(part1_MCbaseline, color='tab:orange',label='MC baseline')
 list_full_plot(part1_bootstrap, color='tab:green',label='5-step bootstrap')
-list_full_plot(part1_full, color='darkviolet',label='5-step bootstrap+baseline')
+list_full_plot(part1_full, color='darkviolet',label='5-step bootstrap & baseline')
 
 plt.title('Comparison of different agents')
 plt.grid()
 plt.ylim(-10.,36.)
-plt.legend()
+plt.legend(loc='upper left',fontsize='9.5')
 plt.savefig('plots/Part_1.pdf')
 plt.show()
 
@@ -129,8 +129,8 @@ plt.show()
 # vector
 #--> more vectors! (longer?)  # vectors!
 vectors = ['vector1','vector2','vector3']  # ,'06_202327'
-list_full_plot(part1_full, label='observation by pixel (default)', color='darkviolet')
-list_full_plot(vectors, label='observation by vector', color='tab:blue')
+list_full_plot(part1_full, label='Observation by Pixel (default)', color='darkviolet')
+list_full_plot(vectors, label='Observation by Vector', color='tab:blue')
 plt.title('Observation types')
 plt.grid()
 plt.ylim(-10.,36.)
@@ -146,10 +146,10 @@ speed_05 = ['05_002934','05_012051','05_021216']
 speed_15 = ['07_121340','first_15']  # tsiro running now
 speed_20 = ['06_130604','06_154940','07_015759','07_025726']
 
-list_full_plot(speed_05, label='speed = 0.5', color = 'tab:blue',cutoff=300)
-list_full_plot(part1_full, label='speed = 1.0', color = 'darkviolet',cutoff=300)
-list_full_plot(speed_15, label='speed = 1.5', color = 'tab:green',cutoff=300)
-list_full_plot(speed_20, label='speed = 2.0', color = 'tab:red',cutoff=300)
+list_full_plot(speed_05, label='Speed = 0.5', color = 'tab:blue',cutoff=300)
+list_full_plot(part1_full, label='Speed = 1.0', color = 'darkviolet',cutoff=300)
+list_full_plot(speed_15, label='Speed = 1.5', color = 'tab:green',cutoff=300)
+list_full_plot(speed_20, label='Speed = 2.0', color = 'tab:red',cutoff=300)
 
 plt.title('Environment speed variations')
 plt.xlabel('Episode')
@@ -164,19 +164,19 @@ plt.show()
 #--> more 0.5 7x9
 
 speed_20_79 = ['06_000442','05_231413','05_171708']
-speed_05_79 = ['05_123003']  # tsiro also doing this '06_182321' < weird run
+speed_05_79 = ['05_123003','tsiropointfive']  # tsiro also doing this '06_182321' < weird run
 speed_10_79 = ['03_214916','06_024834']
 
-list_full_plot(speed_05_79,label='speed 0.5, size 7x9',color='tab:blue')
-list_full_plot(speed_20_79,label='speed 2.0, size 7x9',color='tab:orange')
-list_full_plot(speed_10_79,label='speed 1.0, size 7x9',color='tab:green',cutoff=400)
-list_full_plot(part1_full,label='speed 1.0, size 7x7 (default)',color='darkviolet')
+list_full_plot(speed_05_79,label='Speed 0.5, Size 7x9',color='tab:blue',cutoff=400)
+list_full_plot(speed_20_79,label='Speed 2.0, Size 7x9',color='tab:orange')
+list_full_plot(speed_10_79,label='Speed 1.0, Size 7x9',color='tab:green',cutoff=400)
+list_full_plot(part1_full,label='Speed 1.0, Size 7x7 (default)',color='darkviolet')
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Multiple environment variations')
 plt.grid()
 plt.ylim(-10.,36.)
-plt.legend()
+plt.legend(loc='upper left',fontsize='9')
 plt.savefig('plots/speed-size_experiment.pdf')
 plt.show()
 
@@ -185,22 +185,22 @@ plt.show()
 
 naked_run = ['06_233822','07_011347','r_06_100000']
 
-list_full_plot(naked_run,label='without selection and average',color='tab:blue')
-list_full_plot(part1_full,label='with selection and average (default)',color='darkviolet')
+list_full_plot(naked_run,label='Without selection\nand average',color='tab:blue')
+list_full_plot(part1_full,label='With selection\nand average (default)',color='darkviolet')
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Comparison of enhancement')
 plt.grid()
 plt.ylim(-10.,36.)
-plt.legend()
+plt.legend()  # fontsize='8'
 plt.savefig('plots/standard_enhanced.pdf')
 plt.show()
 
 
 ppo = ['07_184856', '08_002959', '08_014750']
 
-list_full_plot(ppo,label='ppo',color='tab:blue')
-list_full_plot(part1_full,label='with selection and average (default)',color='darkviolet')
+list_full_plot(ppo,label='PPO',color='tab:blue')
+list_full_plot(part1_full,label='Full Actor Critic (default)',color='darkviolet')
 plt.xlabel('Episode')
 plt.ylabel('Reward')
 plt.title('Comparison with ppo clipping')

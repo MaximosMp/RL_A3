@@ -200,6 +200,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     count = 0
     memory = [deque(maxlen=max_steps) for _ in range(minibatch)]
     ep = 0
+    all_grads = []
     while ep < n_episodes:
         # for ep in range(n_episodes):  # n_episodes = 500
         if len(all_rewards) > 0 and np.mean(all_rewards[-20:]) > 15:
@@ -209,7 +210,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
         for mem in memory:
             mem.clear()
-        ep += 2
+        ep += min(minibatch,2)
         for m in range(minibatch):
             state = actor.reshape_state(env.reset())
             # generate full trace
@@ -249,7 +250,7 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
 
         best_memory = []
         ## Choose the best two average total rewards from memory buffer
-        for _ in range(2):  # this decides over how many we are going to average
+        for _ in range(min(minibatch,2)):  # this decides over how many we are going to average
             rewards_max_index = np.argmax(avg_total_rewards)  # get index of best performing
             avg_total_rewards[rewards_max_index] = -9.  # make sure it's not chosen again
             best_memory.append(memory[rewards_max_index])  # save this memory to use in update
@@ -258,12 +259,18 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         print(f"{ep}, step {count}, rewards: {all_rewards[-2:]}")
         if actor.boot == 'n_step' or baseline:
             critic.update_weights(best_memory)
-        actor.update_weights(best_memory)
+        grads = actor.update_weights(best_memory)
+        # print("GRADS", grads)
+
+        ep_grad_avg = [tf.math.reduce_mean(grad) for grad in grads]
+        all_grads.append(np.mean(ep_grad_avg))
 
         if ep % 10 == 0 and ep > 0:
             np.save(f'data/rewards/tmp_reward', all_rewards)
+            np.save(f'data/grads/tmp_grads', np.array(all_grads))
         if ep % 50 == 0 and ep >= 100:
             actor.model.save_weights(f'data/weights/w_P_{stamp}.h5')
+            np.save(f'data/grads/g_{stamp}', np.array(all_grads))
             np.save(f'data/rewards/r_{stamp}', all_rewards)
             if boot == "n_step" or baseline:
                 critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
@@ -274,12 +281,13 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         critic.model.save_weights(f'data/weights/w_V_{stamp}.h5')
     np.save(f'data/rewards/r_{stamp}', all_rewards)
     write_to_doc(f'{stamp} ... Avg reward: {np.mean(all_rewards)} \n')
+    np.save(f'data/grads/g_{stamp}', np.array(all_grads))
     return all_rewards
 
 
 if __name__ == '__main__':
     # game settings
-    n_episodes = 400
+    n_episodes = 200
     learning_rate = 0.01
     rows = 7
     columns = 7

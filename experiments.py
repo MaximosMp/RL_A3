@@ -109,8 +109,7 @@ if section == 'part2':
         speeds = [0.5,1.]
 
         for speed in speeds:
-            
-            for j in range(1):
+            for j in range(5):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
                     f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")

@@ -16,7 +16,7 @@ minibatch = 4
 P_weights = None
 V_weights = None
 eta = 0.001
-obs_type = 'vector'
+obs_type = 'pixel'
 boot = 'n_step'
 baseline = True
 seed = np.random.randint(100)
@@ -24,9 +24,9 @@ training = True
 
 # give a list which weights you wanna run
 # weights = ['26_175224']  # eta runs. len: 128, 168, 165 
-# weights = ['06_174531', '06_183121', '06_191736']  # full run runs (we want 400, current:350)
+weights = ['08_085540']  # full run runs (we want 400, current:350)
 # weights = ['07_025544']  # naked run
-weights = ['06_103356','06_191148','06_202327']  # vectors
+# weights = ['06_103356','06_191148','06_202327']  # vectors
 
 for weight in weights:
     P_weights = f'data/weights/w_P_{weight}.h5'

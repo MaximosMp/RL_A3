@@ -32,8 +32,8 @@ if __name__ == "__main__":
         # if "mean" in args:
         #     reward = np.mean(reward,axis=0)
         plt.title(titles[j])
-        plt.plot(reward,alpha=0.2,color=colors[j])
-        plt.plot(savgol_filter(reward,10,polyorder=1),color=colors[j],label=f" {titles[j][-15:]}")  # end always goes down due to conv
+        plt.plot(reward,alpha=1.,color=colors[j])
+        plt.plot(savgol_filter(reward,10,polyorder=1),color=colors[j],label=f" {titles[j][-15:]}",alpha=0.1)  # end always goes down due to conv
         plt.axhline(avg, color=colors[j],linewidth=1,label= "Average", linestyle="--")
 
     plt.xlabel("Episodes")
