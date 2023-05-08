@@ -546,3 +546,10 @@ Running on Parameters: 200, 0.01, 7, 7, pixel, 10, 250, 28, 5, 1.0, n_step, None
 
 
 Running on Parameters: 200, 0.01, 7, 7, pixel, 10, 250, 46, 5, 1.0, n_step, None, None, 4, 0.001, 08_133423, True, True
+
+
+Running on Parameters: 150, 0.01, 7, 7, pixel, 10, 250, 83, 5, 1.0, n_step, data/weights/w_P_08_085540.h5, data/weights/w_V_08_085540.h5, 4, 0.001, 08_134618, True, True
+
+
+Running on Parameters: 100, 0.01, 7, 7, pixel, 10, 250, 36, 5, 1.0, n_step, data/weights/w_P_08_134618.h5, data/weights/w_V_08_134618.h5, 4, 0.001, 08_143554, True, True
+08_143554 ... Avg reward: 34.64 
