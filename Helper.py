@@ -57,7 +57,7 @@ def save_params(func):
     return wrapper
 
 def write_to_doc(text: str):
-    with open("data/documentation.txt", 'a') as f:
+    with open("documentation.txt", 'a') as f:
         f.write(text)
 
 def smooth(y, window, poly=1):

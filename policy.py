@@ -338,8 +338,8 @@ if __name__ == '__main__':
     n_step = 5
     speed = 1.
     eta = 0.001
-
     minibatch = 4  # if MC
+
     if boot == "MC":
         minibatch = 1
     P_weights = None
