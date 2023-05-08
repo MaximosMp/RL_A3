@@ -32,7 +32,7 @@ OBSERVATION_TYPES = ['pixel', 'vector']
 class Actor():
     def __init__(self, learning_rate: float = 0.01, arch: int = 1, observation_type: str = "pixel",
                  rows=7, columns=7, boot: str = "MC", n_step: int = 1, saved_weights: str = None,
-                 seed=None, critic: bool = False, eta: float = 0.01, baseline: bool = False, training: bool = True):
+                 seed=None, critic: bool = False, eta: float = 0.01, baseline: bool = False, training: bool = True, ppo: bool = False):
         self.seed = seed
         self.rows = rows
         self.columns = columns
@@ -47,6 +47,9 @@ class Actor():
         self.training = training
         self.gamma = 0.99
         self.training = training
+        
+        self.ppo = ppo
+        self.clip_pram = 0.8
 
         # network parameters
         activ_func = "relu"
@@ -143,6 +146,25 @@ class Actor():
                     probs_out = self.model(states)
                     gain_value = self.gain_fn_entropy(
                         prob_out=probs_out, Q=QA_values, actions=actions)
+                    
+                    if self.ppo:
+                        old_probs = tf.reshape(old_probs, (len(old_probs), 3))
+                        actions = np.where(actions == -1, 0, np.where(actions == 0, 1, 2))
+                        mask = tf.one_hot(actions, 3)
+                        probs_out = tf.reduce_max(mask * probs_out, axis=1)
+                        old_probs = tf.reduce_max(mask * old_probs, axis=1)
+                        
+                        c_loss = tf.losses.mean_squared_error(QA_values, values)
+                        ratio = tf.math.divide(probs_out, old_probs)
+                        
+                        QA_values = tf.convert_to_tensor(QA_values, dtype=tf.float32)
+                        
+                        s1 = tf.math.multiply(ratio, QA_values)
+                        s2 =  tf.math.multiply(tf.clip_by_value(ratio, 1.0 - self.clip_pram, 1.0 + self.clip_pram), QA_values)
+                        
+                        s12 = tf.reduce_mean(tf.math.minimum(s1, s2))
+                        gain_value = tf.math.negative(s12 + 0.5*c_loss - gain_value)
+   
 
             gradients.append(tape.gradient(gain_value,self.model.trainable_weights))
         
@@ -176,7 +198,7 @@ class Actor():
 def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7, columns: int = 7,
               obs_type: str = "pixel", max_misses: int = 10, max_steps: int = 250, seed: int = None,
               n_step: int = 5, speed: float = 1.0, boot: str = "MC", P_weights: str = None, V_weights: str = None,
-              minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False, training: bool = True):
+              minibatch: int = 1, eta: float = 0.01, stamp: str = None, baseline: bool = False, training: bool = True, ppo: bool = False):
     text = f"\n\nRunning on {reinforce.params}\n"
     print(text)
     write_to_doc(text=text)
@@ -191,12 +213,12 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     all_rewards = []
     actor = Actor(learning_rate, boot=boot, n_step=n_step, rows=rows, columns=columns,
                   observation_type=obs_type, saved_weights=P_weights,
-                  seed=seed, eta=eta, baseline=baseline, training=training)
+                  seed=seed, eta=eta, baseline=baseline, training=training, ppo=ppo)
 
     if boot == 'n_step' or baseline:
         critic = Actor(0.05, boot=boot, n_step=n_step, rows=rows, columns=columns,
                        observation_type=obs_type, saved_weights=V_weights, seed=seed,
-                       critic=True, eta=eta, training=training, baseline=False)
+                       critic=True, eta=eta, training=training, baseline=False, ppo=ppo)
     count = 0
     memory = [deque(maxlen=max_steps) for _ in range(minibatch)]
     ep = 0
@@ -306,6 +328,7 @@ if __name__ == '__main__':
     V_weights = 'data/weights/w_V_08_085540.h5'
     # use '27_230853','28_002357' next
     training = True
+    ppo = False
 
     for _ in range(1):
         seed = np.random.randint(100)  # 25 went well
