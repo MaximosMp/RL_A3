@@ -15,6 +15,15 @@ Full write-up in [`Report_A3.pdf`](Report_A3.pdf).
 
 ![The Catch environment](plots/environment.png)
 
+## Assignment goal
+
+A study of policy-based reinforcement learning: rather than learning values and
+acting greedily on them, the agent parameterises the policy itself and improves
+it by gradient ascent on expected return. The agent is built up in stages —
+plain REINFORCE, then a learned value estimate used both for bootstrapping and
+as a baseline, then PPO — and the environment is varied at the end to see which
+components actually carry the performance.
+
 ## Methods
 
 | Configuration | Return estimate | Critic |
