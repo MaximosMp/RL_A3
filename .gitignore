@@ -1,2 +1,21 @@
-__pycache__
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Tooling
+.ruff_cache/
+.pytest_cache/
+
+# OS
 .DS_Store
+
+# Run artifacts written to the repo root by policy.py
+/tmp_reward.npy
+/tmp_grads.npy
+/documentation.txt
+/w_P_*.h5
+/w_V_*.h5
+/r_*.npy
+/g_*.npy

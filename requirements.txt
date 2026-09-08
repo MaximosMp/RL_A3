@@ -1,0 +1,13 @@
+# Original environment (Python 3.10, spring 2023). These pins reflect what the
+# project was developed and the reported results were produced against; they
+# have not been re-verified on newer runtimes. Note that `keras.utils.vis_utils`
+# (imported by the development variants REINFORCE_semi.py and ppo.py) was
+# removed in Keras 3, so TensorFlow >= 2.16 will not run those two files.
+tensorflow~=2.12.0
+numpy~=1.23.5
+gym~=0.26.2
+matplotlib~=3.7.0
+scipy~=1.10.0
+
+# dqn.py only (carried over from assignment 2)
+gymnasium~=0.28.1
