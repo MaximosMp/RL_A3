@@ -1,11 +1,18 @@
-import numpy as np
-from catch import Catch
-import tensorflow as tf
-from collections import deque
-from Helper import time_it, print_it, save_params, write_to_doc
-import time
-from keras.utils.vis_utils import plot_model
+"""Policy-gradient agents for the Catch environment.
+
+Implements REINFORCE with Monte Carlo or n-step returns, an optional learned
+baseline (advantage actor-critic) and PPO, sharing a single `Actor` class that
+doubles as the critic. Run `python policy.py --help` for the supported flags.
+"""
 import sys
+import time
+from collections import deque
+
+import numpy as np
+import tensorflow as tf
+
+from catch import Catch
+from Helper import save_params, time_it, write_to_doc
 
 # Catch indexes into this tuple rather than reading it as a displacement,
 # so a sampled -1 moves right, 0 moves left and 1 idles. See the README.
@@ -22,7 +29,6 @@ class Actor():
         self.columns = columns
         self.observation_type = observation_type
         self.learning_rate = learning_rate
-        self.observation_type = observation_type
         self.boot = boot
         self.n_step = n_step
         self.critic = critic  # if true, it is a critic network
@@ -30,7 +36,6 @@ class Actor():
         self.eta = eta
         self.training = training
         self.gamma = 0.99
-        self.training = training
 
         self.ppo = ppo
         self.clip_pram = 0.8
@@ -38,24 +43,29 @@ class Actor():
         # network parameters
         activ_func = "relu"
         init = tf.keras.initializers.GlorotNormal(seed=self.seed)
-        init2 = tf.keras.initializers.GlorotNormal(seed=self.seed)
 
         self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
 
-        if (observation_type == 'pixel'):
+        if observation_type == 'pixel':
             input_shape = (columns, rows, 2)
-        elif (observation_type == 'vector'):
+        elif observation_type == 'vector':
             input_shape = (3,)
-        if arch == 1:
-            input = tf.keras.layers.Input(shape=input_shape)
-            flatten = tf.keras.layers.Flatten()(input)
-            dense = tf.keras.layers.Dense(
-                64, activation=activ_func, kernel_initializer=init)(flatten)
-            batchNorm = tf.keras.layers.BatchNormalization()(dense)
-            dense2 = tf.keras.layers.Dense(
-                32, activation=activ_func, kernel_initializer=init2)(batchNorm)
-            dropout = tf.keras.layers.Dropout(0.2)(dense2)
-            dense3 = tf.keras.layers.Flatten()(dropout)
+        else:
+            raise ValueError(
+                f'observation_type must be one of {OBSERVATION_TYPES}, '
+                f'got {observation_type!r}')
+        if arch != 1:
+            raise ValueError(f'only arch=1 is implemented, got {arch}')
+
+        input = tf.keras.layers.Input(shape=input_shape)
+        flatten = tf.keras.layers.Flatten()(input)
+        dense = tf.keras.layers.Dense(
+            64, activation=activ_func, kernel_initializer=init)(flatten)
+        batchNorm = tf.keras.layers.BatchNormalization()(dense)
+        dense2 = tf.keras.layers.Dense(
+            32, activation=activ_func, kernel_initializer=init)(batchNorm)
+        dropout = tf.keras.layers.Dropout(0.2)(dense2)
+        dense3 = tf.keras.layers.Flatten()(dropout)
         if critic:
             output_value = tf.keras.layers.Dense(
                 1, activation='linear')(dense3)
@@ -75,6 +85,14 @@ class Actor():
             print('## Not training ##')
 
     def bootstrap(self, t, rewards, values=None):
+        """Return the target for timestep `t`: the full discounted return (MC)
+        or the n-step return with a critic bootstrap.
+
+        Note: the n-step branch bootstraps on `values[lim - 1]` and always
+        discounts by `gamma ** n_step`, which is off by one and ignores episode
+        truncation. Kept as-is so the committed plots and weights stay
+        reproducible; see "Known issues" in the README.
+        """
         if self.boot == "MC":
             rewards = rewards[t:]
             return self.gamma**np.arange(0, len(rewards)) @ rewards
@@ -100,8 +118,8 @@ class Actor():
             return
 
         gradients = []
-        # Calculate the
-        for k, memory in enumerate(memories):
+        # Accumulate one gradient per sampled trajectory, then average them.
+        for memory in memories:
             states, actions, rewards, values, old_probs = [
                 np.array([experience[field_index] for experience in memory])
                 for field_index in range(5)]
@@ -285,8 +303,8 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
         all_grads.append(np.mean(ep_grad_avg))
 
         if ep % 10 == 0 and ep > 0:
-            np.save(f'tmp_reward', all_rewards)
-            np.save(f'tmp_grads', np.array(all_grads))
+            np.save('tmp_reward', all_rewards)
+            np.save('tmp_grads', np.array(all_grads))
         if ep % 50 == 0 and ep >= 100:
             actor.model.save_weights(f'w_P_{stamp}.h5')
             np.save(f'g_{stamp}', np.array(all_grads))
