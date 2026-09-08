@@ -100,9 +100,9 @@ class Actor():
         gradients = []
         # Calculate the
         for k, memory in enumerate(memories):
-            states, actions, rewards, values = [np.array([experience[field_index]
-                                                          for experience in memory])
-                                                for field_index in range(4)]
+            states, actions, rewards, values, old_probs = [
+                np.array([experience[field_index] for experience in memory])
+                for field_index in range(5)]
             if self.critic:
                 # Print the number of actions taken
                 left = np.sum(np.where(actions == -1, 1, 0))
@@ -134,7 +134,8 @@ class Actor():
 
                     # PPO implementation
                     if self.ppo:
-                        old_probs = tf.reshape(old_probs, (len(old_probs), 3))
+                        old_probs = tf.reshape(
+                            tf.convert_to_tensor(old_probs), (len(old_probs), 3))
                         actions = np.where(
                             actions == -1, 0, np.where(actions == 0, 1, 2))
                         mask = tf.one_hot(actions, 3)
@@ -242,8 +243,10 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
                 next_state = actor.reshape_state(next_state)
                 # env.render(0.2)
 
-                # take out the extra "1" dimensions
-                memory[m].append((tf.squeeze(state), action, r, value))
+                # take out the extra "1" dimensions; action_p is the behaviour
+                # policy's output, needed as the PPO importance-ratio denominator
+                memory[m].append(
+                    (tf.squeeze(state), action, r, value, action_p))
 
                 if done:
                     break
@@ -363,4 +366,5 @@ if __name__ == '__main__':
         stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
         rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                             max_misses, max_steps, seed, n_step, speed, boot,
-                            P_weights, V_weights, minibatch, eta, stamp, baseline, training)
+                            P_weights, V_weights, minibatch, eta, stamp,
+                            baseline, training, ppo)
