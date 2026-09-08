@@ -19,3 +19,6 @@ venv/
 /w_V_*.h5
 /r_*.npy
 /g_*.npy
+
+# Course material: kept locally, deliberately not published
+RL_A3_2023.pdf
