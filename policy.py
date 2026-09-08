@@ -297,34 +297,45 @@ def reinforce(n_episodes: int = 50, learning_rate: float = 0.001, rows: int = 7,
     return all_rewards
 
 
+USAGE = """usage: python policy.py [--mc | --n_step] [--baseline] [--ppo]
+
+  (no flags)   n-step returns with a baseline
+  --mc         Monte Carlo returns
+  --n_step     n-step returns
+  --baseline   subtract the critic's value estimate as a baseline
+  --ppo        PPO (implies --n_step --baseline)
+
+Only the combinations listed in the README are supported."""
+
+
+def parse_args(args):
+    """Translate the command line flags into (boot, baseline, ppo)."""
+    # with no flags at all the default run is n-step with a baseline
+    boot, baseline, ppo = 'n_step', len(args) == 0, False
+
+    for arg in args:
+        if arg in ("--mc", "--MC"):
+            boot = "MC"
+            print("\n Monte Carlo is active...\n")
+        elif arg == "--n_step":
+            boot = "n_step"
+            print("\n N-step is active...\n")
+        elif arg == "--baseline":
+            baseline = True
+            print("\n Baseline is active...\n")
+        elif arg == "--ppo":
+            boot, baseline, ppo = "n_step", True, True
+            print("\n PPO is active...\n")
+        elif arg in ("-h", "--help"):
+            raise SystemExit(USAGE)
+        else:
+            raise SystemExit(f"unknown flag {arg!r}\n\n{USAGE}")
+
+    return boot, baseline, ppo
+
+
 if __name__ == '__main__':
-
-    args = sys.argv[1:]
-
-    baseline = False
-    ppo = False
-
-    if (len(args) == 0):
-        boot, baseline, ppo = 'n_step', True, False
-
-    try:
-        for arg in args:
-            if arg == "--mc" or arg == "--MC":
-                boot = "MC"
-                print("\n Monte Carlo is active...\n")
-            elif arg == "--n_step":
-                boot = "n_step"
-                print("\n N-step is active...\n")
-            elif arg == "--baseline":
-                baseline = True
-                print("\n Baseline is active...\n")
-            elif arg == "--ppo":
-                ppo = True
-                boot = "n_step"
-                baseline = True
-                print("\n PPO is active...\n")
-    except:
-        pass
+    boot, baseline, ppo = parse_args(sys.argv[1:])
 
     # game settings
     n_repetitions = 1
