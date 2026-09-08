@@ -1,8 +1,22 @@
-from REINFORCE_semi import reinforce
-import time
-import numpy as np
+"""Experiment driver for the report.
+
+usage: python experiments.py part1
+       python experiments.py part2 {size | speed | observation | speed-size}
+
+part1 sweeps the four agent variants (MC, MC+baseline, n-step, n-step+baseline);
+part2 varies one environment property at a time against the n-step+baseline
+default. See exp.sh for the full set of runs behind the report.
+"""
 import sys
+import time
+
+import numpy as np
+
 from Helper import write_to_doc
+from REINFORCE_semi import reinforce
+
+USAGE = __doc__.split("usage: ", 1)[1].rstrip()
+SUBSECTIONS = ('size', 'speed', 'observation', 'speed-size')
 
 args = sys.argv[1:]
 
@@ -26,9 +40,18 @@ obs_type = 'pixel'
 # good parameter run -> plot
 boot = ["MC", "MC", "n_step", "n_step"]
 baseline = [False, True, False, True]
-# we could also write a very short shell file that only takes an integer as CLI
+if not args:
+    raise SystemExit(f"usage: {USAGE}")
+
 section = args[0]
-subsection = args[1]
+subsection = args[1] if len(args) > 1 else None
+
+if section not in ('part1', 'part2'):
+    raise SystemExit(f"unknown section {section!r}\n\nusage: {USAGE}")
+if section == 'part2' and subsection not in SUBSECTIONS:
+    raise SystemExit(
+        f"part2 needs one of {SUBSECTIONS}, got {subsection!r}"
+        f"\n\nusage: {USAGE}")
 
 if section == 'part1':
     # here, "i" (second comand line argument) decides which experiment is: run MC, MC+baseline, Nstep, Nstep+baseline
@@ -60,14 +83,16 @@ if section == 'part2':
             for j in range(5):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
-                    f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
+                    f"\n\n === Running size = {rows}x{columns}, Rep.{j} === "
+                    f"\n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
                                     P_weights, V_weights, minibatch, eta, stamp, baseline)
 
-                with open("data/documentation.txt", 'a') as f:
-                    f.write(
-                        f'\n\n {stamp}, Exp{i},{j},{rows}x{columns} ... params: {reinforce.params}, Avg reward: {np.mean(rewards):.3f} \n')
+                write_to_doc(
+                    f'\n\n {stamp}, part2-size,{j},{rows}x{columns} ... '
+                    f'params: {reinforce.params}, '
+                    f'Avg reward: {np.mean(rewards):.3f} \n')
 
     # Experiment 2 - Speed Variation
 
@@ -77,14 +102,16 @@ if section == 'part2':
             for j in range(5):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
-                    f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
+                    f"\n\n === Running speed = {speed}, Rep.{j} === "
+                    f"\n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
                                     P_weights, V_weights, minibatch, eta, stamp, baseline)
 
-                with open("data/documentation.txt", 'a') as f:
-                    f.write(
-                        f'\n\n {stamp}, Exp{i},{j},{speed} ... params: {reinforce.params}, Avg reward: {np.mean(rewards):.3f} \n')
+                write_to_doc(
+                    f'\n\n {stamp}, part2-speed,{j},{speed} ... '
+                    f'params: {reinforce.params}, '
+                    f'Avg reward: {np.mean(rewards):.3f} \n')
 
     # Experiment 3 - Observation Type
     elif subsection == 'observation':
@@ -93,14 +120,16 @@ if section == 'part2':
             for j in range(2):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
-                    f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
+                    f"\n\n === Running observation = {obs_type}, Rep.{j} === "
+                    f"\n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
                                     P_weights, V_weights, minibatch, eta, stamp, baseline)
 
-                with open("data/documentation.txt", 'a') as f:
-                    f.write(
-                        f'\n\n {stamp}, Exp{i},{j},{obs_type} ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
+                write_to_doc(
+                    f'\n\n {stamp}, part2-observation,{j},{obs_type} ... '
+                    f'params: {reinforce.params}, '
+                    f'Avg reward: {np.mean(rewards):.3f} \n')
 
     # Experiment 4 - Environment - Speed variation
     elif subsection == 'speed-size':
@@ -112,12 +141,14 @@ if section == 'part2':
             for j in range(5):
                 stamp = time.strftime("%d_%H%M%S", time.gmtime(time.time()))
                 print(
-                    f"\n\n === Running Experiment No.{i}, Rep.{j} === \n Stamp: {stamp} \n\n")
+                    f"\n\n === Running speed-size = {speed}, Rep.{j} === "
+                    f"\n Stamp: {stamp} \n\n")
                 rewards = reinforce(n_episodes, learning_rate, rows, columns, obs_type,
                                     max_misses, max_steps, seed, n_step, speed, boot,
                                     P_weights, V_weights, minibatch, eta, stamp, baseline)
 
-                with open("data/documentation.txt", 'a') as f:
-                    f.write(
-                        f'\n\n {stamp}, Exp{i},{j},{speed},size ... params: {reinforce.params}, Avg reward: {np.mean(rewards)} \n')
+                write_to_doc(
+                    f'\n\n {stamp}, part2-speed-size,{j},{speed},size ... '
+                    f'params: {reinforce.params}, '
+                    f'Avg reward: {np.mean(rewards):.3f} \n')
     # Experiment 4 - other interesting variations
