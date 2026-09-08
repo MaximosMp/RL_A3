@@ -1,11 +1,13 @@
-import numpy as np
+"""Small shared utilities: timing/bookkeeping decorators, run logging and the
+learning-curve plot helper used across the experiment scripts."""
+import os
 import time
+
 import matplotlib.pyplot as plt
 from scipy.signal import savgol_filter
 
-class Bandit():
-    def __init__(self):
-        self.string = ""
+DOC_PATH = os.path.join("data", "documentation.txt")
+
 
 def time_it(func):
         """
@@ -56,8 +58,10 @@ def save_params(func):
     wrapper.params = ""
     return wrapper
 
-def write_to_doc(text: str):
-    with open("documentation.txt", 'a') as f:
+def write_to_doc(text: str, path: str = DOC_PATH):
+    """Append a line to the shared run log (data/documentation.txt)."""
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, 'a') as f:
         f.write(text)
 
 def smooth(y, window, poly=1):
