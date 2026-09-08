@@ -7,7 +7,9 @@ import time
 from keras.utils.vis_utils import plot_model
 import sys
 
-ACTION_EFFECTS = (-1, 0, 1)  # left, idle right.
+# Catch indexes into this tuple rather than reading it as a displacement,
+# so a sampled -1 moves right, 0 moves left and 1 idles. See the README.
+ACTION_EFFECTS = (-1, 0, 1)
 OBSERVATION_TYPES = ['pixel', 'vector']
 
 
@@ -104,10 +106,12 @@ class Actor():
                 np.array([experience[field_index] for experience in memory])
                 for field_index in range(5)]
             if self.critic:
-                # Print the number of actions taken
-                left = np.sum(np.where(actions == -1, 1, 0))
-                idle = np.sum(np.where(actions == 0, 1, 0))
-                right = np.sum(np.where(actions == 1, 1, 0))
+                # Action counts. Catch uses the sampled value as an *index* into
+                # ACTION_EFFECTS, so -1 -> right, 0 -> left, 1 -> idle; see
+                # "Known issues" in the README.
+                right = np.sum(actions == -1)
+                left = np.sum(actions == 0)
+                idle = np.sum(actions == 1)
                 print(f"left {left}, idle {idle}, right {right}")
 
             # Q values
